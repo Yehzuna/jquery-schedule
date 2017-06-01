@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Demo</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <style>
+        .container {
+            width: 300px;
+            height: 960px;
+            background: #eee;
+        }
+
+        .selection {
+            width: 100%;
+            min-height: 20px;
+            background: #ccc;
+        }
+    </style>
+    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+<body>
+
+<div class="container"></div>
+
+<script>
+
+    function periodeDrag(ui) {
+        var start = ui.position.top / 20;
+        var end = ($(ui.helper).height() + ui.position.top) / 20;
+
+        return formatTime(start) + " - " + formatTime(end);
+    }
+
+    function periodeResize(ui) {
+        var start = ui.position.top / 20;
+        var end = (ui.size.height + ui.position.top) / 20;
+
+        return formatTime(start) + " - " + formatTime(end);
+    }
+
+    function formatTime(time) {
+        var hour = Math.floor(time / 2);
+        if (hour < 10) {
+            hour = "0" + hour;
+        }
+
+        if (time % 2 === 0) {
+            hour += ":00";
+        } else {
+            hour += ":30";
+        }
+
+        return hour;
+    }
+
+    function verif(current) {
+        var start = current.position().top;
+        var end = current.position().top + current.height();
+
+        $(".selection", $(current).parent()).each(function(element) {
+            if(!current.isEqualNode(element)) {
+                var start = element.position().top;
+                var end = element.position().top + element.height();
+            }
+        });
+    }
+
+
+    $(".container").click(function (event) {
+        console.log(event);
+
+        $('<div class="selection"><span></span></div>').draggable({
+            grid: [300, 20],
+            containment: "parent",
+            drag: function (event, ui) {
+                $('span', ui.helper).text(periodeDrag(ui));
+            }
+        }).resizable({
+            grid: [300, 20],
+            resize: function (event, ui) {
+                $('span', ui.helper).text(periodeResize(ui));
+            }
+        }).appendTo($(this));
+
+    });
+
+</script>
+
+</body>
+</html>
