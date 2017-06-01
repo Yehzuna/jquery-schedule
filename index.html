@@ -5,26 +5,84 @@
     <title>Demo</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <style>
-        .container {
-            width: 300px;
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+
+        }
+        td {
+            border-left: 1px solid #333;
+            border-right: 1px solid #333;
+            box-sizing: border-box;
+        }
+
+        .time {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .line {
+            border-top: 1px solid #333;
+            border-bottom: 1px solid transparent;
+            position: relative;
+            height: 38px;
+            box-sizing: content-box;
+
+        }
+        .line span {
+            position: absolute;
+        }
+
+        .wrapper {
+            width: 100%;
             height: 960px;
-            background: #eee;
+            position: relative;
+            box-sizing: content-box;
         }
 
         .selection {
+            position: absolute;
             width: 100%;
             min-height: 20px;
             background: #ccc;
+            box-sizing: content-box;
+            font-size: 12px;
         }
     </style>
-    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </head>
 <body>
 
-<div class="container"></div>
+<div class="time">
+
+</div>
+
+<table>
+    <tr>
+        <td class="container"><div class="wrapper"></div></td>
+        <td class="container"><div class="wrapper"></div></td>
+        <td class="container"><div class="wrapper"></div></td>
+        <td class="container"><div class="wrapper"></div></td>
+        <td class="container"><div class="wrapper"></div></td>
+        <td class="container"><div class="wrapper"></div></td>
+        <td class="container"><div class="wrapper"></div></td>
+    </tr>
+</table>
 
 <script>
+
+    function periodeInit(top) {
+        return formatTime(top) + " - " + formatTime(top + 1);
+    }
 
     function periodeDrag(ui) {
         var start = ui.position.top / 20;
@@ -55,36 +113,56 @@
         return hour;
     }
 
-    function verif(current) {
-        var start = current.position().top;
-        var end = current.position().top + current.height();
+    function valid(current) {
+        var currentStart = current.position().top;
+        var currentEnd = current.position().top + current.height();
 
-        $(".selection", $(current).parent()).each(function(element) {
-            if(!current.isEqualNode(element)) {
-                var start = element.position().top;
-                var end = element.position().top + element.height();
+        var start = 0;
+        var end = 0;
+        $(".selection", $(current).parent()).each(function(index, element) {
+            element = $(element);
+            if(current.attr('id') !== element.attr('id')) {
+                start = element.position().top;
+                end = element.position().top + element.height();
+
+                console.log(start);
+                console.log(end);
             }
         });
     }
 
 
-    $(".container").click(function (event) {
+    $('body').on('click', ".wrapper", function (event) {
         console.log(event);
 
-        $('<div class="selection"><span></span></div>').draggable({
-            grid: [300, 20],
+        var top = Math.round(event.offsetY / 20) ;
+
+        $('<div class="selection"><span>'+periodeInit(top)+'</span></div>')
+            .css('top', top * 20)
+            .attr('id', event.timeStamp)
+            .draggable({
+                grid: [0, 20],
+                containment: "parent",
+                drag: function (event, ui) {
+                    $('span', ui.helper).text(periodeDrag(ui));
+                }
+            }).resizable({
+                grid: [0, 20],
             containment: "parent",
-            drag: function (event, ui) {
-                $('span', ui.helper).text(periodeDrag(ui));
-            }
-        }).resizable({
-            grid: [300, 20],
+            handles: "n, s",
+
             resize: function (event, ui) {
-                $('span', ui.helper).text(periodeResize(ui));
-            }
-        }).appendTo($(this));
+                    $('span', ui.helper).text(periodeResize(ui));
+                }
+            }).appendTo($(this));
 
     });
+
+
+    for(var i = 0; i < 24; i++) {
+        $('<div class="line"><span>'+i+'</span></div>').appendTo(".time");
+    }
+
 
 </script>
 
