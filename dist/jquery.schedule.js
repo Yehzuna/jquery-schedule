@@ -1,19 +1,18 @@
 /*
-;(function($){
-    $.fn.extend({
-        pluginname: function(options) {
-            this.defaultOptions = {};
+ ;(function($){
+ $.fn.extend({
+ pluginname: function(options) {
+ this.defaultOptions = {};
 
-            var settings = $.extend({}, this.defaultOptions, options);
+ var settings = $.extend({}, this.defaultOptions, options);
 
-            return this.each(function() {
-                var $this = $(this);
-            });
-        }
-    });
-})(jQuery);
-*/
-
+ return this.each(function() {
+ var $this = $(this);
+ });
+ }
+ });
+ })(jQuery);
+ */
 
 
 function periodeInit(top) {
@@ -55,9 +54,9 @@ function valid(current) {
 
     var start = 0;
     var end = 0;
-    $(".selection", $(current).parent()).each(function(index, element) {
+    $(".selection", $(current).parent()).each(function (index, element) {
         element = $(element);
-        if(current.attr('id') !== element.attr('id')) {
+        if (current.attr('id') !== element.attr('id')) {
             start = element.position().top;
             end = element.position().top + element.height();
 
@@ -71,9 +70,9 @@ function valid(current) {
 $('body').on('click', ".wrapper", function (event) {
     console.log(event);
 
-    var top = Math.round(event.offsetY / 20) ;
+    var top = Math.round(event.offsetY / 20);
 
-    $('<div class="selection"><span>'+periodeInit(top)+'</span></div>')
+    $('<div class="selection"><div class="placeholder"><span>' + periodeInit(top) + '</span></div></div>')
         .css('top', top * 20)
         .attr('id', event.timeStamp)
         .draggable({
@@ -83,17 +82,21 @@ $('body').on('click', ".wrapper", function (event) {
                 $('span', ui.helper).text(periodeDrag(ui));
             }
         }).resizable({
-            grid: [0, 20],
-            containment: "parent",
-            handles: "n, s",
-            resize: function (event, ui) {
-                $('span', ui.helper).text(periodeResize(ui));
-            }
+        grid: [0, 20],
+        containment: "parent",
+        handles: "n, s",
+        resize: function (event, ui) {
+            $('span', ui.helper).text(periodeResize(ui));
+        }
     }).appendTo($(this));
 
 });
 
 
-for(var i = 0; i < 24; i++) {
-    $('<div class="line"><span>'+i+'</span></div>').appendTo(".time");
+for (var i = 0; i < 24; i++) {
+    var time = i;
+    if(i < 10) {
+        time = "0" + time;
+    }
+    $('<div class="line"><span>' + time + '</span></div>').appendTo(".time");
 }

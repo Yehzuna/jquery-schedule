@@ -8,59 +8,73 @@ html {
 /* line 7, ../src/scss/jquery.schedule.scss */
 .jquery-schedule {
   position: relative;
+  width: 800px;
+  height: 600px;
+  padding: 20px;
+  overflow: scroll;
+  font-family: Arial sans-serif;
 }
 
-/* line 14, ../src/scss/jquery.schedule.scss */
+/* line 16, ../src/scss/jquery.schedule.scss */
 table {
   width: 100%;
-  height: 960px;
   border-collapse: collapse;
   border-spacing: 0;
 }
-/* line 19, ../src/scss/jquery.schedule.scss */
+/* line 20, ../src/scss/jquery.schedule.scss */
 table td, table th {
   padding: 0;
 }
-/* line 22, ../src/scss/jquery.schedule.scss */
+/* line 23, ../src/scss/jquery.schedule.scss */
 table td {
-  height: 960px;
-  border-left: 1px solid #333;
-  border-right: 1px solid #333;
+  width: 14.28571%;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
 }
 
-/* line 29, ../src/scss/jquery.schedule.scss */
+/* line 31, ../src/scss/jquery.schedule.scss */
 .time {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 20px;
+  left: 20px;
+  right: 20px;
 }
-
 /* line 36, ../src/scss/jquery.schedule.scss */
-.line {
-  border-top: 1px solid #666;
+.time .line {
+  border-top: 1px solid #ccc;
   border-bottom: 1px solid transparent;
   position: relative;
   height: 38px;
 }
-/* line 42, ../src/scss/jquery.schedule.scss */
-.line span {
+/* line 41, ../src/scss/jquery.schedule.scss */
+.time .line span {
   position: absolute;
+  top: -7px;
+  left: -20px;
+  font-size: 12px;
 }
 
-/* line 49, ../src/scss/jquery.schedule.scss */
+/* line 52, ../src/scss/jquery.schedule.scss */
 .wrapper {
   width: 100%;
   height: 960px;
   position: relative;
 }
 
-/* line 55, ../src/scss/jquery.schedule.scss */
+/* line 59, ../src/scss/jquery.schedule.scss */
 .selection {
   position: absolute;
   width: 100%;
   min-height: 20px;
-  background: #ffa;
   font-size: 12px;
-  border: 1px solid #ff0;
+}
+/* line 66, ../src/scss/jquery.schedule.scss */
+.selection .placeholder {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: 2px;
+  right: 2px;
+  background: #ff0;
+  border: 1px solid #616100;
 }

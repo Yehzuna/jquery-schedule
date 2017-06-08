@@ -6,41 +6,44 @@ html {
 
 .jquery-schedule {
   position: relative;
-  //width: 800px;
-  //height: 600px;
-  //overflow: scroll;
+  width: 800px;
+  height: 600px;
+  padding: 20px;
+  overflow: scroll;
+  font-family: Arial sans-serif;
 }
 
 table {
   width: 100%;
-  height: 960px;
   border-collapse: collapse;
   border-spacing: 0;
   td, th {
     padding: 0;
   }
   td {
-    height: 960px;
-    border-left: 1px solid #333;
-    border-right: 1px solid #333;
+    width: (100%/7);
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    //box-sizing: border-box;
   }
 }
 
 .time {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-}
-
-.line {
-  border-top: 1px solid #666;
-  border-bottom: 1px solid transparent;
-  position: relative;
-  height: 38px;
-  //box-sizing: border-box;
-  span {
-    position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  .line {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid transparent;
+    position: relative;
+    height: 38px;
+    span {
+      position: absolute;
+      top: -7px;
+      left: -20px;
+      font-size: 12px;
+    }
   }
 }
 
@@ -50,14 +53,23 @@ table {
   width: 100%;
   height: 960px;
   position: relative;
+  //box-sizing: content-box;
 }
 
 .selection {
   position: absolute;
   width: 100%;
   min-height: 20px;
-  background: #ffa;
   //box-sizing: content-box;
   font-size: 12px;
-  border: 1px solid #ff0;
+
+  .placeholder {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    background: #ff0;
+    border: 1px solid #616100;
+  }
 }
