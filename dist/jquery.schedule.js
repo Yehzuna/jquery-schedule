@@ -1,4 +1,18 @@
+/*
+;(function($){
+    $.fn.extend({
+        pluginname: function(options) {
+            this.defaultOptions = {};
 
+            var settings = $.extend({}, this.defaultOptions, options);
+
+            return this.each(function() {
+                var $this = $(this);
+            });
+        }
+    });
+})(jQuery);
+*/
 
 
 
@@ -69,13 +83,12 @@ $('body').on('click', ".wrapper", function (event) {
                 $('span', ui.helper).text(periodeDrag(ui));
             }
         }).resizable({
-        grid: [0, 20],
-        containment: "parent",
-        handles: "n, s",
-
-        resize: function (event, ui) {
-            $('span', ui.helper).text(periodeResize(ui));
-        }
+            grid: [0, 20],
+            containment: "parent",
+            handles: "n, s",
+            resize: function (event, ui) {
+                $('span', ui.helper).text(periodeResize(ui));
+            }
     }).appendTo($(this));
 
 });

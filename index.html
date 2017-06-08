@@ -4,79 +4,28 @@
     <meta charset="utf-8">
     <title>Demo</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
-    <style>
-        body,
-        html {
-            margin: 0;
-            padding: 0;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-
-        }
-        td {
-            border-left: 1px solid #333;
-            border-right: 1px solid #333;
-            box-sizing: border-box;
-        }
-
-        .time {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-        }
-
-        .line {
-            border-top: 1px solid #333;
-            border-bottom: 1px solid transparent;
-            position: relative;
-            height: 38px;
-            box-sizing: content-box;
-
-        }
-        .line span {
-            position: absolute;
-        }
-
-        .wrapper {
-            width: 100%;
-            height: 960px;
-            position: relative;
-            box-sizing: content-box;
-        }
-
-        .selection {
-            position: absolute;
-            width: 100%;
-            min-height: 20px;
-            background: #ccc;
-            box-sizing: content-box;
-            font-size: 12px;
-        }
-    </style>
+    <link rel="stylesheet" href="dist/jquery.schedule.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </head>
 <body>
 
-<div class="time"></div>
+<div class="jquery-schedule">
+    <div class="time"></div>
+    <table>
+        <tr>
+            <td class="container"><div class="wrapper"></div></td>
+            <td class="container"><div class="wrapper"></div></td>
+            <td class="container"><div class="wrapper"></div></td>
+            <td class="container"><div class="wrapper"></div></td>
+            <td class="container"><div class="wrapper"></div></td>
+            <td class="container"><div class="wrapper"></div></td>
+            <td class="container"><div class="wrapper"></div></td>
+        </tr>
+    </table>
+</div>
 
-<table>
-    <tr>
-        <td class="container"><div class="wrapper"></div></td>
-        <td class="container"><div class="wrapper"></div></td>
-        <td class="container"><div class="wrapper"></div></td>
-        <td class="container"><div class="wrapper"></div></td>
-        <td class="container"><div class="wrapper"></div></td>
-        <td class="container"><div class="wrapper"></div></td>
-        <td class="container"><div class="wrapper"></div></td>
-    </tr>
-</table>
-
-<script src="js/schedule.js"></script>
+<script src="dist/jquery.schedule.js"></script>
 <script>
 
 </script>

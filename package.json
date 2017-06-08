@@ -1,0 +1,15 @@
+{
+  "name": "jquery-schedule",
+  "version": "1.0.0",
+  "description": "A schedule plugin with jquery",
+  "main": "index.html",
+  "repository": "https://github.com/Yehzuna/schedule.git",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.1.0",
+    "grunt-contrib-compass": "^1.1.1",
+    "grunt-contrib-copy": "^1.0.0"
+  }
+}
