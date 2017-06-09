@@ -5,7 +5,10 @@
   "main": "index.html",
   "repository": "https://github.com/Yehzuna/schedule.git",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "jquery-ui": "^1.12.1"
+  },
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "^1.1.0",

@@ -1,75 +1,98 @@
+// DEMO
+
 body,
 html {
-  margin: 10px;
+  margin: 0;
   padding: 0;
 }
 
-.jquery-schedule {
-  position: relative;
+body {
+  margin: 10px;
+}
+
+.jqs-demo {
   width: 800px;
   height: 600px;
-  padding: 20px;
-  overflow: scroll;
-  font-family: Arial sans-serif;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
-  td, th {
-    padding: 0;
-  }
-  td {
-    width: (100%/7);
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    //box-sizing: border-box;
-  }
-}
 
-.time {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  right: 20px;
-  .line {
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid transparent;
-    position: relative;
-    height: 38px;
-    span {
-      position: absolute;
-      top: -7px;
-      left: -20px;
-      font-size: 12px;
+// PLUGIN
+
+$gutter: 20px;
+$zone: 20px;
+
+.jqs {
+  position: relative;
+  padding: $gutter $gutter $gutter $gutter*2;
+  overflow-y: scroll;
+  font-family: system, -apple-system, Roboto, Helvetica Neue, Arial, Helvetica, Geneva, sans-serif;
+
+  .jqs-table {
+    width: 100%;
+    margin-bottom: $gutter;
+    border-collapse: collapse;
+    border-spacing: 0;
+    td, th {
+      padding: 0;
+    }
+    td {
+      width: (100%/7);
+      border-left: 1px solid #ccc;
+      border-right: 1px solid #ccc;
     }
   }
-}
 
-
-
-.wrapper {
-  width: 100%;
-  height: 960px;
-  position: relative;
-  //box-sizing: content-box;
-}
-
-.selection {
-  position: absolute;
-  width: 100%;
-  min-height: 20px;
-  //box-sizing: content-box;
-  font-size: 12px;
-
-  .placeholder {
+  .jqs-grid {
     position: absolute;
-    top: 2px;
-    bottom: 2px;
-    left: 2px;
-    right: 2px;
-    background: #ff0;
-    border: 1px solid #616100;
+    top: $gutter;
+    left: $gutter*2;
+    right: $gutter;
+    .jqs-grid-line {
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid transparent;
+      position: relative;
+      height: $zone*2 - 2;
+      &:last-child {
+        border-bottom: 1px solid #ccc;
+      }
+      span {
+        position: absolute;
+        top: ($zone/2 - 3) * -1;
+        left: $gutter * -2;
+        font-size: 12px;
+      }
+      &:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        height: 1px;
+        width: 100%;
+        background: #eee;
+      }
+    }
+  }
+
+  .jqs-wrapper {
+    width: 100%;
+    height: $zone* 2 * 24;
+    position: relative;
+  }
+
+  .jqs-select {
+    position: absolute;
+    width: 100%;
+    min-height: $zone;
+    font-size: 12px;
+
+    .jqs-select-placeholder {
+      position: absolute;
+      top: 2px;
+      bottom: 2px;
+      left: 2px;
+      right: 2px;
+      background: rgba(82, 155, 255, .5);
+      border: 1px solid #2a3cff;
+      border-radius: 3px;
+    }
   }
 }
