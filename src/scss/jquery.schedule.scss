@@ -4,7 +4,7 @@ body,
 html {
   margin: 0;
   padding: 0;
-  background: #2a3cff;
+  background: #fefefe;
 }
 
 body {
@@ -15,6 +15,7 @@ body {
   width: 800px;
   height: 600px;
   background: #fff;
+  margin-bottom: 20px;
 }
 
 
@@ -61,7 +62,8 @@ $zone: 20px;
       position: relative;
       height: $zone*2 - 2;
       &:last-child {
-        border-bottom: 1px solid #ccc;
+        height: 0;
+        border-bottom: none;
       }
       span {
         position: absolute;

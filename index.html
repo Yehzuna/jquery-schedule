@@ -10,11 +10,33 @@
 </head>
 <body>
 
+<h2>Edition mode</h2>
 <div id="schedule" class="jqs-demo"></div>
+<h2>Read mode</h2>
+<div id="schedule2" class="jqs-demo"></div>
 
 <script src="dist/jquery.schedule.js"></script>
 <script>
-    $("#schedule").jqs();
+    $("#schedule").jqs({
+        mode: "edit"
+    });
+
+    $("#schedule2").jqs({
+        data: [
+            {
+                day: 0,
+                periods: [
+                    ["20:00", "00:00"]
+                ]
+            },
+            {
+                day: 5,
+                periods: [
+                    ["10:00", "12:00"]
+                ]
+            }
+        ]
+    });
 </script>
 
 </body>

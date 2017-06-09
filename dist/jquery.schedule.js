@@ -4,7 +4,9 @@
     // Create the defaults once
     var pluginName = "jqs",
         defaults = {
-            propertyName: "value",
+            mode: "read",
+            data: [],
+            hour: "24",
             days: [
                 "Lundi",
                 "Mardi",
@@ -28,68 +30,102 @@
     // Avoid Plugin.prototype conflicts
     $.extend(Plugin.prototype, {
         init: function () {
-
             var $this = this;
 
-            $(this.element)
-                .addClass("jqs")
-                .on('click', ".jqs-wrapper", function (event) {
-                    console.log(event);
+            $(this.element).addClass("jqs");
 
+            if (this.settings.mode === "edit") {
+                // bind event
+                $(this.element).on('click', ".jqs-wrapper", function (event) {
                     if ($(event.target).hasClass("jqs-select") || $(event.target).parents(".jqs-select").length > 0) {
                         return false;
                     }
 
-                    var top = Math.round(event.offsetY / 20);
-                    if(top >= 48) {
-                        top = 47;
+                    var position = Math.round(event.offsetY / 20);
+                    if (position >= 48) {
+                        position = 47;
                     }
 
-                    $('<div class="jqs-select"><div class="jqs-select-placeholder"><span>' + $this.periodeInit(top) + '</span></div></div>')
-                        .css('top', top * 20)
-                        .attr('id', event.timeStamp)
-                        .appendTo($(this))
-                        .draggable({
-                            grid: [0, 20],
-                            containment: "parent",
-                            drag: function (event, ui) {
-                                $('span', ui.helper).text($this.periodeDrag(ui));
-                            }
-                        }).resizable({
-                        grid: [0, 20],
-                        containment: "parent",
-                        handles: "n, s",
-                        resize: function (event, ui) {
-                            $('span', ui.helper).text($this.periodeResize(ui));
-                        }
-                    });
+                    $this.add($(this), "id_" + event.timeStamp, position);
 
                 }).on('click', ".jqs-remove", function (event) {
 
-            });
+                });
+            }
 
             this.create();
+
+            if (this.settings.data.length > 0) {
+
+                $.each(this.settings.data, function (index, data) {
+                    console.log(data);
+
+                    $.each(data.periods, function (index, period) {
+                        var position = $this.positionFormat(period[0]);
+                        var height = $this.positionFormat(period[0]);
+                        var element = $(".jqs-wrapper", $this.element).eq(data.day);
+
+                        $this.add(element, "id_test", position, height);
+                    });
+                });
+            }
         },
 
         /**
          *
          */
         create: function () {
-
-            $('<table class="jqs-table"><tr></tr></table>').appendTo(".jqs");
+            $('<table class="jqs-table"><tr></tr></table>').appendTo($(this.element));
 
             for (var i = 0; i < 7; i++) {
-                $('<td><div class="jqs-wrapper"></div></td>').appendTo(".jqs-table tr");
+                $('<td><div class="jqs-wrapper"></div></td>').appendTo($(".jqs-table tr", this.element));
             }
 
-            $('<div class="jqs-grid"><div class="jqs-grid-head"></div></div>').appendTo(".jqs");
+            $('<div class="jqs-grid"><div class="jqs-grid-head"></div></div>').appendTo($(this.element));
 
             for (var j = 0; j < 25; j++) {
-                $('<div class="jqs-grid-line"><span>' + this.formatHour(j) + '</span></div>').appendTo(".jqs-grid");
+                $('<div class="jqs-grid-line"><span>' + this.formatHour(j) + '</span></div>').appendTo($(".jqs-grid", this.element));
             }
 
             for (var k = 0; k < 7; k++) {
-                $('<div class="jqs-grid-day">' + this.settings.days[k] + '</div>').appendTo(".jqs-grid-head");
+                $('<div class="jqs-grid-day">' + this.settings.days[k] + '</div>').appendTo($(".jqs-grid-head", this.element));
+            }
+        },
+
+        /**
+         *
+         * @param parent
+         * @param id
+         * @param position
+         */
+        add: function (parent, id, position, height) {
+            if (!height) {
+                height = 1;
+            }
+
+            var element = $('<div class="jqs-select"><div class="jqs-select-placeholder"><span>' + this.periodInit(position) + '</span></div></div>')
+                .css('top', position * 20)
+                .css('height', height * 20)
+                .attr('id', id)
+                .appendTo(parent);
+
+            if (this.settings.mode === "edit") {
+                var $this = this;
+
+                element.draggable({
+                    grid: [0, 20],
+                    containment: "parent",
+                    drag: function (event, ui) {
+                        $('span', ui.helper).text($this.periodDrag(ui));
+                    }
+                }).resizable({
+                    grid: [0, 20],
+                    containment: "parent",
+                    handles: "n, s",
+                    resize: function (event, ui) {
+                        $('span', ui.helper).text($this.periodResize(ui));
+                    }
+                });
             }
         },
 
@@ -98,8 +134,8 @@
          * @param top
          * @returns {string}
          */
-        periodeInit: function (top) {
-            return this.formatTime(top) + " - " + this.formatTime(top + 1);
+        periodInit: function (top) {
+            return this.periodFormat(top) + " - " + this.periodFormat(top + 1);
         },
 
         /**
@@ -107,11 +143,11 @@
          * @param ui
          * @returns {string}
          */
-        periodeDrag: function (ui) {
+        periodDrag: function (ui) {
             var start = ui.position.top / 20;
             var end = ($(ui.helper).height() + ui.position.top) / 20;
 
-            return this.formatTime(start) + " - " + this.formatTime(end);
+            return this.periodFormat(start) + " - " + this.periodFormat(end);
         },
 
         /**
@@ -119,11 +155,11 @@
          * @param ui
          * @returns {string}
          */
-        periodeResize: function (ui) {
+        periodResize: function (ui) {
             var start = ui.position.top / 20;
             var end = (ui.size.height + ui.position.top) / 20;
 
-            return this.formatTime(start) + " - " + this.formatTime(end);
+            return this.periodFormat(start) + " - " + this.periodFormat(end);
         },
 
         /**
@@ -131,17 +167,17 @@
          * @param time
          * @returns {number}
          */
-        formatTime: function (time) {
-            if (time === 48) {
-                time = 0;
+        periodFormat: function (position) {
+            if (position === 48) {
+                position = 0;
             }
 
-            var hour = Math.floor(time / 2);
+            var hour = Math.floor(position / 2);
             if (hour < 10) {
                 hour = "0" + hour;
             }
 
-            if (time % 2 === 0) {
+            if (position % 2 === 0) {
                 hour += ":00";
             } else {
                 hour += ":30";
@@ -150,6 +186,22 @@
             return hour;
         },
 
+        positionFormat: function (hour) {
+            var split = hour.split(":");
+
+            var position = parseInt(split[0]);
+            if (split[1] === "30") {
+                position++;
+            }
+
+            return position;
+        },
+
+        /**
+         *
+         * @param hour
+         * @returns {string}
+         */
         formatHour: function (hour) {
             if (hour === 24) {
                 hour = 0;
@@ -172,19 +224,19 @@
             var currentEnd = current.position().top + current.height();
 
             /*
-            var start = 0;
-            var end = 0;
-            $(".selection", $(current).parent()).each(function (index, element) {
-                element = $(element);
-                if (current.attr('id') !== element.attr('id')) {
-                    start = element.position().top;
-                    end = element.position().top + element.height();
+             var start = 0;
+             var end = 0;
+             $(".selection", $(current).parent()).each(function (index, element) {
+             element = $(element);
+             if (current.attr('id') !== element.attr('id')) {
+             start = element.position().top;
+             end = element.position().top + element.height();
 
-                    console.log(start);
-                    console.log(end);
-                }
-            });
-            */
+             console.log(start);
+             console.log(end);
+             }
+             });
+             */
         }
 
     });
@@ -200,101 +252,3 @@
         });
     };
 })(jQuery, window, document);
-
-
-/*
- function periodeInit(top) {
- return formatTime(top) + " - " + formatTime(top + 1);
- }
-
- function periodeDrag(ui) {
- var start = ui.position.top / 20;
- var end = ($(ui.helper).height() + ui.position.top) / 20;
-
- return formatTime(start) + " - " + formatTime(end);
- }
-
- function periodeResize(ui) {
- var start = ui.position.top / 20;
- var end = (ui.size.height + ui.position.top) / 20;
-
- return formatTime(start) + " - " + formatTime(end);
- }
-
- function formatTime(time) {
- var hour = Math.floor(time / 2);
- if (hour < 10) {
- hour = "0" + hour;
- }
-
- if (time % 2 === 0) {
- hour += ":00";
- } else {
- hour += ":30";
- }
-
- return hour;
- }
-
- function valid(current) {
- var currentStart = current.position().top;
- var currentEnd = current.position().top + current.height();
-
- var start = 0;
- var end = 0;
- $(".selection", $(current).parent()).each(function (index, element) {
- element = $(element);
- if (current.attr('id') !== element.attr('id')) {
- start = element.position().top;
- end = element.position().top + element.height();
-
- console.log(start);
- console.log(end);
- }
- });
- }
-
- $(".jquery-schedule").on('click', ".wrapper", function (event) {
- console.log(event);
-
- if ($(event.target).hasClass("selection") || $(event.target).parents(".selection").length > 0) {
- return false;
- }
-
- var top = Math.round(event.offsetY / 20);
-
- var element = $('<div class="selection"><div class="placeholder"><span>' + periodeInit(top) + '</span></div></div>')
- .css('top', top * 20)
- .attr('id', event.timeStamp)
- .appendTo($(this))
- .draggable({
- grid: [0, 20],
- containment: "parent",
- drag: function (event, ui) {
- $('span', ui.helper).text(periodeDrag(ui));
- }
- }).resizable({
- grid: [0, 20],
- containment: "parent",
- handles: "n, s",
- resize: function (event, ui) {
- $('span', ui.helper).text(periodeResize(ui));
- }
- })
- }).on('click', ".wrapper", function (event) {
-
- });
-
-
- for (var i = 0; i < 24; i++) {
- var time = i;
- if (i < 10) {
- time = '0' + time;
- }
- time += ':00';
-
- $('<div class="line"><span>' + time + '</span></div>').appendTo(".time");
- }
-
-
- */
