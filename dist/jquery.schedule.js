@@ -4,7 +4,16 @@
     // Create the defaults once
     var pluginName = "jqs",
         defaults = {
-            propertyName: "value"
+            propertyName: "value",
+            days: [
+                "Lundi",
+                "Mardi",
+                "Mercredi",
+                "Jeudi",
+                "Vendredi",
+                "Samedi",
+                "Dimanche"
+            ]
         };
 
     // The actual plugin constructor
@@ -32,6 +41,9 @@
                     }
 
                     var top = Math.round(event.offsetY / 20);
+                    if(top >= 48) {
+                        top = 47;
+                    }
 
                     $('<div class="jqs-select"><div class="jqs-select-placeholder"><span>' + $this.periodeInit(top) + '</span></div></div>')
                         .css('top', top * 20)
@@ -44,21 +56,24 @@
                                 $('span', ui.helper).text($this.periodeDrag(ui));
                             }
                         }).resizable({
-                            grid: [0, 20],
-                            containment: "parent",
-                            handles: "n, s",
-                            resize: function (event, ui) {
-                                $('span', ui.helper).text($this.periodeResize(ui));
-                            }
-                        });
+                        grid: [0, 20],
+                        containment: "parent",
+                        handles: "n, s",
+                        resize: function (event, ui) {
+                            $('span', ui.helper).text($this.periodeResize(ui));
+                        }
+                    });
 
                 }).on('click', ".jqs-remove", function (event) {
 
-                });
+            });
 
             this.create();
         },
 
+        /**
+         *
+         */
         create: function () {
 
             $('<table class="jqs-table"><tr></tr></table>').appendTo(".jqs");
@@ -67,16 +82,14 @@
                 $('<td><div class="jqs-wrapper"></div></td>').appendTo(".jqs-table tr");
             }
 
-            $('<div class="jqs-grid"></div>').appendTo(".jqs");
+            $('<div class="jqs-grid"><div class="jqs-grid-head"></div></div>').appendTo(".jqs");
 
-            for (var j = 0; j < 24; j++) {
-                var time = j;
-                if (j < 10) {
-                    time = '0' + time;
-                }
-                time += ':00';
+            for (var j = 0; j < 25; j++) {
+                $('<div class="jqs-grid-line"><span>' + this.formatHour(j) + '</span></div>').appendTo(".jqs-grid");
+            }
 
-                $('<div class="jqs-grid-line"><span>' + time + '</span></div>').appendTo(".jqs-grid");
+            for (var k = 0; k < 7; k++) {
+                $('<div class="jqs-grid-day">' + this.settings.days[k] + '</div>').appendTo(".jqs-grid-head");
             }
         },
 
@@ -119,6 +132,10 @@
          * @returns {number}
          */
         formatTime: function (time) {
+            if (time === 48) {
+                time = 0;
+            }
+
             var hour = Math.floor(time / 2);
             if (hour < 10) {
                 hour = "0" + hour;
@@ -133,10 +150,28 @@
             return hour;
         },
 
+        formatHour: function (hour) {
+            if (hour === 24) {
+                hour = 0;
+            }
+
+            if (hour < 10) {
+                hour = "0" + hour;
+            }
+            hour += ":00";
+
+            return hour;
+        },
+
+        /**
+         *
+         * @param current
+         */
         valid: function (current) {
             var currentStart = current.position().top;
             var currentEnd = current.position().top + current.height();
 
+            /*
             var start = 0;
             var end = 0;
             $(".selection", $(current).parent()).each(function (index, element) {
@@ -149,6 +184,7 @@
                     console.log(end);
                 }
             });
+            */
         }
 
     });
@@ -165,11 +201,6 @@
     };
 })(jQuery, window, document);
 
-
-var $this = this;
-var test = function () {
-
-};
 
 /*
  function periodeInit(top) {

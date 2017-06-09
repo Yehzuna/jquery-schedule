@@ -4,6 +4,7 @@ body,
 html {
   margin: 0;
   padding: 0;
+  background: #2a3cff;
 }
 
 body {
@@ -13,6 +14,7 @@ body {
 .jqs-demo {
   width: 800px;
   height: 600px;
+  background: #fff;
 }
 
 
@@ -23,15 +25,20 @@ $zone: 20px;
 
 .jqs {
   position: relative;
-  padding: $gutter $gutter $gutter $gutter*2;
+  padding: $gutter*2 $gutter $gutter $gutter*3;
   overflow-y: scroll;
   font-family: system, -apple-system, Roboto, Helvetica Neue, Arial, Helvetica, Geneva, sans-serif;
+  box-sizing: border-box;
+
 
   .jqs-table {
+    position: relative;
+    z-index: 10;
     width: 100%;
     margin-bottom: $gutter;
     border-collapse: collapse;
     border-spacing: 0;
+    box-sizing: content-box;
     td, th {
       padding: 0;
     }
@@ -44,9 +51,10 @@ $zone: 20px;
 
   .jqs-grid {
     position: absolute;
-    top: $gutter;
-    left: $gutter*2;
+    top: $gutter * 2;
+    left: $gutter * 3;
     right: $gutter;
+    box-sizing: content-box;
     .jqs-grid-line {
       border-top: 1px solid #ccc;
       border-bottom: 1px solid transparent;
@@ -58,7 +66,7 @@ $zone: 20px;
       span {
         position: absolute;
         top: ($zone/2 - 3) * -1;
-        left: $gutter * -2;
+        left: ($gutter * 2.5) * -1;
         font-size: 12px;
       }
       &:before {
@@ -68,6 +76,20 @@ $zone: 20px;
         height: 1px;
         width: 100%;
         background: #eee;
+      }
+    }
+
+    .jqs-grid-head {
+      position: absolute;
+      top: -$gutter;
+      left: 0;
+      right: 0;
+      display: flex;
+      .jqs-grid-day {
+        width: (100%/7);
+        text-align: center;
+        font-size: 12px;
+
       }
     }
   }
