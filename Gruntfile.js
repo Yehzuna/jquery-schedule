@@ -8,35 +8,42 @@ module.exports = function (grunt) {
             ]
         },
         copy: {
-            dist: {
+            css: {
+                expand: true,
+                cwd: 'cache/',
+                src: '*.css',
+                dest: 'dist/',
+                ext: '.min.css',
+                extDot: 'last'
+            },
+            js: {
                 expand: true,
                 cwd: 'src/js/',
                 src: '*.js',
                 dest: 'dist/'
             }
         },
+        uglify: {
+            dist: {
+                expand: true,
+                cwd: 'src/js/',
+                src: '*.js',
+                dest: 'dist/',
+                ext: '.min.js',
+                extDot: 'last'
+            }
+        },
         compass: {
             dev: {
                 options: {
-                    specify: 'src/scss/*.scss',
                     sassDir: 'src/scss/',
-                    cssDir: 'dist/',
-                    imagesDir: 'dist/img/',
-                    fontsDir: 'dist/fonts/',
-                    spriteLoadPath: 'src/img/',
-                    httpGeneratedImagesPath: "../img/",
-                    httpFontsPath: "../fonts/"
+                    cssDir: 'dist/'
                 }
             },
             prod: {
                 options: {
                     sassDir: 'src/scss/',
-                    cssDir: 'dist/css/',
-                    imagesDir: 'dist/img/',
-                    fontsDir: 'dist/fonts/',
-                    spriteLoadPath: 'src/img/',
-                    httpGeneratedImagesPath: "../img/",
-                    httpFontsPath: "../fonts/",
+                    cssDir: 'cache/',
                     environment: 'production'
                 }
             }
@@ -44,22 +51,16 @@ module.exports = function (grunt) {
     });
 
     grunt.loadNpmTasks('grunt-contrib-clean');
-    //grunt.loadNpmTasks('grunt-contrib-concat');
-    //grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-copy');
 
-    grunt.registerTask('dev', [
+    grunt.registerTask('default', [
         'clean',
-        'compass:dev',
-        'copy'
-    ]);
-
-    grunt.registerTask('prod', [
-        'clean',
-        'copy',
         'compass:prod',
-        'concat',
+        'compass:dev',
+        'copy:js',
+        'copy:css',
         'uglify'
     ]);
 };

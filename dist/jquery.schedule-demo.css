@@ -1,0 +1,20 @@
+/* line 1, ../src/scss/jquery.schedule-demo.scss */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  background: #fefefe;
+}
+
+/* line 8, ../src/scss/jquery.schedule-demo.scss */
+body {
+  margin: 10px;
+}
+
+/* line 12, ../src/scss/jquery.schedule-demo.scss */
+.jqs-demo {
+  width: 800px;
+  height: 600px;
+  background: #fff;
+  margin-bottom: 20px;
+}

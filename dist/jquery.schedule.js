@@ -5,6 +5,7 @@
     var pluginName = "jqs",
         defaults = {
             mode: "read",
+            diplay: "full", //compact
             data: [],
             hour: "24",
             days: [
@@ -61,11 +62,20 @@
                     console.log(data);
 
                     $.each(data.periods, function (index, period) {
-                        var position = $this.positionFormat(period[0]);
-                        var height = $this.positionFormat(period[0]);
                         var element = $(".jqs-wrapper", $this.element).eq(data.day);
+                        var position = $this.positionFormat(period[0]);
+                        var height = $this.positionFormat(period[1]);
 
-                        $this.add(element, "id_test", position, height);
+                        if(height === 0) {
+                            height = 48;
+                        }
+
+                        console.log(position);
+                        console.log(height);
+
+                        if(position <= height) {
+                            $this.add(element, "id_test", position, height - position);
+                        }
                     });
                 });
             }
@@ -103,7 +113,7 @@
                 height = 1;
             }
 
-            var element = $('<div class="jqs-select"><div class="jqs-select-placeholder"><span>' + this.periodInit(position) + '</span></div></div>')
+            var element = $('<div class="jqs-select"><div class="jqs-select-placeholder"><span>' + this.periodInit(position, position + height) + '</span></div></div>')
                 .css('top', position * 20)
                 .css('height', height * 20)
                 .attr('id', id)
@@ -134,8 +144,8 @@
          * @param top
          * @returns {string}
          */
-        periodInit: function (top) {
-            return this.periodFormat(top) + " - " + this.periodFormat(top + 1);
+        periodInit: function (start, end) {
+            return this.periodFormat(start) + " - " + this.periodFormat(end);
         },
 
         /**
@@ -168,7 +178,7 @@
          * @returns {number}
          */
         periodFormat: function (position) {
-            if (position === 48) {
+            if (position >= 48) {
                 position = 0;
             }
 
@@ -188,9 +198,9 @@
 
         positionFormat: function (hour) {
             var split = hour.split(":");
+            var position = parseInt(split[0]) * 2;
 
-            var position = parseInt(split[0]);
-            if (split[1] === "30") {
+            if (parseInt(split[1]) === 30) {
                 position++;
             }
 
@@ -203,7 +213,7 @@
          * @returns {string}
          */
         formatHour: function (hour) {
-            if (hour === 24) {
+            if (hour >= 24) {
                 hour = 0;
             }
 

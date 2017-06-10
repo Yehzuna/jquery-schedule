@@ -1,25 +1,4 @@
-/* line 3, ../src/scss/jquery.schedule.scss */
-body,
-html {
-  margin: 0;
-  padding: 0;
-  background: #fefefe;
-}
-
-/* line 10, ../src/scss/jquery.schedule.scss */
-body {
-  margin: 10px;
-}
-
-/* line 14, ../src/scss/jquery.schedule.scss */
-.jqs-demo {
-  width: 800px;
-  height: 600px;
-  background: #fff;
-  margin-bottom: 20px;
-}
-
-/* line 27, ../src/scss/jquery.schedule.scss */
+/* line 4, ../src/scss/jquery.schedule.scss */
 .jqs {
   position: relative;
   padding: 40px 20px 20px 60px;
@@ -27,7 +6,7 @@ body {
   font-family: system, -apple-system, Roboto, Helvetica Neue, Arial, Helvetica, Geneva, sans-serif;
   box-sizing: border-box;
 }
-/* line 35, ../src/scss/jquery.schedule.scss */
+/* line 12, ../src/scss/jquery.schedule.scss */
 .jqs .jqs-table {
   position: relative;
   z-index: 10;
@@ -37,17 +16,17 @@ body {
   border-spacing: 0;
   box-sizing: content-box;
 }
-/* line 43, ../src/scss/jquery.schedule.scss */
+/* line 20, ../src/scss/jquery.schedule.scss */
 .jqs .jqs-table td, .jqs .jqs-table th {
   padding: 0;
 }
-/* line 46, ../src/scss/jquery.schedule.scss */
+/* line 23, ../src/scss/jquery.schedule.scss */
 .jqs .jqs-table td {
   width: 14.28571%;
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
 }
-/* line 53, ../src/scss/jquery.schedule.scss */
+/* line 30, ../src/scss/jquery.schedule.scss */
 .jqs .jqs-grid {
   position: absolute;
   top: 40px;
@@ -55,26 +34,26 @@ body {
   right: 20px;
   box-sizing: content-box;
 }
-/* line 59, ../src/scss/jquery.schedule.scss */
+/* line 36, ../src/scss/jquery.schedule.scss */
 .jqs .jqs-grid .jqs-grid-line {
   border-top: 1px solid #ccc;
   border-bottom: 1px solid transparent;
   position: relative;
   height: 38px;
 }
-/* line 64, ../src/scss/jquery.schedule.scss */
+/* line 41, ../src/scss/jquery.schedule.scss */
 .jqs .jqs-grid .jqs-grid-line:last-child {
   height: 0;
   border-bottom: none;
 }
-/* line 68, ../src/scss/jquery.schedule.scss */
+/* line 45, ../src/scss/jquery.schedule.scss */
 .jqs .jqs-grid .jqs-grid-line span {
   position: absolute;
   top: -7px;
   left: -50px;
   font-size: 12px;
 }
-/* line 74, ../src/scss/jquery.schedule.scss */
+/* line 51, ../src/scss/jquery.schedule.scss */
 .jqs .jqs-grid .jqs-grid-line:before {
   content: "";
   position: absolute;
@@ -83,7 +62,7 @@ body {
   width: 100%;
   background: #eee;
 }
-/* line 84, ../src/scss/jquery.schedule.scss */
+/* line 61, ../src/scss/jquery.schedule.scss */
 .jqs .jqs-grid .jqs-grid-head {
   position: absolute;
   top: -20px;
@@ -91,32 +70,33 @@ body {
   right: 0;
   display: flex;
 }
-/* line 90, ../src/scss/jquery.schedule.scss */
+/* line 67, ../src/scss/jquery.schedule.scss */
 .jqs .jqs-grid .jqs-grid-head .jqs-grid-day {
   width: 14.28571%;
   text-align: center;
   font-size: 12px;
 }
-/* line 99, ../src/scss/jquery.schedule.scss */
+/* line 76, ../src/scss/jquery.schedule.scss */
 .jqs .jqs-wrapper {
   width: 100%;
   height: 960px;
   position: relative;
 }
-/* line 105, ../src/scss/jquery.schedule.scss */
+/* line 82, ../src/scss/jquery.schedule.scss */
 .jqs .jqs-select {
   position: absolute;
   width: 100%;
   min-height: 20px;
   font-size: 12px;
 }
-/* line 111, ../src/scss/jquery.schedule.scss */
+/* line 88, ../src/scss/jquery.schedule.scss */
 .jqs .jqs-select .jqs-select-placeholder {
   position: absolute;
   top: 2px;
   bottom: 2px;
   left: 2px;
   right: 2px;
+  padding: 3px;
   background: rgba(82, 155, 255, 0.5);
   border: 1px solid #2a3cff;
   border-radius: 3px;

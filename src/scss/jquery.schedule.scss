@@ -1,26 +1,3 @@
-// DEMO
-
-body,
-html {
-  margin: 0;
-  padding: 0;
-  background: #fefefe;
-}
-
-body {
-  margin: 10px;
-}
-
-.jqs-demo {
-  width: 800px;
-  height: 600px;
-  background: #fff;
-  margin-bottom: 20px;
-}
-
-
-// PLUGIN
-
 $gutter: 20px;
 $zone: 20px;
 
@@ -114,6 +91,7 @@ $zone: 20px;
       bottom: 2px;
       left: 2px;
       right: 2px;
+      padding: 3px;
       background: rgba(82, 155, 255, .5);
       border: 1px solid #2a3cff;
       border-radius: 3px;
