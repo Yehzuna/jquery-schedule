@@ -16,7 +16,9 @@
                 "Vendredi",
                 "Samedi",
                 "Dimanche"
-            ]
+            ],
+            invalidPeriod: "Invalid period",
+            removePeriod: "Remove this period ?"
         };
 
     // The actual plugin constructor
@@ -49,8 +51,10 @@
 
                     $this.add($(this), "id_" + event.timeStamp, position);
 
-                }).on('click', ".jqs-remove", function (event) {
-
+                }).on('click', ".jqs-remove", function () {
+                    if (confirm($this.settings.removePeriod)) {
+                        $(this).parents(".jqs-select").remove();
+                    }
                 });
             }
 
@@ -59,7 +63,6 @@
             if (this.settings.data.length > 0) {
 
                 $.each(this.settings.data, function (index, data) {
-                    console.log(data);
 
                     $.each(data.periods, function (index, period) {
                         var element = $(".jqs-wrapper", $this.element).eq(data.day);
@@ -70,11 +73,11 @@
                             height = 48;
                         }
 
-                        console.log(position);
-                        console.log(height);
-
                         if (position <= height) {
-                            $this.add(element, "id_test", position, height - position);
+                            var id = "id_" + index + data.day + position + height;
+                            $this.add(element, id, position, height - position);
+                        } else {
+                            console.error($this.settings.invalidPeriod, $this.periodInit(position, position + (height - position)));
                         }
                     });
                 });
@@ -107,6 +110,7 @@
          * @param parent
          * @param id
          * @param position
+         * @param height
          */
         add: function (parent, id, position, height) {
             if (!height) {
@@ -118,6 +122,13 @@
                 .css('height', height * 20)
                 .attr('id', id)
                 .appendTo(parent);
+
+            if(!this.isValid(element)) {
+                console.error(this.settings.invalidPeriod, this.periodInit(position, position + height));
+
+                $(element).remove();
+                return false;
+            }
 
             if (this.settings.mode === "edit") {
                 var $this = this;
@@ -141,7 +152,8 @@
 
         /**
          *
-         * @param top
+         * @param start
+         * @param end
          * @returns {string}
          */
         periodInit: function (start, end) {
@@ -174,7 +186,7 @@
 
         /**
          *
-         * @param time
+         * @param position
          * @returns {number}
          */
         periodFormat: function (position) {
@@ -196,6 +208,11 @@
             return hour;
         },
 
+        /**
+         *
+         * @param hour
+         * @returns {number}
+         */
         positionFormat: function (hour) {
             var split = hour.split(":");
             var position = parseInt(split[0]) * 2;
@@ -229,26 +246,39 @@
          *
          * @param current
          */
-        valid: function (current) {
+        isValid: function (current) {
             var currentStart = current.position().top;
             var currentEnd = current.position().top + current.height();
 
-            /*
-             var start = 0;
-             var end = 0;
-             $(".selection", $(current).parent()).each(function (index, element) {
-             element = $(element);
-             if (current.attr('id') !== element.attr('id')) {
-             start = element.position().top;
-             end = element.position().top + element.height();
+            var start = 0;
+            var end = 0;
+            var check = true;
+            $(".jqs-select", $(current).parent()).each(function (index, element) {
+                element = $(element);
+                if (current.attr('id') !== element.attr('id')) {
+                    start = element.position().top;
+                    end = element.position().top + element.height();
 
-             console.log(start);
-             console.log(end);
-             }
-             });
-             */
+                    if (start > currentStart && start < currentEnd) {
+                        check = false;
+                    }
+
+                    if (end > currentStart && end < currentEnd) {
+                        check = false;
+                    }
+
+                    if (start < currentStart && end > currentEnd) {
+                        check = false;
+                    }
+
+                    if (start === currentStart && end === currentEnd) {
+                        check = false;
+                    }
+                }
+            });
+
+            return check;
         }
-
     });
 
     // A really lightweight plugin wrapper around the constructor,
