@@ -40,6 +40,7 @@
             if (this.settings.mode === "edit") {
                 // bind event
                 $(this.element).on('click', ".jqs-wrapper", function (event) {
+                    // add new selections
                     if ($(event.target).hasClass("jqs-select") || $(event.target).parents(".jqs-select").length > 0) {
                         return false;
                     }
@@ -52,6 +53,7 @@
                     $this.add($(this), "id_" + event.timeStamp, position);
 
                 }).on('click', ".jqs-remove", function () {
+                    // delete a selection
                     if (confirm($this.settings.removePeriod)) {
                         $(this).parents(".jqs-select").remove();
                     }
@@ -60,7 +62,38 @@
 
             this.create();
 
+            this.generate();
+        },
+
+        /**
+         *
+         */
+        create: function () {
+
+            $('<table class="jqs-table"><tr></tr></table>').appendTo($(this.element));
+
+            for (var i = 0; i < 7; i++) {
+                $('<td><div class="jqs-wrapper"></div></td>').appendTo($(".jqs-table tr", this.element));
+            }
+
+            $('<div class="jqs-grid"><div class="jqs-grid-head"></div></div>').appendTo($(this.element));
+
+            for (var j = 0; j < 25; j++) {
+                $('<div class="jqs-grid-line"><span>' + this.formatHour(j) + '</span></div>').appendTo($(".jqs-grid", this.element));
+            }
+
+            for (var k = 0; k < 7; k++) {
+                $('<div class="jqs-grid-day">' + this.settings.days[k] + '</div>').appendTo($(".jqs-grid-head", this.element));
+            }
+        },
+
+        /**
+         *
+         */
+        generate: function () {
+
             if (this.settings.data.length > 0) {
+                var $this = this;
 
                 $.each(this.settings.data, function (index, data) {
 
@@ -86,27 +119,6 @@
 
         /**
          *
-         */
-        create: function () {
-            $('<table class="jqs-table"><tr></tr></table>').appendTo($(this.element));
-
-            for (var i = 0; i < 7; i++) {
-                $('<td><div class="jqs-wrapper"></div></td>').appendTo($(".jqs-table tr", this.element));
-            }
-
-            $('<div class="jqs-grid"><div class="jqs-grid-head"></div></div>').appendTo($(this.element));
-
-            for (var j = 0; j < 25; j++) {
-                $('<div class="jqs-grid-line"><span>' + this.formatHour(j) + '</span></div>').appendTo($(".jqs-grid", this.element));
-            }
-
-            for (var k = 0; k < 7; k++) {
-                $('<div class="jqs-grid-day">' + this.settings.days[k] + '</div>').appendTo($(".jqs-grid-head", this.element));
-            }
-        },
-
-        /**
-         *
          * @param parent
          * @param id
          * @param position
@@ -117,14 +129,22 @@
                 height = 1;
             }
 
-            var element = $('<div class="jqs-select"><div class="jqs-select-placeholder"><span>' + this.periodInit(position, position + height) + '</span></div></div>')
+            // remove button
+            var remove = "";
+            if (this.settings.mode === "edit") {
+                remove = '<div class="jqs-remove"></div>';
+            }
+
+            // new element
+            var period = this.periodInit(position, position + height);
+            var element = $('<div class="jqs-select"><div class="jqs-select-placeholder">' + remove + '<span>' + period + '</span></div></div>')
                 .css('top', position * 20)
                 .css('height', height * 20)
                 .attr('id', id)
                 .appendTo(parent);
 
-            if(!this.isValid(element)) {
-                console.error(this.settings.invalidPeriod, this.periodInit(position, position + height));
+            if (!this.isValid(element)) {
+                console.error(this.settings.invalidPeriod, period);
 
                 $(element).remove();
                 return false;
@@ -138,6 +158,14 @@
                     containment: "parent",
                     drag: function (event, ui) {
                         $('span', ui.helper).text($this.periodDrag(ui));
+                    },
+                    stop: function (event, ui) {
+                        //console.log(ui);
+
+                        if(!$this.isValid($(ui.helper))) {
+                            console.error("Invalid Position");
+                            $(ui.helper).css('top', Math.round(ui.originalPosition.top));
+                        }
                     }
                 }).resizable({
                     grid: [0, 20],
@@ -145,6 +173,14 @@
                     handles: "n, s",
                     resize: function (event, ui) {
                         $('span', ui.helper).text($this.periodResize(ui));
+                    },
+                    stop: function (event, ui) {
+                        //console.log(ui);
+
+                        if(!$this.isValid($(ui.helper))) {
+                            console.error("Invalid Position");
+                            $(ui.helper).css('height', Math.round(ui.originalSize.height));
+                        }
                     }
                 });
             }
@@ -166,8 +202,8 @@
          * @returns {string}
          */
         periodDrag: function (ui) {
-            var start = ui.position.top / 20;
-            var end = ($(ui.helper).height() + ui.position.top) / 20;
+            var start = Math.round(ui.position.top / 20);
+            var end = Math.round(($(ui.helper).height() + ui.position.top) / 20);
 
             return this.periodFormat(start) + " - " + this.periodFormat(end);
         },
@@ -178,8 +214,8 @@
          * @returns {string}
          */
         periodResize: function (ui) {
-            var start = ui.position.top / 20;
-            var end = (ui.size.height + ui.position.top) / 20;
+            var start = Math.round(ui.position.top / 20);
+            var end = Math.round((ui.size.height + ui.position.top) / 20);
 
             return this.periodFormat(start) + " - " + this.periodFormat(end);
         },
@@ -247,8 +283,8 @@
          * @param current
          */
         isValid: function (current) {
-            var currentStart = current.position().top;
-            var currentEnd = current.position().top + current.height();
+            var currentStart = Math.round(current.position().top);
+            var currentEnd = Math.round(current.position().top + current.height());
 
             var start = 0;
             var end = 0;
@@ -256,22 +292,28 @@
             $(".jqs-select", $(current).parent()).each(function (index, element) {
                 element = $(element);
                 if (current.attr('id') !== element.attr('id')) {
-                    start = element.position().top;
-                    end = element.position().top + element.height();
+                    start = Math.round(element.position().top);
+                    end = Math.round(element.position().top + element.height());
+
+                    console.log(currentStart, currentEnd, start, end);
 
                     if (start > currentStart && start < currentEnd) {
+                        console.error("error 1");
                         check = false;
                     }
 
                     if (end > currentStart && end < currentEnd) {
+                        console.error("error 2");
                         check = false;
                     }
 
                     if (start < currentStart && end > currentEnd) {
+                        console.error("error 3");
                         check = false;
                     }
 
                     if (start === currentStart && end === currentEnd) {
+                        console.error("error 4");
                         check = false;
                     }
                 }

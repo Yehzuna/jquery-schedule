@@ -16,7 +16,9 @@
                 "Vendredi",
                 "Samedi",
                 "Dimanche"
-            ]
+            ],
+            invalidPeriod: "Invalid period",
+            removePeriod: "Remove this period ?"
         };
 
     // The actual plugin constructor
@@ -38,6 +40,7 @@
             if (this.settings.mode === "edit") {
                 // bind event
                 $(this.element).on('click', ".jqs-wrapper", function (event) {
+                    // add new selections
                     if ($(event.target).hasClass("jqs-select") || $(event.target).parents(".jqs-select").length > 0) {
                         return false;
                     }
@@ -49,45 +52,24 @@
 
                     $this.add($(this), "id_" + event.timeStamp, position);
 
-                }).on('click', ".jqs-remove", function (event) {
-
+                }).on('click', ".jqs-remove", function () {
+                    // delete a selection
+                    if (confirm($this.settings.removePeriod)) {
+                        $(this).parents(".jqs-select").remove();
+                    }
                 });
             }
 
             this.create();
 
-            if (this.settings.data.length > 0) {
-
-                $.each(this.settings.data, function (index, data) {
-                    //console.log(data);
-
-                    $.each(data.periods, function (index, period) {
-                        var element = $(".jqs-wrapper", $this.element).eq(data.day);
-                        var position = $this.positionFormat(period[0]);
-                        var height = $this.positionFormat(period[1]);
-
-                        if (height === 0) {
-                            height = 48;
-                        }
-
-                        //console.log(position);
-                        //console.log(height);
-
-                        if (position <= height) {
-                            var id = "id_" + index + data.day + position + height;
-                            $this.add(element, id, position, height - position);
-                        } else {
-                            console.error("Invalid period", $this.periodInit(position, position + (height - position)));
-                        }
-                    });
-                });
-            }
+            this.generate();
         },
 
         /**
          *
          */
         create: function () {
+
             $('<table class="jqs-table"><tr></tr></table>').appendTo($(this.element));
 
             for (var i = 0; i < 7; i++) {
@@ -107,6 +89,36 @@
 
         /**
          *
+         */
+        generate: function () {
+
+            if (this.settings.data.length > 0) {
+                var $this = this;
+
+                $.each(this.settings.data, function (index, data) {
+
+                    $.each(data.periods, function (index, period) {
+                        var element = $(".jqs-wrapper", $this.element).eq(data.day);
+                        var position = $this.positionFormat(period[0]);
+                        var height = $this.positionFormat(period[1]);
+
+                        if (height === 0) {
+                            height = 48;
+                        }
+
+                        if (position <= height) {
+                            var id = "id_" + index + data.day + position + height;
+                            $this.add(element, id, position, height - position);
+                        } else {
+                            console.error($this.settings.invalidPeriod, $this.periodInit(position, position + (height - position)));
+                        }
+                    });
+                });
+            }
+        },
+
+        /**
+         *
          * @param parent
          * @param id
          * @param position
@@ -117,14 +129,22 @@
                 height = 1;
             }
 
-            var element = $('<div class="jqs-select"><div class="jqs-select-placeholder"><span>' + this.periodInit(position, position + height) + '</span></div></div>')
+            // remove button
+            var remove = "";
+            if (this.settings.mode === "edit") {
+                remove = '<div class="jqs-remove"></div>';
+            }
+
+            // new element
+            var period = this.periodInit(position, position + height);
+            var element = $('<div class="jqs-select"><div class="jqs-select-placeholder">' + remove + '<span>' + period + '</span></div></div>')
                 .css('top', position * 20)
                 .css('height', height * 20)
                 .attr('id', id)
                 .appendTo(parent);
 
-            if(!this.isValid(element)) {
-                console.error("Invalid Period", this.periodInit(position, position + height));
+            if (!this.isValid(element)) {
+                console.error(this.settings.invalidPeriod, period);
 
                 $(element).remove();
                 return false;
@@ -138,6 +158,14 @@
                     containment: "parent",
                     drag: function (event, ui) {
                         $('span', ui.helper).text($this.periodDrag(ui));
+                    },
+                    stop: function (event, ui) {
+                        //console.log(ui);
+
+                        if(!$this.isValid($(ui.helper))) {
+                            console.error("Invalid Position");
+                            $(ui.helper).css('top', Math.round(ui.originalPosition.top));
+                        }
                     }
                 }).resizable({
                     grid: [0, 20],
@@ -145,6 +173,14 @@
                     handles: "n, s",
                     resize: function (event, ui) {
                         $('span', ui.helper).text($this.periodResize(ui));
+                    },
+                    stop: function (event, ui) {
+                        //console.log(ui);
+
+                        if(!$this.isValid($(ui.helper))) {
+                            console.error("Invalid Position");
+                            $(ui.helper).css('height', Math.round(ui.originalSize.height));
+                        }
                     }
                 });
             }
@@ -166,8 +202,8 @@
          * @returns {string}
          */
         periodDrag: function (ui) {
-            var start = ui.position.top / 20;
-            var end = ($(ui.helper).height() + ui.position.top) / 20;
+            var start = Math.round(ui.position.top / 20);
+            var end = Math.round(($(ui.helper).height() + ui.position.top) / 20);
 
             return this.periodFormat(start) + " - " + this.periodFormat(end);
         },
@@ -178,8 +214,8 @@
          * @returns {string}
          */
         periodResize: function (ui) {
-            var start = ui.position.top / 20;
-            var end = (ui.size.height + ui.position.top) / 20;
+            var start = Math.round(ui.position.top / 20);
+            var end = Math.round((ui.size.height + ui.position.top) / 20);
 
             return this.periodFormat(start) + " - " + this.periodFormat(end);
         },
@@ -247,8 +283,8 @@
          * @param current
          */
         isValid: function (current) {
-            var currentStart = current.position().top;
-            var currentEnd = current.position().top + current.height();
+            var currentStart = Math.round(current.position().top);
+            var currentEnd = Math.round(current.position().top + current.height());
 
             var start = 0;
             var end = 0;
@@ -256,26 +292,30 @@
             $(".jqs-select", $(current).parent()).each(function (index, element) {
                 element = $(element);
                 if (current.attr('id') !== element.attr('id')) {
-                    start = element.position().top;
-                    end = element.position().top + element.height();
+                    start = Math.round(element.position().top);
+                    end = Math.round(element.position().top + element.height());
+
+                    console.log(currentStart, currentEnd, start, end);
 
                     if (start > currentStart && start < currentEnd) {
+                        console.error("error 1");
                         check = false;
                     }
 
                     if (end > currentStart && end < currentEnd) {
+                        console.error("error 2");
                         check = false;
                     }
 
                     if (start < currentStart && end > currentEnd) {
+                        console.error("error 3");
                         check = false;
                     }
 
                     if (start === currentStart && end === currentEnd) {
+                        console.error("error 4");
                         check = false;
                     }
-
-                    console.log(currentStart, currentEnd, start, end);
                 }
             });
 
