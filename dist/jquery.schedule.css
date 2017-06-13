@@ -83,14 +83,14 @@
   position: relative;
 }
 /* line 81, ../src/scss/jquery.schedule.scss */
-.jqs .jqs-select {
+.jqs .jqs-period {
   position: absolute;
   width: 100%;
   min-height: 20px;
   font-size: 12px;
 }
 /* line 87, ../src/scss/jquery.schedule.scss */
-.jqs .jqs-select .jqs-select-placeholder {
+.jqs .jqs-period .jqs-period-placeholder {
   position: absolute;
   top: 2px;
   bottom: 2px;
@@ -101,13 +101,33 @@
   border: 1px solid #2a3cff;
   border-radius: 3px;
 }
-/* line 100, ../src/scss/jquery.schedule.scss */
-.jqs .jqs-remove {
+/* line 99, ../src/scss/jquery.schedule.scss */
+.jqs .jqs-period .jqs-remove {
+  display: none;
   position: absolute;
-  top: 2px;
+  bottom: 2px;
   right: 2px;
   height: 10px;
   width: 10px;
-  background: #000;
   cursor: pointer;
+}
+/* line 107, ../src/scss/jquery.schedule.scss */
+.jqs .jqs-period .jqs-remove:before, .jqs .jqs-period .jqs-remove:after {
+  content: "";
+  display: block;
+  height: 1px;
+  width: 100%;
+  background: #fff;
+}
+/* line 115, ../src/scss/jquery.schedule.scss */
+.jqs .jqs-period .jqs-remove:before {
+  transform: rotate(45deg);
+}
+/* line 118, ../src/scss/jquery.schedule.scss */
+.jqs .jqs-period .jqs-remove:after {
+  transform: rotate(-45deg);
+}
+/* line 124, ../src/scss/jquery.schedule.scss */
+.jqs .jqs-period:hover .jqs-remove {
+  display: block;
 }

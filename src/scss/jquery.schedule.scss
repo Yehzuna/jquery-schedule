@@ -78,13 +78,13 @@ $zone: 20px;
     position: relative;
   }
 
-  .jqs-select {
+  .jqs-period {
     position: absolute;
     width: 100%;
     min-height: $zone;
     font-size: 12px;
 
-    .jqs-select-placeholder {
+    .jqs-period-placeholder {
       position: absolute;
       top: 2px;
       bottom: 2px;
@@ -95,15 +95,35 @@ $zone: 20px;
       border: 1px solid #2a3cff;
       border-radius: 3px;
     }
-  }
 
-  .jqs-remove {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    height: 10px;
-    width: 10px;
-    background: #000;
-    cursor: pointer;
+    .jqs-remove {
+      display: none;
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      height: 10px;
+      width: 10px;
+      cursor: pointer;
+      &:before,
+      &:after {
+        content: "";
+        display: block;
+        height: 1px;
+        width: 100%;
+        background: #2a3cff;
+      }
+      &:before {
+        transform: rotate(45deg);
+      }
+      &:after {
+        transform: rotate(-45deg);
+      }
+    }
+
+    &:hover {
+      .jqs-remove {
+        display: block;
+      }
+    }
   }
 }

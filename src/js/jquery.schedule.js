@@ -1,11 +1,11 @@
 ;(function ($, window, document, undefined) {
     "use strict";
 
-    // Create the defaults once
+    // Defaults options
     var pluginName = "jqs",
         defaults = {
             mode: "read",
-            display: "full", //compact
+            //display: "full", //compact
             data: [],
             hour: "24",
             days: [
@@ -21,7 +21,7 @@
             removePeriod: "Remove this period ?"
         };
 
-    // The actual plugin constructor
+    // Plugin constructor
     function Plugin(element, options) {
         this.element = element;
         this.settings = $.extend({}, defaults, options);
@@ -30,7 +30,6 @@
         this.init();
     }
 
-    // Avoid Plugin.prototype conflicts
     $.extend(Plugin.prototype, {
         init: function () {
             var $this = this;
@@ -41,7 +40,7 @@
                 // bind event
                 $(this.element).on('click', ".jqs-wrapper", function (event) {
                     // add new selections
-                    if ($(event.target).hasClass("jqs-select") || $(event.target).parents(".jqs-select").length > 0) {
+                    if ($(event.target).hasClass("jqs-period") || $(event.target).parents(".jqs-period").length > 0) {
                         return false;
                     }
 
@@ -55,7 +54,7 @@
                 }).on('click', ".jqs-remove", function () {
                     // delete a selection
                     if (confirm($this.settings.removePeriod)) {
-                        $(this).parents(".jqs-select").remove();
+                        $(this).parents(".jqs-period").remove();
                     }
                 });
             }
@@ -137,7 +136,7 @@
 
             // new element
             var period = this.periodInit(position, position + height);
-            var element = $('<div class="jqs-select"><div class="jqs-select-placeholder">' + remove + '<span>' + period + '</span></div></div>')
+            var element = $('<div class="jqs-period"><div class="jqs-period-placeholder">' + remove + '<span>' + period + '</span></div></div>')
                 .css('top', position * 20)
                 .css('height', height * 20)
                 .attr('id', id)
@@ -233,7 +232,7 @@
         },
 
         /**
-         *
+         * Return a readable hour from a position
          * @param position
          * @returns {number}
          */
@@ -257,7 +256,7 @@
         },
 
         /**
-         *
+         * Return a position from a readable hour
          * @param hour
          * @returns {number}
          */
@@ -273,7 +272,7 @@
         },
 
         /**
-         *
+         * Return a hour to readable format
          * @param hour
          * @returns {string}
          */
@@ -291,8 +290,9 @@
         },
 
         /**
-         *
+         * Check if a period is valid
          * @param current
+         * @returns {boolean}
          */
         isValid: function (current) {
             var currentStart = Math.round(current.position().top);
@@ -301,31 +301,31 @@
             var start = 0;
             var end = 0;
             var check = true;
-            $(".jqs-select", $(current).parent()).each(function (index, element) {
+            $(".jqs-period", $(current).parent()).each(function (index, element) {
                 element = $(element);
                 if (current.attr('id') !== element.attr('id')) {
                     start = Math.round(element.position().top);
                     end = Math.round(element.position().top + element.height());
 
-                    console.log(currentStart, currentEnd, start, end);
+                    //console.log(currentStart, currentEnd, start, end);
 
                     if (start > currentStart && start < currentEnd) {
-                        console.error("error 1");
+                        //console.error("error 1");
                         check = false;
                     }
 
                     if (end > currentStart && end < currentEnd) {
-                        console.error("error 2");
+                        //console.error("error 2");
                         check = false;
                     }
 
                     if (start < currentStart && end > currentEnd) {
-                        console.error("error 3");
+                        //console.error("error 3");
                         check = false;
                     }
 
                     if (start === currentStart && end === currentEnd) {
-                        console.error("error 4");
+                        //console.error("error 4");
                         check = false;
                     }
                 }
@@ -334,6 +334,10 @@
             return check;
         },
 
+        /**
+         * Export data to JSON string
+         * @returns {string}
+         */
         export: function () {
             var $this = this;
             var data = [];
@@ -344,7 +348,7 @@
                     periods: []
                 };
 
-                $(".jqs-select", element).each(function (index, selection) {
+                $(".jqs-period", element).each(function (index, selection) {
                     day.periods.push($this.periodData($(selection)));
                 });
 
