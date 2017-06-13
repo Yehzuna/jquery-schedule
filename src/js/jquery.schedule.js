@@ -222,6 +222,18 @@
 
         /**
          *
+         * @param element
+         * @returns {[*,*]}
+         */
+        periodData: function (element) {
+            var start = Math.round(element.position().top / 20);
+            var end = Math.round((element.height() + element.position().top) / 20);
+
+            return [this.periodFormat(start), this.periodFormat(end)];
+        },
+
+        /**
+         *
          * @param position
          * @returns {number}
          */
@@ -320,17 +332,43 @@
             });
 
             return check;
+        },
+
+        export: function () {
+            var $this = this;
+            var data = [];
+
+            $(".jqs-wrapper", $this.element).each(function (index, element) {
+                var day = {
+                    day: index,
+                    periods: []
+                };
+
+                $(".jqs-select", element).each(function (index, selection) {
+                    day.periods.push($this.periodData($(selection)));
+                });
+
+                data.push(day);
+            });
+
+            return JSON.stringify(data);
         }
     });
 
-    // A really lightweight plugin wrapper around the constructor,
-    // preventing against multiple instantiations
     $.fn[pluginName] = function (options) {
-        return this.each(function () {
+        var ret = false;
+        var loop = this.each(function () {
             if (!$.data(this, "plugin_" + pluginName)) {
-                $.data(this, "plugin_" +
-                    pluginName, new Plugin(this, options));
+                $.data(this, "plugin_" + pluginName, new Plugin(this, options));
+            } else if ($.isFunction(Plugin.prototype[options])) {
+                ret = $.data(this, 'plugin_' + pluginName)[options]();
             }
         });
+
+        if(ret) {
+            return ret;
+        }
+
+        return loop;
     };
 })(jQuery, window, document);

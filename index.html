@@ -18,27 +18,29 @@
 
 <script src="dist/jquery.schedule.js"></script>
 <script>
-    $("#schedule").jqs({
-        mode: "edit"
-    });
+    $(function () {
+        $("#schedule").jqs({
+            mode: "edit"
+        });
 
-    $("#schedule2").jqs({
-        data: [
-            {
-                day: 0,
-                periods: [
-                    ["20:00", "00:00"],
-                    ["00:00", "02:00"]]
-            },
-            {
-                day: 3,
-                periods: [
-                    ["00:00", "08:30"],
-                    ["09:00", "12:00"]
-                ]
-            }
-        ]
-    });
+        $("#schedule2").jqs({
+            data: [
+                {
+                    day: 0,
+                    periods: [
+                        ["20:00", "00:00"],
+                        ["00:00", "02:00"]]
+                },
+                {
+                    day: 3,
+                    periods: [
+                        ["00:00", "08:30"],
+                        ["09:00", "12:00"]
+                    ]
+                }
+            ]
+        });
+    })
 </script>
 
 </body>
