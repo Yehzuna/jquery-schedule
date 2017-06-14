@@ -82,7 +82,8 @@ $zone: 20px;
     position: absolute;
     width: 100%;
     min-height: $zone;
-    font-size: 12px;
+    font-size: 11px;
+    line-height: 1;
 
     .jqs-period-placeholder {
       position: absolute;
@@ -99,17 +100,19 @@ $zone: 20px;
     .jqs-remove {
       display: none;
       position: absolute;
-      bottom: 2px;
-      right: 2px;
-      height: 10px;
-      width: 10px;
+      bottom: 0px;
+      right: 0px;
+      height: 14px;
+      width: 14px;
       cursor: pointer;
       &:before,
       &:after {
         content: "";
         display: block;
-        height: 1px;
-        width: 100%;
+        position: absolute;
+        height: 100%;
+        width: 2px;
+        left: 6px;
         background: #2a3cff;
       }
       &:before {
