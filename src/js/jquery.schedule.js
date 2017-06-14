@@ -4,10 +4,10 @@
     // Defaults options
     var pluginName = "jqs",
         defaults = {
-            mode: "read",
+            mode: "read", // edit
             //display: "full", //compact
+            //hour: "24",
             data: [],
-            hour: "24",
             days: [
                 "Lundi",
                 "Mardi",
@@ -17,7 +17,8 @@
                 "Samedi",
                 "Dimanche"
             ],
-            invalidPeriod: "Invalid period",
+            invalidPeriod: "Invalid period.",
+            invalidPosition: "Invalid position.",
             removePeriod: "Remove this period ?"
         };
 
@@ -31,6 +32,9 @@
     }
 
     $.extend(Plugin.prototype, {
+        /**
+         *
+         */
         init: function () {
             var $this = this;
 
@@ -65,7 +69,7 @@
         },
 
         /**
-         *
+         * Create html structure
          */
         create: function () {
 
@@ -87,7 +91,7 @@
         },
 
         /**
-         *
+         * Generate the period selections
          */
         generate: function () {
 
@@ -117,7 +121,7 @@
         },
 
         /**
-         *
+         * Add a period selection to wrapper day
          * @param parent
          * @param id
          * @param position
@@ -162,7 +166,7 @@
                         //console.log(ui);
 
                         if(!$this.isValid($(ui.helper))) {
-                            console.error("Invalid Position");
+                            console.error($this.settings.invalidPosition);
                             $(ui.helper).css('top', Math.round(ui.originalPosition.top));
                         }
                     }
@@ -177,7 +181,7 @@
                         //console.log(ui);
 
                         if(!$this.isValid($(ui.helper))) {
-                            console.error("Invalid Position");
+                            console.error($this.settings.invalidPosition);
                             $(ui.helper).css('height', Math.round(ui.originalSize.height));
                         }
                     }
@@ -186,7 +190,7 @@
         },
 
         /**
-         *
+         * Return a readable period string from an element position
          * @param start
          * @param end
          * @returns {string}
@@ -196,7 +200,7 @@
         },
 
         /**
-         *
+         * Return a readable period string from a drag event
          * @param ui
          * @returns {string}
          */
@@ -208,7 +212,7 @@
         },
 
         /**
-         *
+         * Return a readable period string from a resize event
          * @param ui
          * @returns {string}
          */
@@ -220,7 +224,7 @@
         },
 
         /**
-         *
+         * Return an array with a readable period from an element
          * @param element
          * @returns {[*,*]}
          */
@@ -310,22 +314,18 @@
                     //console.log(currentStart, currentEnd, start, end);
 
                     if (start > currentStart && start < currentEnd) {
-                        //console.error("error 1");
                         check = false;
                     }
 
                     if (end > currentStart && end < currentEnd) {
-                        //console.error("error 2");
                         check = false;
                     }
 
                     if (start < currentStart && end > currentEnd) {
-                        //console.error("error 3");
                         check = false;
                     }
 
                     if (start === currentStart && end === currentEnd) {
-                        //console.error("error 4");
                         check = false;
                     }
                 }

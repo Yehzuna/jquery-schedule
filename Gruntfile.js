@@ -7,6 +7,22 @@ module.exports = function (grunt) {
                 'dist/'
             ]
         },
+        jshint: {
+            options: {
+                curly: true,
+                browser: true,
+                devel: true,
+                eqeqeq: true,
+                undef: true,
+                globals: {
+                    jQuery: true
+                }
+                //quotmark: "single"
+            },
+            dist: {
+                src: 'src/js'
+            }
+        },
         copy: {
             css: {
                 expand: true,
@@ -54,9 +70,11 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
 
     grunt.registerTask('default', [
         'clean',
+        'jshint',
         'compass:prod',
         'compass:dev',
         'copy:js',
