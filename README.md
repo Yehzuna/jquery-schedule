@@ -7,7 +7,7 @@
 
 ## Demo
 
-https://yehzuna.github.io/schedule/
+[Demo link](https://yehzuna.github.io/schedule/)
 
 ## Installation
 
