@@ -40,7 +40,6 @@ $("#schedule").jqs({
 });
 ```
 
-
 ## Options
 
 | Option | Type | Default | Description
@@ -52,8 +51,10 @@ $("#schedule").jqs({
 | `invalidPosition` | `string` | `Invalid position.` | 
 | `removePeriod` | `string` | `Remove this period ?` | 
 
+## Demo
 
-##TODO
+
+## TODO
 - [ ] Add a compact mode
 - [ ] 12-hour clock support
 
