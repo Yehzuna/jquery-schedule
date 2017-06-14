@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="utf-8">
-    <title>Demo</title>
+    <title>jQuery Schedule Demo</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="dist/jquery.schedule.css">
     <link rel="stylesheet" href="dist/jquery.schedule-demo.css">
@@ -10,10 +10,40 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </head>
 <body>
+<h1>jQuery Schedule Demo</h1>
 
 <h2>Edition mode</h2>
+<pre>
+$(function () {
+    $("#schedule").jqs({
+        mode: "edit"
+    });
+});
+</pre>
 <div id="schedule" class="jqs-demo"></div>
+
 <h2>Read mode</h2>
+<pre>
+$(function () {
+    $("#schedule2").jqs({
+        data: [
+            {
+                day: 0,
+                periods: [
+                    ["20:00", "00:00"],
+                    ["00:00", "02:00"]
+                ]
+            }, {
+                day: 3,
+                periods: [
+                    ["00:00", "08:30"],
+                    ["09:00", "12:00"]
+                ]
+            }
+        ]
+    });
+});
+</pre>
 <div id="schedule2" class="jqs-demo"></div>
 
 <script src="dist/jquery.schedule.js"></script>
@@ -29,9 +59,9 @@
                     day: 0,
                     periods: [
                         ["20:00", "00:00"],
-                        ["00:00", "02:00"]]
-                },
-                {
+                        ["00:00", "02:00"]
+                    ]
+                }, {
                     day: 3,
                     periods: [
                         ["00:00", "08:30"],

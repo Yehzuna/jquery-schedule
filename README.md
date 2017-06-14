@@ -5,6 +5,10 @@
 - jQuery >= 1.12.4
 - jQuery ui >= 1.12.1
 
+## Demo
+
+https://yehzuna.github.io/schedule/
+
 ## Installation
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -13,48 +17,87 @@
     <script src="dist/jquery.schedule.min.js"></script>
     <link rel="stylesheet" href="dist/jquery.schedule.min.css">
 
-## Usage examples
+## Usage
 
-```
+```javascript
 $("#schedule").jqs({
     mode: "edit"
 });
 
 $("#schedule").jqs({
-    mode: "read"
+    mode: "read",
     data: [
         {
-            day: 0,
-            periods: [
-                ["20:00", "00:00"],
-                ["00:00", "02:00"]]
-        },
-        {
-            day: 3,
-            periods: [
-                ["00:00", "08:30"],
-                ["09:00", "12:00"]
+            "day": 0,
+            "periods": [
+                ["00:00", "02:00"],
+                ["20:00", "00:00"]
             ]
         }
     ]
 });
 ```
 
+## Data Format
+
+```json
+[
+    {
+        "day": "Day number (0-6)",
+        "periods": [
+            ["Period start", "Period end"]
+        ]
+    }
+]
+```
+
+Example :
+```json
+[
+    {
+        "day": 0,
+        "periods": [
+            ["00:00", "02:00"]
+        ]
+    }
+]
+```
+
 ## Options
 
 | Option | Type | Default | Description
 | --- | --- |  --- |  --- |
-| `mode` | `string` | `read` | 
-| `data` | `array` | `[]` | 
-| `days` | `array` | `["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]` |
-| `invalidPeriod` | `string` | `Invalid period.` | 
-| `invalidPosition` | `string` | `Invalid position.` | 
-| `removePeriod` | `string` | `Remove this period ?` | 
+| `mode` | `string` | `read` | Define the schedule mode (read/edit)
+| `data` | `array` | `[]` | Add a list of period by day
+| `days` | `array` | `["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]` | Days list 
+| `invalidPeriod` | `string` | `Invalid period.` | Error message
+| `invalidPosition` | `string` | `Invalid position.` | Error message
+| `removePeriod` | `string` | `Remove this period ?` | Error message
 
-## Demo
 
+## Export
+
+```javascript
+// init
+$("#schedule").jqs();
+
+// export
+var data = $("#schedule").jqs('export');
+```
+Export example (json string) :
+```json
+[
+    {"day":0,"periods":[]},
+    {"day":1,"periods":[]},
+    {"day":2,"periods":[["10:30","13:00"]]},
+    {"day":3,"periods":[]},
+    {"day":4,"periods":[]},
+    {"day":5,"periods":[]},
+    {"day":6,"periods":[]}
+]
+```
 
 ## TODO
-- [ ] Add a compact mode
 - [ ] 12-hour clock support
+- [ ] Add a compact mode
 
