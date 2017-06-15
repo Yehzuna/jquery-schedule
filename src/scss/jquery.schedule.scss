@@ -46,6 +46,9 @@ $zone: 20px;
         top: ($zone/2 - 3) * -1;
         left: ($gutter * 2.5) * -1;
         font-size: 12px;
+        display: block;
+        width: 42px;
+        text-align: right;
       }
       &:before {
         content: "";
@@ -100,8 +103,8 @@ $zone: 20px;
     .jqs-remove {
       display: none;
       position: absolute;
-      bottom: 0px;
-      right: 0px;
+      bottom: 0;
+      right: 0;
       height: 14px;
       width: 14px;
       cursor: pointer;

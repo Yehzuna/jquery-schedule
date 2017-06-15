@@ -68,8 +68,9 @@ Example :
 | Option | Type | Default | Description
 | --- | --- |  --- |  --- |
 | `mode` | `string` | `read` | Define the schedule mode (read/edit)
+| `hour` | `int` | `24` | Set the 12-hour or 24-hour clock (12/24)
 | `data` | `array` | `[]` | Add a list of period by day
-| `days` | `array` | `["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]` | Days list 
+| `days` | `array` | `["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]` | Days list 
 | `invalidPeriod` | `string` | `Invalid period.` | Error message
 | `invalidPosition` | `string` | `Invalid position.` | Error message
 | `removePeriod` | `string` | `Remove this period ?` | Error message

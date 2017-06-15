@@ -6,16 +6,16 @@
         defaults = {
             mode: "read", // edit
             //display: "full", //compact
-            //hour: "24",
+            hour: 24,
             data: [],
             days: [
-                "Lundi",
-                "Mardi",
-                "Mercredi",
-                "Jeudi",
-                "Vendredi",
-                "Samedi",
-                "Dimanche"
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday"
             ],
             invalidPeriod: "Invalid period.",
             invalidPosition: "Invalid position.",
@@ -241,19 +241,43 @@
          * @returns {number}
          */
         periodFormat: function (position) {
-            if (position >= 48) {
-                position = 0;
-            }
+            var hour = 0;
 
-            var hour = Math.floor(position / 2);
-            if (hour < 10) {
-                hour = "0" + hour;
-            }
+            if(this.settings.hour === 24) {
+                if (position >= 48) {
+                    position = 0;
+                }
 
-            if (position % 2 === 0) {
-                hour += ":00";
+                hour = Math.floor(position / 2);
+                if (hour < 10) {
+                    hour = "0" + hour;
+                }
+
+                if (position % 2 === 0) {
+                    hour += ":00";
+                } else {
+                    hour += ":30";
+                }
             } else {
-                hour += ":30";
+                var calc = Math.floor(position / 2);
+
+                var min = ":30";
+                if (position % 2 === 0) {
+                    min = "";
+                }
+
+                hour = calc + min + "am";
+                if (calc > 12) {
+                    hour = (calc-12) + min + "pm";
+                }
+
+                if (calc === 0 || calc === 24) {
+                    hour = 12  + min + "am";
+                }
+
+                if (calc === 12) {
+                    hour = 12 + min + "pm";
+                }
             }
 
             return hour;
@@ -281,14 +305,33 @@
          * @returns {string}
          */
         formatHour: function (hour) {
-            if (hour >= 24) {
-                hour = 0;
-            }
+            if(this.settings.hour === 24) {
+                if (hour >= 24) {
+                    hour = 0;
+                }
 
-            if (hour < 10) {
-                hour = "0" + hour;
+                if (hour < 10) {
+                    hour = "0" + hour;
+                }
+                hour += ":00";
+
+            } else {
+                switch (hour) {
+                    case 0:
+                    case 24:
+                        hour = "12 am";
+                        break;
+                    case 12:
+                        hour = "12 pm";
+                        break;
+                    default:
+                        if (hour > 12) {
+                            hour = (hour-12) + " pm";
+                        } else {
+                            hour += " am";
+                        }
+                }
             }
-            hour += ":00";
 
             return hour;
         },
