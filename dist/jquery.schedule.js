@@ -253,7 +253,7 @@
 
                 var min = ":30";
                 if (position % 2 === 0) {
-                    min = ":00";
+                    min = "";
                 }
 
                 hour = calc + min + "am";
@@ -296,11 +296,10 @@
          */
         positionFormat: function (hour) {
             var position = 0;
-            console.log(hour);
 
             if(this.settings.hour === 12) {
-                var matches = hour.match(/([0-1][0-9]):([0-5][0-9])\s?(am|pm)/);
-                console.log(matches);
+                var matches = hour.match(/([0-1]?[0-9]):?([0-5][0-9])?\s?(am|pm)/);
+                //console.log(matches);
 
                 var h = parseInt(matches[1]);
                 var m = parseInt(matches[2]);
@@ -313,7 +312,7 @@
                     time = "am";
                 }
                 if (time === "pm") {
-                    h = h * 2;
+                    h += 12;
                 }
 
                 position = h * 2;

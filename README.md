@@ -2,8 +2,9 @@
 
 ## Requirements
 
-- jQuery >= 1.12.4
-- jQuery ui >= 1.12.1
+jQuery >= 1.12.4
+
+jQuery ui >= 1.12.1
 
 ## Demo
 
@@ -43,15 +44,30 @@ $("#schedule").jqs({
 ```json
 [
     {
-        "day": "Day number (0-6)",
+        "day": "Day number",
         "periods": [
             ["Period start", "Period end"]
         ]
     }
 ]
 ```
+#### Day format
+> 0 to 6
 
-Example :
+> Monday to Sunday
+
+
+
+#### Hour format
+
+12-hour clock 
+>hh:mm am/pm
+
+24-hour clock 
+> hh:mm
+
+
+#### Example
 ```json
 [
     {
