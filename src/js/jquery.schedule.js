@@ -141,8 +141,10 @@
             // new element
             var period = this.periodInit(position, position + height);
             var element = $('<div class="jqs-period"><div class="jqs-period-placeholder">' + remove + '<span>' + period + '</span></div></div>')
-                .css('top', position * 20)
-                .css('height', height * 20)
+                .css({
+                    'top': position * 20,
+                    'height': height * 20
+                })
                 .attr('id', id)
                 .appendTo(parent);
 
@@ -182,7 +184,10 @@
 
                         if(!$this.isValid($(ui.helper))) {
                             console.error($this.settings.invalidPosition);
-                            $(ui.helper).css('height', Math.round(ui.originalSize.height));
+                            $(ui.helper).css({
+                                'height': Math.round(ui.originalSize.height),
+                                'top': Math.round(ui.originalPosition.top)
+                            });
                         }
                     }
                 });
@@ -243,27 +248,12 @@
         periodFormat: function (position) {
             var hour = 0;
 
-            if(this.settings.hour === 24) {
-                if (position >= 48) {
-                    position = 0;
-                }
-
-                hour = Math.floor(position / 2);
-                if (hour < 10) {
-                    hour = "0" + hour;
-                }
-
-                if (position % 2 === 0) {
-                    hour += ":00";
-                } else {
-                    hour += ":30";
-                }
-            } else {
+            if(this.settings.hour === 12) {
                 var calc = Math.floor(position / 2);
 
                 var min = ":30";
                 if (position % 2 === 0) {
-                    min = "";
+                    min = ":00";
                 }
 
                 hour = calc + min + "am";
@@ -278,6 +268,22 @@
                 if (calc === 12) {
                     hour = 12 + min + "pm";
                 }
+            } else {
+
+                if (position >= 48) {
+                    position = 0;
+                }
+
+                hour = Math.floor(position / 2);
+                if (hour < 10) {
+                    hour = "0" + hour;
+                }
+
+                if (position % 2 === 0) {
+                    hour += ":00";
+                } else {
+                    hour += ":30";
+                }
             }
 
             return hour;
@@ -289,11 +295,17 @@
          * @returns {number}
          */
         positionFormat: function (hour) {
-            var split = hour.split(":");
-            var position = parseInt(split[0]) * 2;
+            if(this.settings.hour === 12) {
+                var matches = hour.matches(/([0-1][0-9]):([0-5][0-9])\s?(am|pm)/i);
 
-            if (parseInt(split[1]) === 30) {
-                position++;
+
+            } else {
+                var split = hour.split(":");
+                var position = parseInt(split[0]) * 2;
+
+                if (parseInt(split[1]) === 30) {
+                    position++;
+                }
             }
 
             return position;
@@ -305,17 +317,7 @@
          * @returns {string}
          */
         formatHour: function (hour) {
-            if(this.settings.hour === 24) {
-                if (hour >= 24) {
-                    hour = 0;
-                }
-
-                if (hour < 10) {
-                    hour = "0" + hour;
-                }
-                hour += ":00";
-
-            } else {
+            if(this.settings.hour === 12) {
                 switch (hour) {
                     case 0:
                     case 24:
@@ -331,6 +333,16 @@
                             hour += " am";
                         }
                 }
+            } else {
+
+                if (hour >= 24) {
+                    hour = 0;
+                }
+
+                if (hour < 10) {
+                    hour = "0" + hour;
+                }
+                hour += ":00";
             }
 
             return hour;
