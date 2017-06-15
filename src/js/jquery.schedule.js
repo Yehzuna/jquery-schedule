@@ -141,8 +141,10 @@
             // new element
             var period = this.periodInit(position, position + height);
             var element = $('<div class="jqs-period"><div class="jqs-period-placeholder">' + remove + '<span>' + period + '</span></div></div>')
-                .css('top', position * 20)
-                .css('height', height * 20)
+                .css({
+                    'top': position * 20,
+                    'height': height * 20
+                })
                 .attr('id', id)
                 .appendTo(parent);
 
@@ -182,7 +184,10 @@
 
                         if(!$this.isValid($(ui.helper))) {
                             console.error($this.settings.invalidPosition);
-                            $(ui.helper).css('height', Math.round(ui.originalSize.height));
+                            $(ui.helper).css({
+                                'height': Math.round(ui.originalSize.height),
+                                'top': Math.round(ui.originalPosition.top)
+                            });
                         }
                     }
                 });
