@@ -50,23 +50,17 @@ $(function () {
 <script>
     $(function () {
         $("#schedule").jqs({
-            hour: 12,
             mode: "edit"
         });
 
         $("#schedule2").jqs({
+            hour: 12,
             data: [
                 {
                     day: 0,
                     periods: [
-                        ["20:00", "00:00"],
-                        ["00:00", "02:00"]
-                    ]
-                }, {
-                    day: 3,
-                    periods: [
-                        ["00:00", "08:30"],
-                        ["09:00", "12:00"]
+                        ["10:00pm", "12:00am"],
+                        ["12:00am", "2:00am"]
                     ]
                 }
             ]

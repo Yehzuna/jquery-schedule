@@ -1,0 +1,36 @@
+/* line 1, ../src/scss/jquery.schedule-demo.scss */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  background: #fefefe;
+  font-family: system, -apple-system, Roboto, Helvetica Neue, Arial, Helvetica, Geneva, sans-serif;
+}
+
+/* line 9, ../src/scss/jquery.schedule-demo.scss */
+body {
+  margin: 10px;
+}
+
+/* line 13, ../src/scss/jquery.schedule-demo.scss */
+h2 {
+  text-decoration: underline;
+}
+
+/* line 17, ../src/scss/jquery.schedule-demo.scss */
+pre {
+  width: 800px;
+  padding: 20px;
+  background: #eee;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+/* line 25, ../src/scss/jquery.schedule-demo.scss */
+.jqs-demo {
+  width: 800px;
+  height: 600px;
+  background: #fff;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+}
