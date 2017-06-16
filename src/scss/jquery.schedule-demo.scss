@@ -22,6 +22,16 @@ pre {
   box-sizing: border-box;
 }
 
+textarea {
+  width: 800px;
+  height: 100px;
+  margin-bottom: 20px;
+}
+
+.export-container {
+  margin-bottom: 20px;
+}
+
 .jqs-demo {
   width: 800px;
   height: 600px;

@@ -4,7 +4,7 @@
     // Defaults options
     var pluginName = "jqs",
         defaults = {
-            mode: "read", // edit
+            mode: "edit", // read
             //display: "full", //compact
             hour: 24,
             data: [],

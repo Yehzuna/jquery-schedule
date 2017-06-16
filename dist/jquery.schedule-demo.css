@@ -27,6 +27,18 @@ pre {
 }
 
 /* line 25, ../src/scss/jquery.schedule-demo.scss */
+textarea {
+  width: 800px;
+  height: 100px;
+  margin-bottom: 20px;
+}
+
+/* line 31, ../src/scss/jquery.schedule-demo.scss */
+.export-container {
+  margin-bottom: 20px;
+}
+
+/* line 35, ../src/scss/jquery.schedule-demo.scss */
 .jqs-demo {
   width: 800px;
   height: 600px;

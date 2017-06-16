@@ -14,47 +14,86 @@
 
 <h2>Edition mode</h2>
 <pre>
-$(function () {
-    $("#schedule").jqs({
-        mode: "edit"
-    });
-});
+$("#schedule").jqs();
 </pre>
 <div id="schedule" class="jqs-demo"></div>
 
+<input type="button" value="Export" id="export" />
+<pre>
+$("#schedule").jqs('export');
+</pre>
+
+<textarea id="result"></textarea>
+
 <h2>Read mode</h2>
 <pre>
-$(function () {
-    $("#schedule2").jqs({
-        hour: 12,
-        data: [
-            {
-                day: 0,
-                periods: [
-                    ["10pm", "12am"],
-                    ["12am", "2:30am"]
-                ]
-            }, {
-                day: 3,
-                periods: [
-                    ["10am", "1pm"],
-                    ["5pm", "11pm"]
-                ]
-            }
-        ]
-    });
+$("#schedule2").jqs({
+    mode: "read",
+    data: [
+        {
+            day: 0,
+            periods: [
+                ["20:00", "00:00"],
+                ["00:00", "02:00"]
+            ]
+        }, {
+            day: 3,
+            periods: [
+                ["00:00", "08:30"],
+                ["09:00", "12:00"]
+            ]
+        }
+    ]
 });
 </pre>
 <div id="schedule2" class="jqs-demo"></div>
 
+<h2>Translation & 12-hour clock</h2>
+<pre>
+$("#schedule3").jqs({
+    mode: "read",
+    days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
+    hour: 12,
+    data: [
+        {
+            day: 0,
+            periods: [
+                ["10pm", "12am"],
+                ["12am", "2:30am"]
+            ]
+        }
+    ]
+});
+</pre>
+<div id="schedule3" class="jqs-demo"></div>
+
 <script src="dist/jquery.schedule.js"></script>
 <script>
     $(function () {
-        $("#schedule").jqs({
-            mode: "edit"
-        });
+        $("#schedule").jqs();
 
         $("#schedule2").jqs({
+            mode: "read",
+            data: [
+                {
+                    day: 0,
+                    periods: [
+                        ["20:00", "00:00"],
+                        ["00:00", "02:00"]
+                    ]
+                }, {
+                    day: 3,
+                    periods: [
+                        ["00:00", "08:30"],
+                        ["09:00", "12:00"]
+                    ]
+                }
+            ]
+        });
+
+        $("#schedule3").jqs({
+            mode: "read",
+            days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
             hour: 12,
             data: [
                 {
@@ -63,16 +102,14 @@ $(function () {
                         ["10pm", "12am"],
                         ["12am", "2:30am"]
                     ]
-                }, {
-                    day: 3,
-                    periods: [
-                        ["10am", "1pm"],
-                        ["5pm", "11pm"]
-                    ]
                 }
             ]
         });
-    })
+
+        $("#export").click(function () {
+            $("#result").val($("#schedule").jqs('export'));
+        })
+    });
 </script>
 
 </body>

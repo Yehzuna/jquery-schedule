@@ -1,5 +1,7 @@
 # jQuery Schedule (jqs)
 
+
+
 ## Requirements
 
 jQuery >= 1.12.4
@@ -21,9 +23,7 @@ jQuery ui >= 1.12.1
 ## Usage
 
 ```javascript
-$("#schedule").jqs({
-    mode: "edit"
-});
+$("#schedule").jqs();
 
 $("#schedule").jqs({
     mode: "read",
@@ -37,6 +37,19 @@ $("#schedule").jqs({
         }
     ]
 });
+
+$("#schedule").jqs({
+    hour: 12,
+    data: [
+        {
+            "day": 0,
+            "periods": [
+                ["1pm", "3:30pm"]
+            ]
+        }
+    ]
+});
+
 ```
 
 ## Data Format
@@ -56,16 +69,13 @@ $("#schedule").jqs({
 
 > Monday to Sunday
 
-
-
 #### Hour format
-
-12-hour clock 
->hh:mm am/pm
 
 24-hour clock 
 > hh:mm
 
+12-hour clock 
+>hh:mm am/pm
 
 #### Example
 ```json
@@ -83,7 +93,7 @@ $("#schedule").jqs({
 
 | Option | Type | Default | Description
 | --- | --- |  --- |  --- |
-| `mode` | `string` | `read` | Define the schedule mode (read/edit)
+| `mode` | `string` | `edit` | Define the schedule mode (read/edit)
 | `hour` | `int` | `24` | Set the 12-hour or 24-hour clock (12/24)
 | `data` | `array` | `[]` | Add a list of period by day
 | `days` | `array` | `["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]` | Days list 
