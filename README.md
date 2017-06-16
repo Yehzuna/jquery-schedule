@@ -115,7 +115,6 @@ Export example (json string) :
 ```
 
 ## TODO
-- [ ] 12-hour clock support
-- [ ] Popup error
+- [x] 12-hour clock support
 - [ ] Add a compact mode
 
