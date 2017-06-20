@@ -1,14 +1,29 @@
 {
+  "title": "jQuery Schedule",
   "name": "jquery-schedule",
   "version": "1.0.0",
-  "description": "A schedule plugin with jquery",
-  "main": "index.html",
-  "repository": "https://github.com/Yehzuna/schedule.git",
-  "license": "MIT",
-  "dependencies": {
-    "jquery": "^3.2.1",
-    "jquery-ui": "^1.12.1"
+  "description": "A jQuery plugin for schedule management.",
+  "keywords": [
+    "schedule",
+    "management",
+    "jquery",
+    "jquery-ui",
+    "jquery-plugin"
+  ],
+  "author": {
+    "name": "Thomas BORUSZEWSKI",
+    "email": "yehzuna@outlook.com"
   },
+  "homepage": "https://github.com/Yehzuna/jquery-schedule",
+  "main": "dist/jquery.schedule.min.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yehzuna/jquery-schedule.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Yehzuna/jquery-schedule/issues"
+  },
+  "license": "MIT",
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "^1.1.0",

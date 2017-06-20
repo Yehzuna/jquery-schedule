@@ -1,6 +1,4 @@
-# jQuery Schedule (jqs)
-
-
+# jQuery Schedule
 
 ## Requirements
 
@@ -10,7 +8,7 @@ jQuery ui >= 1.12.1
 
 ## Demo
 
-[Demo link](https://yehzuna.github.io/schedule/)
+[Demo link](https://yehzuna.github.io/jquery-schedule/)
 
 ## Installation
 
@@ -102,7 +100,9 @@ $("#schedule").jqs({
 | `removePeriod` | `string` | `Remove this period ?` | Error message
 
 
-## Export
+## Methods 
+
+#### Export
 
 ```javascript
 // init
