@@ -2,8 +2,8 @@
   "name": "jquery-schedule",
   "description": "A jQuery plugin for schedule management.",
   "main": [
-    "dist/jquery.schedule.min.js",
-    "dist/jquery.schedule.min.css"
+    "dist/jquery.schedule.js",
+    "dist/jquery.schedule.css"
   ],
   "authors": [
     "Thomas BORUSZEWSKI <yehzuna@outlook.com>"
