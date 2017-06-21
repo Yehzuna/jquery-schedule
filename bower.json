@@ -1,0 +1,31 @@
+{
+  "name": "jquery-schedule",
+  "description": "A jQuery plugin for schedule management.",
+  "main": [
+    "dist/jquery.schedule.min.js",
+    "dist/jquery.schedule.min.css"
+  ],
+  "authors": [
+    "Thomas BORUSZEWSKI <yehzuna@outlook.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "schedule",
+    "management",
+    "jquery",
+    "jquery-ui",
+    "jquery-plugin"
+  ],
+  "dependencies": {
+    "jquery": ">=1.12.4",
+    "jquery-ui": ">=1.12.1"
+  },
+  "homepage": "https://github.com/Yehzuna/jquery-schedule",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
