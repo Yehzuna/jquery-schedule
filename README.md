@@ -1,5 +1,7 @@
 # jQuery Schedule
 
+A simple schedule management with jQuery.
+
 ## Requirements
 
 jQuery >= 1.12.4
@@ -11,6 +13,17 @@ jQuery ui >= 1.12.1
 [Demo link](https://yehzuna.github.io/jquery-schedule/)
 
 ## Installation
+
+**bower**
+
+    bower install jquery-schedule
+    
+**npm**
+
+    npm install jquery-schedule
+
+    
+**scripts**
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -111,7 +124,8 @@ $("#schedule").jqs();
 // export
 var data = $("#schedule").jqs('export');
 ```
-Export example (json string) :
+Export example (json) :
+
 ```json
 [
     {"day":0,"periods":[]},
