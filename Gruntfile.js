@@ -54,7 +54,8 @@ module.exports = function (grunt) {
             dev: {
                 options: {
                     sassDir: 'src/scss/',
-                    cssDir: 'dist/'
+                    cssDir: 'dist/',
+                    noLineComments: true
                 }
             },
             prod: {
