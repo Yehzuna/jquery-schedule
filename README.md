@@ -2,6 +2,9 @@
 
 A simple schedule management with jQuery.
 
+[![Version](https://img.shields.io/npm/v/jquery-schedule.svg)](https://www.npmjs.org/package/jquery-schedule)
+[![Version](https://img.shields.io/bower/v/jquery-schedule.svg)](https://github.com/Yehzuna/jquery-schedule)
+
 ## Requirements
 
 jQuery >= 1.12.4
@@ -141,4 +144,5 @@ Export example (json) :
 ## TODO
 - [x] 12-hour clock support
 - [ ] Add a compact mode
+- [ ] Theme
 
