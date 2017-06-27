@@ -1,7 +1,7 @@
 {
   "title": "jQuery Schedule",
   "name": "jquery-schedule",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A jQuery plugin for schedule management.",
   "keywords": [
     "schedule",
@@ -26,10 +26,12 @@
   "license": "MIT",
   "devDependencies": {
     "grunt": "^1.0.1",
+    "grunt-banner": "^0.6.0",
     "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-compass": "^1.1.1",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-uglify": "^3.0.1"
-  }
+  },
+  "dependencies": {}
 }

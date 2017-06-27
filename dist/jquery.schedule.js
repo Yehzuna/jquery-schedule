@@ -1,3 +1,8 @@
+/**
+ * jQuery Schedule v1.0.1
+ * https://github.com/Yehzuna/jquery-schedule
+ * Thomas BORUSZEWSKI <yehzuna@outlook.com>
+ */
 ;(function ($, window, document, undefined) {
     "use strict";
 
@@ -33,7 +38,7 @@
 
     $.extend(Plugin.prototype, {
         /**
-         *
+         * Plugin init
          */
         init: function () {
             var $this = this;
@@ -401,7 +406,7 @@
                         check = false;
                     }
 
-                    if (start === currentStart && end === currentEnd) {
+                    if (start === currentStart || end === currentEnd) {
                         check = false;
                     }
                 }

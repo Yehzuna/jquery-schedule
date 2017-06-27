@@ -1,7 +1,7 @@
 module.exports = function (grunt) {
 
     grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
+        package: grunt.file.readJSON('package.json'),
         clean: {
             dist: [
                 'dist/',
@@ -18,7 +18,6 @@ module.exports = function (grunt) {
                 globals: {
                     jQuery: true
                 }
-                //quotmark: "single"
             },
             dist: {
                 src: 'src/js'
@@ -54,7 +53,8 @@ module.exports = function (grunt) {
             dev: {
                 options: {
                     sassDir: 'src/scss/',
-                    cssDir: 'dist/'
+                    cssDir: 'dist/',
+                    noLineComments: true
                 }
             },
             prod: {
@@ -64,6 +64,40 @@ module.exports = function (grunt) {
                     environment: 'production'
                 }
             }
+        },
+        usebanner: {
+            options: {
+                position: 'top',
+                linebreak: true
+            },
+            dev: {
+                options: {
+                    banner: '/**\n' +
+                    ' * jQuery Schedule v<%= package.version %>\n' +
+                    ' * <%= package.homepage %>\n' +
+                    ' * <%= package.author.name %> <<%= package.author.email %>>\n' +
+                    ' */'
+                },
+                expand: true,
+                cwd: 'dist/',
+                src: [
+                    '*.js',
+                    '*.css',
+                    '!*.min.js',
+                    '!*.min.css'
+                ]
+            },
+            prod: {
+                options: {
+                    banner: '/** jQuery Schedule v<%= package.version %> | <%= package.homepage %> */',
+                },
+                expand: true,
+                cwd: 'dist/',
+                src: [
+                    '*.min.js',
+                    '*.min.css'
+                ]
+            }
         }
     });
 
@@ -72,6 +106,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-banner');
 
     grunt.registerTask('default', [
         'clean',
@@ -80,6 +115,8 @@ module.exports = function (grunt) {
         'compass:dev',
         'copy:js',
         'copy:css',
-        'uglify'
+        'uglify',
+        'usebanner:dev',
+        'usebanner:prod'
     ]);
 };
