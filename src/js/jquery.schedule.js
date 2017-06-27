@@ -33,7 +33,7 @@
 
     $.extend(Plugin.prototype, {
         /**
-         *
+         * Plugin init
          */
         init: function () {
             var $this = this;

@@ -1,3 +1,8 @@
+/**
+ * jQuery Schedule v1.0.0
+ * https://github.com/Yehzuna/jquery-schedule
+ * Thomas BORUSZEWSKI <yehzuna@outlook.com>
+ */
 ;(function ($, window, document, undefined) {
     "use strict";
 

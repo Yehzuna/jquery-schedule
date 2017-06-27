@@ -2,9 +2,9 @@
 
 # 1.0.1
 
-* Remove comments to css files
+* Add a descriptive banner to all dist files
+* Remove compass comments to css files
 * Add npm and bower badges to the README
-* Update TODO list
 * Add a CHANGELOG file
 
 # 1.0.0
