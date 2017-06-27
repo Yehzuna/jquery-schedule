@@ -24,7 +24,10 @@ jQuery ui >= 1.12.1
 **npm**
 
     npm install jquery-schedule
-
+    
+**yarn**
+    
+    yarn add jquery-schedule
     
 **scripts**
 
