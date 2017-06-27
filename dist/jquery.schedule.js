@@ -38,7 +38,7 @@
 
     $.extend(Plugin.prototype, {
         /**
-         *
+         * Plugin init
          */
         init: function () {
             var $this = this;
@@ -406,7 +406,7 @@
                         check = false;
                     }
 
-                    if (start === currentStart && end === currentEnd) {
+                    if (start === currentStart || end === currentEnd) {
                         check = false;
                     }
                 }

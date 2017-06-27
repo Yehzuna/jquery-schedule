@@ -401,7 +401,7 @@
                         check = false;
                     }
 
-                    if (start === currentStart && end === currentEnd) {
+                    if (start === currentStart || end === currentEnd) {
                         check = false;
                     }
                 }
