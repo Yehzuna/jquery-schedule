@@ -123,3 +123,50 @@
 .jqs .jqs-period:hover .jqs-remove {
   display: block;
 }
+.jqs .jqs-dialog-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.5);
+}
+.jqs .jqs-dialog-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  z-index: 15;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.jqs .jqs-dialog-container .jqs-dialog {
+  padding: 25px;
+  background: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+.jqs .jqs-dialog-container .jqs-dialog-txt {
+  padding: 5px 0;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+.jqs .jqs-dialog-container .jqs-dialog-yes,
+.jqs .jqs-dialog-container .jqs-dialog-no {
+  display: inline-block;
+  cursor: pointer;
+  width: 100px;
+  text-align: center;
+  padding: 10px 20px;
+  color: #106CC8;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+.jqs .jqs-dialog-container .jqs-dialog-yes:hover,
+.jqs .jqs-dialog-container .jqs-dialog-no:hover {
+  background: rgba(158, 158, 158, 0.2);
+}

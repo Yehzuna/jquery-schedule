@@ -121,6 +121,14 @@ $("#schedule").jqs({
 | `removePeriod` | `string` | `Remove this period ?` | The confirmation dialog message
 
 
+## Theming
+
+| CSS Class | Description
+| --- | --- |  
+| `.jqs` | Main container |
+| `.jqs-grid` | Main container |
+| `.jqs-grid` | Main container |
+
 ## Methods 
 
 #### Export
