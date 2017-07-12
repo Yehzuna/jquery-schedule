@@ -12,7 +12,6 @@
             debug: false,
             mode: "edit", // read
             confirm: true,
-            //display: "full", //compact
             hour: 24,
             data: [],
             days: [
@@ -100,7 +99,7 @@
             $('<div class="jqs-grid"><div class="jqs-grid-head"></div></div>').appendTo($(this.element));
 
             for (var j = 0; j < 25; j++) {
-                $('<div class="jqs-grid-line"><span>' + this.formatHour(j) + '</span></div>').appendTo($(".jqs-grid", this.element));
+                $('<div class="jqs-grid-line"><div class="jqs-grid-hour">' + this.formatHour(j) + '</div></div>').appendTo($(".jqs-grid", this.element));
             }
 
             for (var k = 0; k < 7; k++) {
@@ -159,8 +158,8 @@
             }
 
             // new element
-            var period = this.periodInit(position, position + height);
-            var element = $('<div class="jqs-period"><div class="jqs-period-placeholder">' + remove + '<span>' + period + '</span></div></div>')
+            var period = '<div class="jqs-period-title">' + this.periodInit(position, position + height) + '</div>';
+            var element = $('<div class="jqs-period"><div class="jqs-period-container">' + remove + period + '</div></div>')
                 .css({
                     'top': position * 20,
                     'height': height * 20
@@ -185,7 +184,7 @@
                     grid: [0, 20],
                     containment: "parent",
                     drag: function (event, ui) {
-                        $('span', ui.helper).text($this.periodDrag(ui));
+                        $(".jqs-period-title", ui.helper).text($this.periodDrag(ui));
                     },
                     stop: function (event, ui) {
                         //console.log(ui);
@@ -203,7 +202,7 @@
                     containment: "parent",
                     handles: "n, s",
                     resize: function (event, ui) {
-                        $('span', ui.helper).text($this.periodResize(ui));
+                        $(".jqs-period-title", ui.helper).text($this.periodResize(ui));
                     },
                     stop: function (event, ui) {
                         //console.log(ui);
