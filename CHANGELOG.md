@@ -1,5 +1,10 @@
 # jQuery Schedule
 
+# 1.1.0
+* Add debug option to remove console errors in production mode 
+* Add confirm option. Show a confirmation dialog when removing a period
+* Add custom confirmation dialog
+
 # 1.0.1
 
 * Fixed : Periods overlaps when a period extremity overlaps another

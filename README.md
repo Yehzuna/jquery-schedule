@@ -110,13 +110,15 @@ $("#schedule").jqs({
 
 | Option | Type | Default | Description
 | --- | --- |  --- |  --- |
-| `mode` | `string` | `edit` | Define the schedule mode (read/edit)
+| `debug` | `bool` | `false` | Show log/error messages in console
+| `mode` | `string` | `edit` | Define the schedule mode (read or edit)
+| `confirm` | `bool` | `true` | Show a confirmation dialog when removing a period
 | `hour` | `int` | `24` | Set the 12-hour or 24-hour clock (12/24)
 | `data` | `array` | `[]` | Add a list of period by day
 | `days` | `array` | `["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]` | Days list 
-| `invalidPeriod` | `string` | `Invalid period.` | Error message
-| `invalidPosition` | `string` | `Invalid position.` | Error message
-| `removePeriod` | `string` | `Remove this period ?` | Error message
+| `invalidPeriod` | `string` | `Invalid period.` | Debug message
+| `invalidPosition` | `string` | `Invalid position.` | Debug message
+| `removePeriod` | `string` | `Remove this period ?` | The confirmation dialog message
 
 
 ## Methods 
