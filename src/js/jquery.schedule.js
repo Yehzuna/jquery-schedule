@@ -21,7 +21,9 @@
             ],
             invalidPeriod: "Invalid period.",
             invalidPosition: "Invalid position.",
-            removePeriod: "Remove this period ?"
+            removePeriod: "Remove this period ?",
+            dialogYes: "Yes",
+            dialogNo: "No"
         };
 
     // Plugin constructor
@@ -62,9 +64,10 @@
                 // delete a selection
                 if ($this.settings.confirm) {
                     $(this.element).on('click', ".jqs-remove", function () {
-                        if (confirm($this.settings.removePeriod)) {
-                            $(this).parents(".jqs-period").remove();
-                        }
+                        var element = $(this).parents(".jqs-period");
+                        $this.dialogOpen($this.settings.removePeriod, function () {
+                            element.remove();
+                        });
                     });
                 } else {
                     $(this.element).on('click', ".jqs-remove", function () {
@@ -182,7 +185,7 @@
                     stop: function (event, ui) {
                         //console.log(ui);
 
-                        if(!$this.isValid($(ui.helper))) {
+                        if (!$this.isValid($(ui.helper))) {
                             if ($this.settings.debug) {
                                 console.error($this.settings.invalidPosition);
                             }
@@ -200,7 +203,7 @@
                     stop: function (event, ui) {
                         //console.log(ui);
 
-                        if(!$this.isValid($(ui.helper))) {
+                        if (!$this.isValid($(ui.helper))) {
                             if ($this.settings.debug) {
                                 console.error($this.settings.invalidPosition);
                             }
@@ -269,7 +272,7 @@
         periodFormat: function (position) {
             var hour = 0;
 
-            if(this.settings.hour === 12) {
+            if (this.settings.hour === 12) {
                 var calc = Math.floor(position / 2);
 
                 var min = ":30";
@@ -279,11 +282,11 @@
 
                 hour = calc + min + "am";
                 if (calc > 12) {
-                    hour = (calc-12) + min + "pm";
+                    hour = (calc - 12) + min + "pm";
                 }
 
                 if (calc === 0 || calc === 24) {
-                    hour = 12  + min + "am";
+                    hour = 12 + min + "am";
                 }
 
                 if (calc === 12) {
@@ -318,7 +321,7 @@
         positionFormat: function (hour) {
             var position = 0;
 
-            if(this.settings.hour === 12) {
+            if (this.settings.hour === 12) {
                 var matches = hour.match(/([0-1]?[0-9]):?([0-5][0-9])?\s?(am|pm)/);
                 //console.log(matches);
 
@@ -359,7 +362,7 @@
          * @returns {string}
          */
         formatHour: function (hour) {
-            if(this.settings.hour === 12) {
+            if (this.settings.hour === 12) {
                 switch (hour) {
                     case 0:
                     case 24:
@@ -370,7 +373,7 @@
                         break;
                     default:
                         if (hour > 12) {
-                            hour = (hour-12) + " pm";
+                            hour = (hour - 12) + " pm";
                         } else {
                             hour += " am";
                         }
@@ -453,6 +456,46 @@
             });
 
             return JSON.stringify(data);
+        },
+
+        /**
+         * Open a confirmation dialog
+         * @param text
+         * @param success
+         */
+        dialogOpen: function (text, success) {
+            var $this = this;
+
+            $this.dialogClose();
+
+            var overlay = $('<div class="jqs-dialog-overlay">');
+            var height = $(this.element).prop('scrollHeight');
+            overlay.css('height', height);
+
+            var content = '<div class="jqs-dialog-txt">' + text + '</div>' +
+                '<div class="jqs-dialog-no">' + $this.settings.dialogNo + '</div>' +
+                '<div class="jqs-dialog-yes">' + $this.settings.dialogYes + '</div>';
+            var dialog = $('<div class="jqs-dialog-container"><div class="jqs-dialog">' + content + '</div></div>');
+            var scroll = $(this.element).scrollTop();
+            dialog.css('top', scroll);
+
+            $(this.element).append(overlay).append(dialog);
+
+            $(".jqs-dialog-yes", dialog).click(function () {
+                success();
+                $this.dialogClose();
+            });
+
+            $(".jqs-dialog-no", dialog).click(function () {
+                $this.dialogClose();
+            });
+        },
+
+        /**
+         * Close a dialog
+         */
+        dialogClose: function () {
+            $('.jqs-dialog-overlay, .jqs-dialog-container').remove();
         }
     });
 
@@ -466,7 +509,7 @@
             }
         });
 
-        if(ret) {
+        if (ret) {
             return ret;
         }
 
