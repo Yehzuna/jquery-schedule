@@ -1,5 +1,5 @@
 /**
- * jQuery Schedule v1.0.1
+ * jQuery Schedule v1.1.0
  * https://github.com/Yehzuna/jquery-schedule
  * Thomas BORUSZEWSKI <yehzuna@outlook.com>
  */
@@ -9,7 +9,9 @@
     // Defaults options
     var pluginName = "jqs",
         defaults = {
+            debug: false,
             mode: "edit", // read
+            confirm: true,
             //display: "full", //compact
             hour: 24,
             data: [],
@@ -48,7 +50,7 @@
             if (this.settings.mode === "edit") {
                 // bind event
                 $(this.element).on('click', ".jqs-wrapper", function (event) {
-                    // add new selections
+                    // add a new selection
                     if ($(event.target).hasClass("jqs-period") || $(event.target).parents(".jqs-period").length > 0) {
                         return false;
                     }
@@ -60,12 +62,20 @@
 
                     $this.add($(this), "id_" + event.timeStamp, position);
 
-                }).on('click', ".jqs-remove", function () {
-                    // delete a selection
-                    if (confirm($this.settings.removePeriod)) {
-                        $(this).parents(".jqs-period").remove();
-                    }
                 });
+
+                // delete a selection
+                if ($this.settings.confirm) {
+                    $(this.element).on('click', ".jqs-remove", function () {
+                        if (confirm($this.settings.removePeriod)) {
+                            $(this).parents(".jqs-period").remove();
+                        }
+                    });
+                } else {
+                    $(this.element).on('click', ".jqs-remove", function () {
+                        $(this).parents(".jqs-period").remove();
+                    });
+                }
             }
 
             this.create();
@@ -118,7 +128,9 @@
                             var id = "id_" + index + data.day + position + height;
                             $this.add(element, id, position, height - position);
                         } else {
-                            console.error($this.settings.invalidPeriod, $this.periodInit(position, position + (height - position)));
+                            if ($this.settings.debug) {
+                                console.error($this.settings.invalidPeriod, $this.periodInit(position, position + (height - position)));
+                            }
                         }
                     });
                 });
@@ -154,9 +166,12 @@
                 .appendTo(parent);
 
             if (!this.isValid(element)) {
-                console.error(this.settings.invalidPeriod, period);
+                if (this.settings.debug) {
+                    console.error(this.settings.invalidPeriod, period);
+                }
 
                 $(element).remove();
+
                 return false;
             }
 
@@ -173,7 +188,10 @@
                         //console.log(ui);
 
                         if(!$this.isValid($(ui.helper))) {
-                            console.error($this.settings.invalidPosition);
+                            if ($this.settings.debug) {
+                                console.error($this.settings.invalidPosition);
+                            }
+
                             $(ui.helper).css('top', Math.round(ui.originalPosition.top));
                         }
                     }
@@ -188,7 +206,10 @@
                         //console.log(ui);
 
                         if(!$this.isValid($(ui.helper))) {
-                            console.error($this.settings.invalidPosition);
+                            if ($this.settings.debug) {
+                                console.error($this.settings.invalidPosition);
+                            }
+
                             $(ui.helper).css({
                                 'height': Math.round(ui.originalSize.height),
                                 'top': Math.round(ui.originalPosition.top)
