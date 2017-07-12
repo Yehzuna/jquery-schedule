@@ -125,9 +125,21 @@ $("#schedule").jqs({
 
 | CSS Class | Description
 | --- | --- |  
-| `.jqs` | Main container |
-| `.jqs-grid` | Main container |
-| `.jqs-grid` | Main container |
+| `.jqs` | The plugin main container |
+| `.jqs-table` | Define the schedule structure |
+| `.jqs-wrapper` | The container that holds all periods for one day |
+| `.jqs-grid` | The grid container |
+| `.jqs-grid-head` | The header grid container |
+| `.jqs-grid-line` | The line grid container |
+| `.jqs-grid-day` | Sets the style for the day title |
+| `.jqs-grid-hour` | Sets the style for the hour title |
+| `.jqs-period` | The period container |
+| `.jqs-period-container` | Sets the style for the period |
+| `.jqs-period-title` | Sets the style for the period title |
+| `.jqs-remove` | Sets the style for the remove button in a period |
+| `.jqs-dialog-overlay` | Sets the style for the dialog overlay |
+| `.jqs-dialog-container` | The dialog container |
+| `.jqs-dialog` | Sets the style for the dialog |
 
 ## Methods 
 
@@ -153,9 +165,3 @@ Export example (json) :
     {"day":6,"periods":[]}
 ]
 ```
-
-## TODO
-- [x] 12-hour clock support
-- [ ] Add a compact mode
-- [ ] Theme
-

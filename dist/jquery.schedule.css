@@ -19,7 +19,8 @@
   border-spacing: 0;
   box-sizing: content-box;
 }
-.jqs .jqs-table td, .jqs .jqs-table th {
+.jqs .jqs-table td,
+.jqs .jqs-table th {
   padding: 0;
 }
 .jqs .jqs-table td {
@@ -34,6 +35,18 @@
   right: 20px;
   box-sizing: content-box;
 }
+.jqs .jqs-grid .jqs-grid-head {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  right: 0;
+  display: flex;
+}
+.jqs .jqs-grid .jqs-grid-day {
+  width: 14.28571%;
+  text-align: center;
+  font-size: 12px;
+}
 .jqs .jqs-grid .jqs-grid-line {
   border-top: 1px solid #ccc;
   border-bottom: 1px solid transparent;
@@ -44,15 +57,6 @@
   height: 0;
   border-bottom: none;
 }
-.jqs .jqs-grid .jqs-grid-line span {
-  position: absolute;
-  top: -7px;
-  left: -50px;
-  font-size: 12px;
-  display: block;
-  width: 42px;
-  text-align: right;
-}
 .jqs .jqs-grid .jqs-grid-line:before {
   content: "";
   position: absolute;
@@ -61,17 +65,14 @@
   width: 100%;
   background: #eee;
 }
-.jqs .jqs-grid .jqs-grid-head {
+.jqs .jqs-grid .jqs-grid-hour {
   position: absolute;
-  top: -20px;
-  left: 0;
-  right: 0;
-  display: flex;
-}
-.jqs .jqs-grid .jqs-grid-head .jqs-grid-day {
-  width: 14.28571%;
-  text-align: center;
+  top: -7px;
+  left: -50px;
+  display: block;
+  width: 42px;
   font-size: 12px;
+  text-align: right;
 }
 .jqs .jqs-wrapper {
   width: 100%;
@@ -82,10 +83,9 @@
   position: absolute;
   width: 100%;
   min-height: 20px;
-  font-size: 11px;
   line-height: 1;
 }
-.jqs .jqs-period .jqs-period-placeholder {
+.jqs .jqs-period .jqs-period-container {
   position: absolute;
   top: 2px;
   bottom: 2px;
@@ -96,7 +96,13 @@
   border: 1px solid #2a3cff;
   border-radius: 3px;
 }
-.jqs .jqs-period .jqs-remove {
+.jqs .jqs-period .jqs-period-title {
+  font-size: 11px;
+}
+.jqs .jqs-period:hover .jqs-remove {
+  display: block;
+}
+.jqs .jqs-remove {
   display: none;
   position: absolute;
   bottom: 0;
@@ -105,7 +111,7 @@
   width: 14px;
   cursor: pointer;
 }
-.jqs .jqs-period .jqs-remove:before, .jqs .jqs-period .jqs-remove:after {
+.jqs .jqs-remove:before, .jqs .jqs-remove:after {
   content: "";
   display: block;
   position: absolute;
@@ -114,14 +120,11 @@
   left: 6px;
   background: #2a3cff;
 }
-.jqs .jqs-period .jqs-remove:before {
+.jqs .jqs-remove:before {
   transform: rotate(45deg);
 }
-.jqs .jqs-period .jqs-remove:after {
+.jqs .jqs-remove:after {
   transform: rotate(-45deg);
-}
-.jqs .jqs-period:hover .jqs-remove {
-  display: block;
 }
 .jqs .jqs-dialog-overlay {
   position: absolute;

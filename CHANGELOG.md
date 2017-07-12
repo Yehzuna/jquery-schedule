@@ -1,9 +1,12 @@
 # jQuery Schedule
 
 # 1.1.0
-* Add debug option to remove console errors in production mode 
+* Add debug option. Remove console error/log messages in production mode 
 * Add confirm option. Show a confirmation dialog when removing a period
 * Add custom confirmation dialog
+* Add new Theming section to the README
+* Add class `jqs-grid-hour` and `jqs-period-title`
+* Rename class `jqs-period-placeholder` to `jqs-period-container`
 
 # 1.0.1
 
