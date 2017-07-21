@@ -110,14 +110,36 @@ $("#schedule").jqs({
 
 | Option | Type | Default | Description
 | --- | --- |  --- |  --- |
-| `mode` | `string` | `edit` | Define the schedule mode (read/edit)
+| `debug` | `bool` | `false` | Show log/error messages in console
+| `mode` | `string` | `edit` | Define the schedule mode (read or edit)
+| `confirm` | `bool` | `true` | Show a confirmation dialog when removing a period
 | `hour` | `int` | `24` | Set the 12-hour or 24-hour clock (12/24)
 | `data` | `array` | `[]` | Add a list of period by day
 | `days` | `array` | `["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]` | Days list 
-| `invalidPeriod` | `string` | `Invalid period.` | Error message
-| `invalidPosition` | `string` | `Invalid position.` | Error message
-| `removePeriod` | `string` | `Remove this period ?` | Error message
+| `invalidPeriod` | `string` | `Invalid period.` | Debug message
+| `invalidPosition` | `string` | `Invalid position.` | Debug message
+| `removePeriod` | `string` | `Remove this period ?` | The confirmation dialog message
 
+
+## Theming
+
+| CSS Class | Description
+| --- | --- |  
+| `.jqs` | The plugin main container |
+| `.jqs-table` | Define the schedule structure |
+| `.jqs-wrapper` | The container that holds all periods for one day |
+| `.jqs-grid` | The grid container |
+| `.jqs-grid-head` | The header grid container |
+| `.jqs-grid-line` | The line grid container |
+| `.jqs-grid-day` | Sets the style for the day title |
+| `.jqs-grid-hour` | Sets the style for the hour title |
+| `.jqs-period` | The period container |
+| `.jqs-period-container` | Sets the style for the period |
+| `.jqs-period-title` | Sets the style for the period title |
+| `.jqs-remove` | Sets the style for the remove button in a period |
+| `.jqs-dialog-overlay` | Sets the style for the dialog overlay |
+| `.jqs-dialog-container` | The dialog container |
+| `.jqs-dialog` | Sets the style for the dialog |
 
 ## Methods 
 
@@ -143,9 +165,3 @@ Export example (json) :
     {"day":6,"periods":[]}
 ]
 ```
-
-## TODO
-- [x] 12-hour clock support
-- [ ] Add a compact mode
-- [ ] Theme
-

@@ -1,5 +1,5 @@
 /**
- * jQuery Schedule v1.0.1
+ * jQuery Schedule v1.1.0
  * https://github.com/Yehzuna/jquery-schedule
  * Thomas BORUSZEWSKI <yehzuna@outlook.com>
  */
@@ -9,8 +9,9 @@
     // Defaults options
     var pluginName = "jqs",
         defaults = {
+            debug: false,
             mode: "edit", // read
-            //display: "full", //compact
+            confirm: true,
             hour: 24,
             data: [],
             days: [
@@ -24,7 +25,9 @@
             ],
             invalidPeriod: "Invalid period.",
             invalidPosition: "Invalid position.",
-            removePeriod: "Remove this period ?"
+            removePeriod: "Remove this period ?",
+            dialogYes: "Yes",
+            dialogNo: "No"
         };
 
     // Plugin constructor
@@ -48,7 +51,7 @@
             if (this.settings.mode === "edit") {
                 // bind event
                 $(this.element).on('click', ".jqs-wrapper", function (event) {
-                    // add new selections
+                    // add a new selection
                     if ($(event.target).hasClass("jqs-period") || $(event.target).parents(".jqs-period").length > 0) {
                         return false;
                     }
@@ -60,12 +63,21 @@
 
                     $this.add($(this), "id_" + event.timeStamp, position);
 
-                }).on('click', ".jqs-remove", function () {
-                    // delete a selection
-                    if (confirm($this.settings.removePeriod)) {
-                        $(this).parents(".jqs-period").remove();
-                    }
                 });
+
+                // delete a selection
+                if ($this.settings.confirm) {
+                    $(this.element).on('click', ".jqs-remove", function () {
+                        var element = $(this).parents(".jqs-period");
+                        $this.dialogOpen($this.settings.removePeriod, function () {
+                            element.remove();
+                        });
+                    });
+                } else {
+                    $(this.element).on('click', ".jqs-remove", function () {
+                        $(this).parents(".jqs-period").remove();
+                    });
+                }
             }
 
             this.create();
@@ -87,7 +99,7 @@
             $('<div class="jqs-grid"><div class="jqs-grid-head"></div></div>').appendTo($(this.element));
 
             for (var j = 0; j < 25; j++) {
-                $('<div class="jqs-grid-line"><span>' + this.formatHour(j) + '</span></div>').appendTo($(".jqs-grid", this.element));
+                $('<div class="jqs-grid-line"><div class="jqs-grid-hour">' + this.formatHour(j) + '</div></div>').appendTo($(".jqs-grid", this.element));
             }
 
             for (var k = 0; k < 7; k++) {
@@ -118,7 +130,9 @@
                             var id = "id_" + index + data.day + position + height;
                             $this.add(element, id, position, height - position);
                         } else {
-                            console.error($this.settings.invalidPeriod, $this.periodInit(position, position + (height - position)));
+                            if ($this.settings.debug) {
+                                console.error($this.settings.invalidPeriod, $this.periodInit(position, position + (height - position)));
+                            }
                         }
                     });
                 });
@@ -144,8 +158,8 @@
             }
 
             // new element
-            var period = this.periodInit(position, position + height);
-            var element = $('<div class="jqs-period"><div class="jqs-period-placeholder">' + remove + '<span>' + period + '</span></div></div>')
+            var period = '<div class="jqs-period-title">' + this.periodInit(position, position + height) + '</div>';
+            var element = $('<div class="jqs-period"><div class="jqs-period-container">' + remove + period + '</div></div>')
                 .css({
                     'top': position * 20,
                     'height': height * 20
@@ -154,9 +168,12 @@
                 .appendTo(parent);
 
             if (!this.isValid(element)) {
-                console.error(this.settings.invalidPeriod, period);
+                if (this.settings.debug) {
+                    console.error(this.settings.invalidPeriod, period);
+                }
 
                 $(element).remove();
+
                 return false;
             }
 
@@ -167,13 +184,16 @@
                     grid: [0, 20],
                     containment: "parent",
                     drag: function (event, ui) {
-                        $('span', ui.helper).text($this.periodDrag(ui));
+                        $(".jqs-period-title", ui.helper).text($this.periodDrag(ui));
                     },
                     stop: function (event, ui) {
                         //console.log(ui);
 
-                        if(!$this.isValid($(ui.helper))) {
-                            console.error($this.settings.invalidPosition);
+                        if (!$this.isValid($(ui.helper))) {
+                            if ($this.settings.debug) {
+                                console.error($this.settings.invalidPosition);
+                            }
+
                             $(ui.helper).css('top', Math.round(ui.originalPosition.top));
                         }
                     }
@@ -182,13 +202,16 @@
                     containment: "parent",
                     handles: "n, s",
                     resize: function (event, ui) {
-                        $('span', ui.helper).text($this.periodResize(ui));
+                        $(".jqs-period-title", ui.helper).text($this.periodResize(ui));
                     },
                     stop: function (event, ui) {
                         //console.log(ui);
 
-                        if(!$this.isValid($(ui.helper))) {
-                            console.error($this.settings.invalidPosition);
+                        if (!$this.isValid($(ui.helper))) {
+                            if ($this.settings.debug) {
+                                console.error($this.settings.invalidPosition);
+                            }
+
                             $(ui.helper).css({
                                 'height': Math.round(ui.originalSize.height),
                                 'top': Math.round(ui.originalPosition.top)
@@ -253,7 +276,7 @@
         periodFormat: function (position) {
             var hour = 0;
 
-            if(this.settings.hour === 12) {
+            if (this.settings.hour === 12) {
                 var calc = Math.floor(position / 2);
 
                 var min = ":30";
@@ -263,11 +286,11 @@
 
                 hour = calc + min + "am";
                 if (calc > 12) {
-                    hour = (calc-12) + min + "pm";
+                    hour = (calc - 12) + min + "pm";
                 }
 
                 if (calc === 0 || calc === 24) {
-                    hour = 12  + min + "am";
+                    hour = 12 + min + "am";
                 }
 
                 if (calc === 12) {
@@ -302,7 +325,7 @@
         positionFormat: function (hour) {
             var position = 0;
 
-            if(this.settings.hour === 12) {
+            if (this.settings.hour === 12) {
                 var matches = hour.match(/([0-1]?[0-9]):?([0-5][0-9])?\s?(am|pm)/);
                 //console.log(matches);
 
@@ -343,7 +366,7 @@
          * @returns {string}
          */
         formatHour: function (hour) {
-            if(this.settings.hour === 12) {
+            if (this.settings.hour === 12) {
                 switch (hour) {
                     case 0:
                     case 24:
@@ -354,7 +377,7 @@
                         break;
                     default:
                         if (hour > 12) {
-                            hour = (hour-12) + " pm";
+                            hour = (hour - 12) + " pm";
                         } else {
                             hour += " am";
                         }
@@ -437,6 +460,46 @@
             });
 
             return JSON.stringify(data);
+        },
+
+        /**
+         * Open a confirmation dialog
+         * @param text
+         * @param success
+         */
+        dialogOpen: function (text, success) {
+            var $this = this;
+
+            $this.dialogClose();
+
+            var overlay = $('<div class="jqs-dialog-overlay">');
+            var height = $(this.element).prop('scrollHeight');
+            overlay.css('height', height);
+
+            var content = '<div class="jqs-dialog-txt">' + text + '</div>' +
+                '<div class="jqs-dialog-no">' + $this.settings.dialogNo + '</div>' +
+                '<div class="jqs-dialog-yes">' + $this.settings.dialogYes + '</div>';
+            var dialog = $('<div class="jqs-dialog-container"><div class="jqs-dialog">' + content + '</div></div>');
+            var scroll = $(this.element).scrollTop();
+            dialog.css('top', scroll);
+
+            $(this.element).append(overlay).append(dialog);
+
+            $(".jqs-dialog-yes", dialog).click(function () {
+                success();
+                $this.dialogClose();
+            });
+
+            $(".jqs-dialog-no", dialog).click(function () {
+                $this.dialogClose();
+            });
+        },
+
+        /**
+         * Close a dialog
+         */
+        dialogClose: function () {
+            $('.jqs-dialog-overlay, .jqs-dialog-container').remove();
         }
     });
 
@@ -450,7 +513,7 @@
             }
         });
 
-        if(ret) {
+        if (ret) {
             return ret;
         }
 
