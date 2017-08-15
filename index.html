@@ -19,8 +19,19 @@ $("#schedule").jqs();
 <div id="schedule" class="jqs-demo"></div>
 
 <input type="button" value="Export" id="export" />
+<input type="button" value="Import" id="import" />
 <pre>
 $("#schedule").jqs('export');
+
+$("#schedule").jqs('import', [
+    {
+        day: 4,
+        periods: [
+            ["20:00", "00:00"],
+            ["00:00", "02:00"]
+        ]
+    }
+]);
 </pre>
 
 <textarea id="result"></textarea>
@@ -70,7 +81,9 @@ $("#schedule3").jqs({
 <script src="dist/jquery.schedule.js"></script>
 <script>
     $(function () {
-        $("#schedule").jqs();
+        $("#schedule").jqs({
+            debug: true
+        });
 
         $("#schedule2").jqs({
             mode: "read",
@@ -108,7 +121,20 @@ $("#schedule3").jqs({
 
         $("#export").click(function () {
             $("#result").val($("#schedule").jqs('export'));
-        })
+        });
+
+        $("#import").click(function () {
+             $("#schedule").jqs('import', [
+                {
+                    day: 4,
+                    periods: [
+                        ["20:00", "00:00"],
+                        ["10:00", "9:00"],
+                        ["00:00", "02:00"]
+                    ]
+                }
+            ]);
+        });
     });
 </script>
 

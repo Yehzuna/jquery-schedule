@@ -56,8 +56,7 @@
                         position = 47;
                     }
 
-                    $this.add($(this), "id_" + event.timeStamp, position);
-
+                    $this.add($(this), "id_" + event.timeStamp, position, 1);
                 });
 
                 // delete a selection
@@ -121,14 +120,8 @@
                             height = 48;
                         }
 
-                        if (position <= height) {
-                            var id = "id_" + index + data.day + position + height;
-                            $this.add(element, id, position, height - position);
-                        } else {
-                            if ($this.settings.debug) {
-                                console.error($this.settings.invalidPeriod, $this.periodInit(position, position + (height - position)));
-                            }
-                        }
+                        var id = "id_" + index + data.day + position + height;
+                        $this.add(element, id, position, height - position);
                     });
                 });
             }
@@ -142,8 +135,12 @@
          * @param height
          */
         add: function (parent, id, position, height) {
-            if (!height) {
-                height = 1;
+            if (height <= 0) {
+                if (this.settings.debug) {
+                    console.error(this.settings.invalidPeriod);
+                }
+
+                return false;
             }
 
             // remove button
@@ -164,7 +161,7 @@
 
             if (!this.isValid(element)) {
                 if (this.settings.debug) {
-                    console.error(this.settings.invalidPeriod, period);
+                    console.error(this.settings.invalidPeriod, this.periodInit(position, position + height));
                 }
 
                 $(element).remove();
@@ -215,6 +212,8 @@
                     }
                 });
             }
+
+            return true;
         },
 
         /**
@@ -410,8 +409,6 @@
                     start = Math.round(element.position().top);
                     end = Math.round(element.position().top + element.height());
 
-                    //console.log(currentStart, currentEnd, start, end);
-
                     if (start > currentStart && start < currentEnd) {
                         check = false;
                     }
@@ -458,6 +455,32 @@
         },
 
         /**
+         * Import data programmatically
+         * @param args options
+         */
+        import: function (args) {
+            var $this = this;
+            var dataImport = args[1];
+            var dialog = false;
+
+            $.each(dataImport, function (index, data) {
+
+                $.each(data.periods, function (index, period) {
+                    var element = $(".jqs-wrapper", $this.element).eq(data.day);
+                    var position = $this.positionFormat(period[0]);
+                    var height = $this.positionFormat(period[1]);
+
+                    if (height === 0) {
+                        height = 48;
+                    }
+
+                    var id = 'id_' + Date.now();
+                    $this.add(element, id, position, height - position);
+                });
+            });
+        },
+
+        /**
          * Open a confirmation dialog
          * @param text
          * @param success
@@ -494,17 +517,18 @@
          * Close a dialog
          */
         dialogClose: function () {
-            $('.jqs-dialog-overlay, .jqs-dialog-container').remove();
+            $(".jqs-dialog-overlay, .jqs-dialog-container").remove();
         }
     });
 
     $.fn[pluginName] = function (options) {
         var ret = false;
+        var args = Array.prototype.slice.call(arguments);
         var loop = this.each(function () {
-            if (!$.data(this, "plugin_" + pluginName)) {
-                $.data(this, "plugin_" + pluginName, new Plugin(this, options));
+            if (!$.data(this, 'plugin_' + pluginName)) {
+                $.data(this, 'plugin_' + pluginName, new Plugin(this, options));
             } else if ($.isFunction(Plugin.prototype[options])) {
-                ret = $.data(this, 'plugin_' + pluginName)[options]();
+                ret = $.data(this, 'plugin_' + pluginName)[options](args);
             }
         });
 

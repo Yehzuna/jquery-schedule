@@ -1,5 +1,11 @@
 # jQuery Schedule
 
+# 1.2.0
+* Add a new feature to import data programmatically with dialog support
+* JSlint better support
+* Remove yarn (dev)
+* Remove extra tests
+
 # 1.1.0
 * Add debug option. Remove console error/log messages in production mode 
 * Add confirm option. Show a confirmation dialog when removing a period
