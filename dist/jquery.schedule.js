@@ -50,7 +50,7 @@
 
             if (this.settings.mode === "edit") {
                 // bind event
-                $(this.element).on('click', ".jqs-wrapper", function (event) {
+                $(this.element).on("click", ".jqs-wrapper", function (event) {
                     // add a new selection
                     if ($(event.target).hasClass("jqs-period") || $(event.target).parents(".jqs-period").length > 0) {
                         return false;
@@ -66,14 +66,14 @@
 
                 // delete a selection
                 if ($this.settings.confirm) {
-                    $(this.element).on('click', ".jqs-remove", function () {
+                    $(this.element).on("click", ".jqs-remove", function () {
                         var element = $(this).parents(".jqs-period");
                         $this.dialogOpen($this.settings.removePeriod, function () {
                             element.remove();
                         });
                     });
                 } else {
-                    $(this.element).on('click', ".jqs-remove", function () {
+                    $(this.element).on("click", ".jqs-remove", function () {
                         $(this).parents(".jqs-period").remove();
                     });
                 }
@@ -89,20 +89,20 @@
          */
         create: function () {
 
-            $('<table class="jqs-table"><tr></tr></table>').appendTo($(this.element));
+            $("<table class='jqs-table'><tr></tr></table>").appendTo($(this.element));
 
             for (var i = 0; i < 7; i++) {
-                $('<td><div class="jqs-wrapper"></div></td>').appendTo($(".jqs-table tr", this.element));
+                $("<td><div class='jqs-wrapper'></div></td>").appendTo($(".jqs-table tr", this.element));
             }
 
-            $('<div class="jqs-grid"><div class="jqs-grid-head"></div></div>').appendTo($(this.element));
+            $("<div class='jqs-grid'><div class='jqs-grid-head'></div></div>").appendTo($(this.element));
 
             for (var j = 0; j < 25; j++) {
-                $('<div class="jqs-grid-line"><div class="jqs-grid-hour">' + this.formatHour(j) + '</div></div>').appendTo($(".jqs-grid", this.element));
+                $("<div class='jqs-grid-line'><div class='jqs-grid-hour'>" + this.formatHour(j) + "</div></div>").appendTo($(".jqs-grid", this.element));
             }
 
             for (var k = 0; k < 7; k++) {
-                $('<div class="jqs-grid-day">' + this.settings.days[k] + '</div>').appendTo($(".jqs-grid-head", this.element));
+                $("<div class='jqs-grid-day'>" + this.settings.days[k] + "</div>").appendTo($(".jqs-grid-head", this.element));
             }
         },
 
@@ -151,17 +151,17 @@
             // remove button
             var remove = "";
             if (this.settings.mode === "edit") {
-                remove = '<div class="jqs-remove"></div>';
+                remove = "<div class='jqs-remove'></div>";
             }
 
             // new element
-            var period = '<div class="jqs-period-title">' + this.periodInit(position, position + height) + '</div>';
-            var element = $('<div class="jqs-period"><div class="jqs-period-container">' + remove + period + '</div></div>')
+            var period = "<div class='jqs-period-title'>" + this.periodInit(position, position + height) + "</div>";
+            var element = $("<div class='jqs-period'><div class='jqs-period-container'>" + remove + period + "</div></div>")
                 .css({
-                    'top': position * 20,
-                    'height': height * 20
+                    "top": position * 20,
+                    "height": height * 20
                 })
-                .attr('id', id)
+                .attr("id", id)
                 .appendTo(parent);
 
             if (!this.isValid(element)) {
@@ -191,7 +191,7 @@
                                 console.error($this.settings.invalidPosition);
                             }
 
-                            $(ui.helper).css('top', Math.round(ui.originalPosition.top));
+                            $(ui.helper).css("top", Math.round(ui.originalPosition.top));
                         }
                     }
                 }).resizable({
@@ -210,8 +210,8 @@
                             }
 
                             $(ui.helper).css({
-                                'height': Math.round(ui.originalSize.height),
-                                'top': Math.round(ui.originalPosition.top)
+                                "height": Math.round(ui.originalSize.height),
+                                "top": Math.round(ui.originalPosition.top)
                             });
                         }
                     }
@@ -410,7 +410,7 @@
             var check = true;
             $(".jqs-period", $(current).parent()).each(function (index, element) {
                 element = $(element);
-                if (current.attr('id') !== element.attr('id')) {
+                if (current.attr("id") !== element.attr("id")) {
                     start = Math.round(element.position().top);
                     end = Math.round(element.position().top + element.height());
 
@@ -476,7 +476,7 @@
                         height = 48;
                     }
 
-                    var id = 'id_' + Date.now();
+                    var id = "id_" + Date.now();
                     $this.add(element, id, position, height - position);
                 });
             });
@@ -501,16 +501,16 @@
 
             $this.dialogClose();
 
-            var overlay = $('<div class="jqs-dialog-overlay">');
-            var height = $(this.element).prop('scrollHeight');
-            overlay.css('height', height);
+            var overlay = $("<div class='jqs-dialog-overlay'>");
+            var height = $(this.element).prop("scrollHeight");
+            overlay.css("height", height);
 
-            var content = '<div class="jqs-dialog-txt">' + text + '</div>' +
-                '<div class="jqs-dialog-no">' + $this.settings.dialogNo + '</div>' +
-                '<div class="jqs-dialog-yes">' + $this.settings.dialogYes + '</div>';
-            var dialog = $('<div class="jqs-dialog-container"><div class="jqs-dialog">' + content + '</div></div>');
+            var content = "<div class='jqs-dialog-txt'>" + text + "</div>" +
+                "<div class='jqs-dialog-no'>" + $this.settings.dialogNo + "</div>" +
+                "<div class='jqs-dialog-yes'>" + $this.settings.dialogYes + "</div>";
+            var dialog = $("<div class='jqs-dialog-container'><div class='jqs-dialog'>" + content + "</div></div>");
             var scroll = $(this.element).scrollTop();
-            dialog.css('top', scroll);
+            dialog.css("top", scroll);
 
             $(this.element).append(overlay).append(dialog);
 
@@ -536,10 +536,10 @@
         var ret = false;
         var args = Array.prototype.slice.call(arguments);
         var loop = this.each(function () {
-            if (!$.data(this, 'plugin_' + pluginName)) {
-                $.data(this, 'plugin_' + pluginName, new Plugin(this, options));
+            if (!$.data(this, "plugin_" + pluginName)) {
+                $.data(this, "plugin_" + pluginName, new Plugin(this, options));
             } else if ($.isFunction(Plugin.prototype[options])) {
-                ret = $.data(this, 'plugin_' + pluginName)[options](args);
+                ret = $.data(this, "plugin_" + pluginName)[options](args);
             }
         });
 
