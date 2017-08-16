@@ -466,10 +466,7 @@
         import: function (args) {
             var $this = this;
             var dataImport = args[1];
-            var dialog = false;
-
             $.each(dataImport, function (index, data) {
-
                 $.each(data.periods, function (index, period) {
                     var element = $(".jqs-wrapper", $this.element).eq(data.day);
                     var position = $this.positionFormat(period[0]);
@@ -482,6 +479,15 @@
                     var id = 'id_' + Date.now();
                     $this.add(element, id, position, height - position);
                 });
+            });
+        },
+
+        /**
+         * Remove all periods
+         */
+        remove: function () {
+            $(".jqs-period", this.element).each(function (index, element) {
+                $(element).remove();
             });
         },
 
