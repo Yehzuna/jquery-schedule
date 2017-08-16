@@ -10,6 +10,15 @@ module.exports = function (grunt) {
         },
         jshint: {
             options: {
+                boss: true,
+                eqnull: true,
+                expr: true,
+                immed: true,
+                noarg: true,
+                quotmark: "double",
+                smarttabs: true,
+                trailing: true,
+                unused: true,
                 curly: true,
                 browser: true,
                 devel: true,
