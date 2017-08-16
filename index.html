@@ -20,11 +20,17 @@ $("#schedule").jqs();
 
 <input type="button" value="Export" id="export" />
 <input type="button" value="Import" id="import" />
+<input type="button" value="Remove" id="remove" />
 <pre>
 $("#schedule").jqs('export');
 
 $("#schedule").jqs('import', [
-    {
+     {
+         day: 1,
+         periods: [
+             ["8:00", "10:00"],
+         ]
+     }, {
         day: 4,
         periods: [
             ["20:00", "00:00"],
@@ -32,6 +38,8 @@ $("#schedule").jqs('import', [
         ]
     }
 ]);
+
+$("#schedule").jqs('remove');
 </pre>
 
 <textarea id="result"></textarea>
@@ -125,15 +133,23 @@ $("#schedule3").jqs({
 
         $("#import").click(function () {
              $("#schedule").jqs('import', [
-                {
+                 {
+                     day: 1,
+                     periods: [
+                         ["8:00", "10:00"],
+                     ]
+                 }, {
                     day: 4,
                     periods: [
                         ["20:00", "00:00"],
-                        ["10:00", "9:00"],
                         ["00:00", "02:00"]
                     ]
                 }
             ]);
+        });
+
+        $("#remove").click(function () {
+            $("#schedule").jqs('remove');
         });
     });
 </script>

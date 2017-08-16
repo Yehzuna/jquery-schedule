@@ -1,7 +1,8 @@
 # jQuery Schedule
 
 # 1.2.0
-* Add a new feature to import data programmatically with dialog support
+* Add a new feature to import data programmatically
+* Add a new feature to remove all periods
 * JSlint better support
 * Remove yarn (dev)
 * Remove extra tests
