@@ -144,12 +144,9 @@ $("#schedule").jqs({
 ## Methods 
 
 #### Export
+> Export periods to json format
 
 ```javascript
-// init
-$("#schedule").jqs();
-
-// export
 var data = $("#schedule").jqs('export');
 ```
 Export example (json) :
@@ -164,4 +161,25 @@ Export example (json) :
     {"day":5,"periods":[]},
     {"day":6,"periods":[]}
 ]
+```
+
+#### Import
+> Import periods programmatically
+
+```javascript
+$("#schedule").jqs('import', [
+    {
+        day: 2,
+        periods:[
+            ["10:30","13:00"]
+        ]
+    }
+]);
+```
+
+#### Remove
+> Remove all periods
+
+```javascript
+$("#schedule").jqs('remove');
 ```
