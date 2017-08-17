@@ -20,7 +20,7 @@ $("#schedule").jqs();
 
 <input type="button" value="Export" id="export" />
 <input type="button" value="Import" id="import" />
-<input type="button" value="Remove" id="remove" />
+<input type="button" value="Reset" id="reset" />
 <pre>
 $("#schedule").jqs('export');
 
@@ -39,7 +39,7 @@ $("#schedule").jqs('import', [
     }
 ]);
 
-$("#schedule").jqs('remove');
+$("#schedule").jqs('reset');
 </pre>
 
 <textarea id="result"></textarea>
@@ -148,8 +148,8 @@ $("#schedule3").jqs({
             ]);
         });
 
-        $("#remove").click(function () {
-            $("#schedule").jqs('remove');
+        $("#reset").click(function () {
+            $("#schedule").jqs('reset');
         });
     });
 </script>
