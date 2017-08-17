@@ -177,6 +177,14 @@ $("#schedule").jqs('import', [
 ]);
 ```
 
+Return a json with each period status 
+
+```json
+[
+  {"day": 2, "period": ["10:30","13:00"], "status": true}
+]
+```
+
 #### Reset
 > Reset the schedule (remove all periods)
 
