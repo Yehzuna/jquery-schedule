@@ -461,11 +461,13 @@
 
         /**
          * Import data programmatically
-         * @param args options
+         * @param args
+         * @returns {Array}
          */
         import: function (args) {
             var $this = this;
             var dataImport = args[1];
+            var ret = [];
             $.each(dataImport, function (index, data) {
                 $.each(data.periods, function (index, period) {
                     var element = $(".jqs-wrapper", $this.element).eq(data.day);
@@ -477,9 +479,23 @@
                     }
 
                     var id = "id_" + Date.now();
-                    $this.add(element, id, position, height - position);
+                    var check = true;
+                    if (!$this.add(element, id, position, height - position)) {
+                        check = false;
+                    }
+
+                    ret.push({
+                        day: data.day,
+                        period: [
+                            $this.periodFormat(position),
+                            $this.periodFormat(height)
+                        ],
+                        status: check
+                    });
                 });
             });
+
+            return JSON.stringify(ret);
         },
 
         /**

@@ -89,9 +89,7 @@ $("#schedule3").jqs({
 <script src="dist/jquery.schedule.js"></script>
 <script>
     $(function () {
-        $("#schedule").jqs({
-            debug: true
-        });
+        $("#schedule").jqs();
 
         $("#schedule2").jqs({
             mode: "read",
@@ -132,7 +130,7 @@ $("#schedule3").jqs({
         });
 
         $("#import").click(function () {
-             $("#schedule").jqs('import', [
+             var ret = $("#schedule").jqs('import', [
                  {
                      day: 1,
                      periods: [
@@ -146,6 +144,8 @@ $("#schedule3").jqs({
                     ]
                 }
             ]);
+
+            $("#result").val(ret);
         });
 
         $("#reset").click(function () {
