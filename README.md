@@ -177,9 +177,9 @@ $("#schedule").jqs('import', [
 ]);
 ```
 
-#### Remove
-> Remove all periods
+#### Reset
+> Reset the schedule (remove all periods)
 
 ```javascript
-$("#schedule").jqs('remove');
+$("#schedule").jqs('reset');
 ```

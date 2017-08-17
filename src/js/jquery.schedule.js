@@ -480,7 +480,7 @@
         /**
          * Remove all periods
          */
-        remove: function () {
+        reset: function () {
             $(".jqs-period", this.element).each(function (index, element) {
                 $(element).remove();
             });

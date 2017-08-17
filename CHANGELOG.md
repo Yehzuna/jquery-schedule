@@ -1,11 +1,11 @@
 # jQuery Schedule
 
 # 1.2.0
-* Add a new feature to import data programmatically
-* Add a new feature to remove all periods
+* Add a new feature to import periods programmatically (import)
+* Add a new feature to remove all periods (reset)
 * JSlint better support
-* Remove yarn (dev)
-* Remove extra tests
+* Remove extra tests when periods are generate
+* Remove yarn lock file for npm
 
 # 1.1.0
 * Add debug option. Remove console error/log messages in production mode 
