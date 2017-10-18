@@ -1,5 +1,8 @@
 # jQuery Schedule
 
+# 1.2.1
+* Fixed : Block position error with Bootstrap 3.x
+
 # 1.2.0
 * Add a new feature to import periods programmatically (import)
 * Add a new feature to remove all periods (reset)

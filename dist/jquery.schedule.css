@@ -1,5 +1,5 @@
 /**
- * jQuery Schedule v1.2.0
+ * jQuery Schedule v1.2.1
  * https://github.com/Yehzuna/jquery-schedule
  * Thomas BORUSZEWSKI <yehzuna@outlook.com>
  */
@@ -52,6 +52,7 @@
   border-bottom: 1px solid transparent;
   position: relative;
   height: 38px;
+  box-sizing: content-box;
 }
 .jqs .jqs-grid .jqs-grid-line:last-child {
   height: 0;
