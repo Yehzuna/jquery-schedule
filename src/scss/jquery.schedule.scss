@@ -53,6 +53,7 @@ $zone: 20px;
       border-bottom: 1px solid transparent;
       position: relative;
       height: $zone*2 - 2;
+      box-sizing: content-box;
       &:last-child {
         height: 0;
         border-bottom: none;

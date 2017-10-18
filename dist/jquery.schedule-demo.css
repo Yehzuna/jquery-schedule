@@ -1,5 +1,5 @@
 /**
- * jQuery Schedule v1.2.0
+ * jQuery Schedule v1.2.1
  * https://github.com/Yehzuna/jquery-schedule
  * Thomas BORUSZEWSKI <yehzuna@outlook.com>
  */
