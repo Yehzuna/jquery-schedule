@@ -1,5 +1,14 @@
 # jQuery Schedule
 
+# 1.3.0
+* Remove debug mod
+* Remove useless variable
+* Add new callback
+* ID standardization
+
+**TODO**
+* Update jQuery version
+
 # 1.2.1
 * Fixed : Block position error with Bootstrap 3.x
 
