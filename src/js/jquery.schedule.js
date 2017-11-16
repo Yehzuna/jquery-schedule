@@ -2,8 +2,7 @@
     "use strict";
 
     // Defaults options
-    var pluginName = "jqs",
-        defaults = {
+    var defaults = {
             debug: false,
             mode: "edit", // read
             confirm: true,
@@ -18,23 +17,39 @@
                 "Saturday",
                 "Sunday"
             ],
-            invalidPeriod: "Invalid period.",
-            invalidPosition: "Invalid position.",
             removePeriod: "Remove this period ?",
             dialogYes: "Yes",
-            dialogNo: "No"
-        };
+            dialogNo: "No",
+            onInit: function() {},
+            beforeAddPeriod: function() {},
+            afterAddPeriod: function() {},
+            beforeRemovePeriod: function() {},
+            afterRemovePeriod: function() {}
+        },
+        seed = Math.random().toString(36).substr(2),
+        counter = 0,
+        pluginName = "jqs",
+        invalidPeriod = "Invalid period.",
+        invalidPosition = "Invalid position.";
 
     // Plugin constructor
     function Plugin(element, options) {
         this.element = element;
-        this.settings = $.extend({}, defaults, options);
-        this._defaults = defaults;
-        this._name = pluginName;
+        this.settings = $.extend(defaults, options);
         this.init();
     }
 
     $.extend(Plugin.prototype, {
+        /**
+         *
+         * @returns {string}
+         */
+        uniqId: function () {
+            counter++;
+
+            return pluginName + "_" + seed + "_" + counter;
+        },
+
         /**
          * Plugin init
          */
@@ -56,10 +71,19 @@
                         position = 47;
                     }
 
-                    $this.add($(this), "id_" + event.timeStamp, position, 1);
+                    $this.add($(this), position, 1);
                 });
 
                 // delete a selection
+                $(this.element).on("click", ".jqs-remove", function () {
+                    if($this.settings.beforeRemovePeriod.call(this)) {
+                        $this.parents(".jqs-period").remove();
+
+                        $this.settings.afterRemovePeriod.call(this);
+                    }
+                });
+
+                /*
                 if ($this.settings.confirm) {
                     $(this.element).on("click", ".jqs-remove", function () {
                         var element = $(this).parents(".jqs-period");
@@ -72,7 +96,10 @@
                         $(this).parents(".jqs-period").remove();
                     });
                 }
+                */
             }
+
+            this.settings.onInit.call(this, this.element);
 
             this.create();
 
@@ -83,7 +110,6 @@
          * Create html structure
          */
         create: function () {
-
             $("<table class='jqs-table'><tr></tr></table>").appendTo($(this.element));
 
             for (var i = 0; i < 7; i++) {
@@ -105,7 +131,6 @@
          * Generate the period selections
          */
         generate: function () {
-
             if (this.settings.data.length > 0) {
                 var $this = this;
 
@@ -120,8 +145,7 @@
                             height = 48;
                         }
 
-                        var id = "id_" + index + data.day + position + height;
-                        $this.add(element, id, position, height - position);
+                        $this.add(element, position, height - position);
                     });
                 });
             }
@@ -130,17 +154,12 @@
         /**
          * Add a period selection to wrapper day
          * @param parent
-         * @param id
          * @param position
          * @param height
          */
-        add: function (parent, id, position, height) {
+        add: function (parent, position, height) {
             if (height <= 0) {
-                if (this.settings.debug) {
-                    console.error(this.settings.invalidPeriod);
-                }
-
-                return false;
+                throw new Error(invalidPeriod);
             }
 
             // remove button
@@ -156,13 +175,11 @@
                     "top": position * 20,
                     "height": height * 20
                 })
-                .attr("id", id)
+                .attr("id", this.uniqId())
                 .appendTo(parent);
 
             if (!this.isValid(element)) {
-                if (this.settings.debug) {
-                    console.error(this.settings.invalidPeriod, this.periodInit(position, position + height));
-                }
+                console.error(invalidPeriod, this.periodInit(position, position + height));
 
                 $(element).remove();
 
@@ -182,9 +199,7 @@
                         //console.log(ui);
 
                         if (!$this.isValid($(ui.helper))) {
-                            if ($this.settings.debug) {
-                                console.error($this.settings.invalidPosition);
-                            }
+                            console.error(invalidPosition);
 
                             $(ui.helper).css("top", Math.round(ui.originalPosition.top));
                         }
@@ -197,12 +212,10 @@
                         $(".jqs-period-title", ui.helper).text($this.periodResize(ui));
                     },
                     stop: function (event, ui) {
-                        //console.log(ui);
+                        // console.log(ui);
 
                         if (!$this.isValid($(ui.helper))) {
-                            if ($this.settings.debug) {
-                                console.error($this.settings.invalidPosition);
-                            }
+                            console.log(invalidPosition);
 
                             $(ui.helper).css({
                                 "height": Math.round(ui.originalSize.height),
@@ -473,9 +486,8 @@
                         height = 48;
                     }
 
-                    var id = "id_" + Date.now();
                     var check = true;
-                    if (!$this.add(element, id, position, height - position)) {
+                    if (!$this.add(element, position, height - position)) {
                         check = false;
                     }
 
