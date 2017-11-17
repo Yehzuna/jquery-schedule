@@ -28,9 +28,12 @@ module.exports = function (grunt) {
                     jQuery: true
                 }
             },
-            dist: {
-                src: 'src/js'
-            }
+            /*
+            options: {
+                jshintrc: true
+            },
+            */
+            all: ['src/js/*.js', 'dist/*.js']
         },
         copy: {
             css: {
@@ -107,6 +110,16 @@ module.exports = function (grunt) {
                     '*.min.css'
                 ]
             }
+        },
+        watch: {
+            js: {
+                files: ['src/js/*.js'],
+                tasks: ['copy:js']
+            },
+            css: {
+                files: ['src/scss/*.scss'],
+                tasks: ['compass:dev']
+            }
         }
     });
 
@@ -116,6 +129,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-banner');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
     grunt.registerTask('default', [
         'clean',

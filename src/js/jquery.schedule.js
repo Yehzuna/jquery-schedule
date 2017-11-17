@@ -3,10 +3,8 @@
 
     // Defaults options
     var defaults = {
-            debug: false,
             mode: "edit", // read
-            confirm: true,
-            hour: 24,
+            hour: 24, // 12
             data: [],
             days: [
                 "Monday",
@@ -17,17 +15,11 @@
                 "Saturday",
                 "Sunday"
             ],
-            removePeriod: "Remove this period ?",
-            dialogYes: "Yes",
-            dialogNo: "No",
             onInit: function() {},
-            beforeAddPeriod: function() {},
-            afterAddPeriod: function() {},
-            beforeRemovePeriod: function() {},
-            afterRemovePeriod: function() {}
+            onAddPeriod: function() {},
+            onRemovePeriod: function() {},
+            onPeriodClicked: function() {}
         },
-        seed = Math.random().toString(36).substr(2),
-        counter = 0,
         pluginName = "jqs",
         invalidPeriod = "Invalid period.",
         invalidPosition = "Invalid position.";
@@ -35,19 +27,29 @@
     // Plugin constructor
     function Plugin(element, options) {
         this.element = element;
-        this.settings = $.extend(defaults, options);
+        this.settings = $.extend({}, defaults, options);
         this.init();
     }
 
     $.extend(Plugin.prototype, {
         /**
-         *
+         * Plugin instance seed
+         */
+        seed: Math.random().toString(36).substr(2),
+
+        /**
+         * Period addition counter
+         */
+        counter: 0,
+
+        /**
+         * Generate id for a period
          * @returns {string}
          */
         uniqId: function () {
-            counter++;
+            this.counter++;
 
-            return pluginName + "_" + seed + "_" + counter;
+            return pluginName + "_" + this.seed + "_" + this.counter;
         },
 
         /**
@@ -59,9 +61,8 @@
             $(this.element).addClass("jqs");
 
             if (this.settings.mode === "edit") {
-                // bind event
-                $(this.element).on("click", ".jqs-wrapper", function (event) {
-                    // add a new selection
+                // add a new period
+                $(this.element).on("click", ".jqs-day", function (event) {
                     if ($(event.target).hasClass("jqs-period") || $(event.target).parents(".jqs-period").length > 0) {
                         return false;
                     }
@@ -74,46 +75,29 @@
                     $this.add($(this), position, 1);
                 });
 
-                // delete a selection
+                // delete a period
                 $(this.element).on("click", ".jqs-remove", function () {
-                    if($this.settings.beforeRemovePeriod.call(this)) {
-                        $this.parents(".jqs-period").remove();
-
-                        $this.settings.afterRemovePeriod.call(this);
+                    var period = $(this).parents(".jqs-period");
+                    if(!$this.settings.onRemovePeriod.call(this, period, $this.element)) {
+                        period.remove();
                     }
                 });
-
-                /*
-                if ($this.settings.confirm) {
-                    $(this.element).on("click", ".jqs-remove", function () {
-                        var element = $(this).parents(".jqs-period");
-                        $this.dialogOpen($this.settings.removePeriod, function () {
-                            element.remove();
-                        });
-                    });
-                } else {
-                    $(this.element).on("click", ".jqs-remove", function () {
-                        $(this).parents(".jqs-period").remove();
-                    });
-                }
-                */
             }
 
-            this.settings.onInit.call(this, this.element);
-
             this.create();
-
             this.generate();
+
+            this.settings.onInit.call(this, this.element);
         },
 
         /**
-         * Create html structure
+         * Generate schedule structure
          */
         create: function () {
             $("<table class='jqs-table'><tr></tr></table>").appendTo($(this.element));
 
             for (var i = 0; i < 7; i++) {
-                $("<td><div class='jqs-wrapper'></div></td>").appendTo($(".jqs-table tr", this.element));
+                $("<td><div class='jqs-day'></div></td>").appendTo($(".jqs-table tr", this.element));
             }
 
             $("<div class='jqs-grid'><div class='jqs-grid-head'></div></div>").appendTo($(this.element));
@@ -128,16 +112,15 @@
         },
 
         /**
-         * Generate the period selections
+         * Generate periods from data option
          */
         generate: function () {
             if (this.settings.data.length > 0) {
                 var $this = this;
 
                 $.each(this.settings.data, function (index, data) {
-
                     $.each(data.periods, function (index, period) {
-                        var element = $(".jqs-wrapper", $this.element).eq(data.day);
+                        var parent = $(".jqs-day", $this.element).eq(data.day);
                         var position = $this.positionFormat(period[0]);
                         var height = $this.positionFormat(period[1]);
 
@@ -145,21 +128,23 @@
                             height = 48;
                         }
 
-                        $this.add(element, position, height - position);
+                        $this.add(parent, position, height - position);
                     });
                 });
             }
         },
 
         /**
-         * Add a period selection to wrapper day
+         * Add a period to a day
          * @param parent
          * @param position
          * @param height
          */
         add: function (parent, position, height) {
             if (height <= 0) {
-                throw new Error(invalidPeriod);
+                console.error(invalidPeriod);
+
+                return false;
             }
 
             // remove button
@@ -168,9 +153,9 @@
                 remove = "<div class='jqs-remove'></div>";
             }
 
-            // new element
-            var period = "<div class='jqs-period-title'>" + this.periodInit(position, position + height) + "</div>";
-            var element = $("<div class='jqs-period'><div class='jqs-period-container'>" + remove + period + "</div></div>")
+            // new period
+            var content = "<div class='jqs-period-title'>" + this.periodInit(position, position + height) + "</div>";
+            var period = $("<div class='jqs-period'><div class='jqs-period-container'>" + remove + content + "</div></div>")
                 .css({
                     "top": position * 20,
                     "height": height * 20
@@ -178,10 +163,11 @@
                 .attr("id", this.uniqId())
                 .appendTo(parent);
 
-            if (!this.isValid(element)) {
+            // period validation
+            if (!this.isValid(period)) {
                 console.error(invalidPeriod, this.periodInit(position, position + height));
 
-                $(element).remove();
+                $(period).remove();
 
                 return false;
             }
@@ -189,7 +175,7 @@
             if (this.settings.mode === "edit") {
                 var $this = this;
 
-                element.draggable({
+                period.draggable({
                     grid: [0, 20],
                     containment: "parent",
                     drag: function (event, ui) {
@@ -223,14 +209,18 @@
                             });
                         }
                     }
+                }).click(function (e) {
+                    $this.settings.onPeriodClicked.call(this, e, period, $this.element);
                 });
             }
+
+            this.settings.onAddPeriod.call(this, period, this.element);
 
             return true;
         },
 
         /**
-         * Return a readable period string from an element position
+         * Return a readable period string from a period position
          * @param start
          * @param end
          * @returns {string}
@@ -264,13 +254,13 @@
         },
 
         /**
-         * Return an array with a readable period from an element
-         * @param element
+         * Return an array with a readable period string from a period position
+         * @param period
          * @returns {[*,*]}
          */
-        periodData: function (element) {
-            var start = Math.round(element.position().top / 20);
-            var end = Math.round((element.height() + element.position().top) / 20);
+        periodData: function (period) {
+            var start = Math.round(period.position().top / 20);
+            var end = Math.round((period.height() + period.position().top) / 20);
 
             return [this.periodFormat(start), this.periodFormat(end)];
         },
@@ -416,11 +406,10 @@
             var start = 0;
             var end = 0;
             var check = true;
-            $(".jqs-period", $(current).parent()).each(function (index, element) {
-                element = $(element);
-                if (current.attr("id") !== element.attr("id")) {
-                    start = Math.round(element.position().top);
-                    end = Math.round(element.position().top + element.height());
+            $(".jqs-period", $(current).parent()).each(function (index, period) {
+                if (current.attr("id") !== $(period).attr("id")) {
+                    start = Math.round($(period).position().top);
+                    end = Math.round($(period).position().top + $(period).height());
 
                     if (start > currentStart && start < currentEnd) {
                         check = false;
@@ -451,24 +440,23 @@
             var $this = this;
             var data = [];
 
-            $(".jqs-wrapper", $this.element).each(function (index, element) {
-                var day = {
-                    day: index,
-                    periods: []
-                };
-
-                $(".jqs-period", element).each(function (index, selection) {
-                    day.periods.push($this.periodData($(selection)));
+            $(".jqs-day", $this.element).each(function (index, day) {
+                var periods = [];
+                $(".jqs-period", day).each(function (index, period) {
+                    periods.push($this.periodData($(period)));
                 });
 
-                data.push(day);
+                data.push({
+                    day: index,
+                    periods: periods
+                });
             });
 
             return JSON.stringify(data);
         },
 
         /**
-         * Import data programmatically
+         * Import data on plugin init
          * @param args
          * @returns {Array}
          */
@@ -478,7 +466,7 @@
             var ret = [];
             $.each(dataImport, function (index, data) {
                 $.each(data.periods, function (index, period) {
-                    var element = $(".jqs-wrapper", $this.element).eq(data.day);
+                    var parent = $(".jqs-day", $this.element).eq(data.day);
                     var position = $this.positionFormat(period[0]);
                     var height = $this.positionFormat(period[1]);
 
@@ -487,7 +475,7 @@
                     }
 
                     var check = true;
-                    if (!$this.add(element, position, height - position)) {
+                    if (!$this.add(parent, position, height - position)) {
                         check = false;
                     }
 
@@ -509,49 +497,7 @@
          * Remove all periods
          */
         reset: function () {
-            $(".jqs-period", this.element).each(function (index, element) {
-                $(element).remove();
-            });
-        },
-
-        /**
-         * Open a confirmation dialog
-         * @param text
-         * @param success
-         */
-        dialogOpen: function (text, success) {
-            var $this = this;
-
-            $this.dialogClose();
-
-            var overlay = $("<div class='jqs-dialog-overlay'>");
-            var height = $(this.element).prop("scrollHeight");
-            overlay.css("height", height);
-
-            var content = "<div class='jqs-dialog-txt'>" + text + "</div>" +
-                "<div class='jqs-dialog-no'>" + $this.settings.dialogNo + "</div>" +
-                "<div class='jqs-dialog-yes'>" + $this.settings.dialogYes + "</div>";
-            var dialog = $("<div class='jqs-dialog-container'><div class='jqs-dialog'>" + content + "</div></div>");
-            var scroll = $(this.element).scrollTop();
-            dialog.css("top", scroll);
-
-            $(this.element).append(overlay).append(dialog);
-
-            $(".jqs-dialog-yes", dialog).click(function () {
-                success();
-                $this.dialogClose();
-            });
-
-            $(".jqs-dialog-no", dialog).click(function () {
-                $this.dialogClose();
-            });
-        },
-
-        /**
-         * Close a dialog
-         */
-        dialogClose: function () {
-            $(".jqs-dialog-overlay, .jqs-dialog-container").remove();
+            $(".jqs-period", this.element).remove();
         }
     });
 
