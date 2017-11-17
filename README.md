@@ -2,34 +2,35 @@
 
 A simple schedule management with jQuery.
 
+[![GitHub release](https://img.shields.io/github/release/Yehzuna/jquery-schedule.svg)](https://github.com/Yehzuna/jquery-schedule)
 [![Version](https://img.shields.io/npm/v/jquery-schedule.svg)](https://www.npmjs.org/package/jquery-schedule)
-[![Version](https://img.shields.io/bower/v/jquery-schedule.svg)](https://github.com/Yehzuna/jquery-schedule)
 
 ## Requirements
 
-jQuery >= 1.12.4
+jQuery >= 3.2.1
 
 jQuery ui >= 1.12.1
 
+
 ## Demo
 
-[Demo link](https://yehzuna.github.io/jquery-schedule/)
+[View demo page](https://yehzuna.github.io/jquery-schedule/)
 
-## Installation
 
-**bower**
 
-    bower install jquery-schedule
-    
-**npm**
+
+## Install
+
+
+### npm
 
     npm install jquery-schedule
     
-**yarn**
+### yarn
     
     yarn add jquery-schedule
     
-**scripts**
+### scripts
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -37,7 +38,9 @@ jQuery ui >= 1.12.1
     <script src="dist/jquery.schedule.min.js"></script>
     <link rel="stylesheet" href="dist/jquery.schedule.min.css">
 
-## Usage
+
+
+## Usage examples
 
 ```javascript
 $("#schedule").jqs();
@@ -70,6 +73,7 @@ $("#schedule").jqs({
 ```
 
 ## Data Format
+The plugin use this format 
 
 ```json
 [
@@ -82,17 +86,12 @@ $("#schedule").jqs({
 ]
 ```
 #### Day format
-> 0 to 6
-
-> Monday to Sunday
+0 to 6 (Monday to Sunday)
 
 #### Hour format
-
-24-hour clock 
-> hh:mm
-
-12-hour clock 
->hh:mm am/pm
+Two formats are supported :
+- 24-hour clock (hh:mm)
+- 12-hour clock (hh:mm am/pm)
 
 #### Example
 ```json
@@ -106,50 +105,72 @@ $("#schedule").jqs({
 ]
 ```
 
+
 ## Options
 
-| Option | Type | Default | Description
-| --- | --- |  --- |  --- |
-| `debug` | `bool` | `false` | Show log/error messages in console
-| `mode` | `string` | `edit` | Define the schedule mode (read or edit)
-| `confirm` | `bool` | `true` | Show a confirmation dialog when removing a period
-| `hour` | `int` | `24` | Set the 12-hour or 24-hour clock (12/24)
-| `data` | `array` | `[]` | Add a list of period by day
-| `days` | `array` | `["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]` | Days list 
-| `invalidPeriod` | `string` | `Invalid period.` | Debug message
-| `invalidPosition` | `string` | `Invalid position.` | Debug message
-| `removePeriod` | `string` | `Remove this period ?` | The confirmation dialog message
+### `mode`
+- Type: `string`
+- Default : `edit` 
+
+Define the schedule mode (read or edit)
+
+### `hour`
+- Type: `int`
+- Default : `24` 
+
+Set the 12-hour or 24-hour clock (12 or 24)
+
+### `data`
+- Type: `array`
+- Default : `[]`
+
+Set periods on plugin init (see [import method](#import))
+
+### `days`
+- Type: `array`
+- Default : `["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]`
+
+Days list
 
 
-## Theming
 
-| CSS Class | Description
-| --- | --- |  
-| `.jqs` | The plugin main container |
-| `.jqs-table` | Define the schedule structure |
-| `.jqs-wrapper` | The container that holds all periods for one day |
-| `.jqs-grid` | The grid container |
-| `.jqs-grid-head` | The header grid container |
-| `.jqs-grid-line` | The line grid container |
-| `.jqs-grid-day` | Sets the style for the day title |
-| `.jqs-grid-hour` | Sets the style for the hour title |
-| `.jqs-period` | The period container |
-| `.jqs-period-container` | Sets the style for the period |
-| `.jqs-period-title` | Sets the style for the period title |
-| `.jqs-remove` | Sets the style for the remove button in a period |
-| `.jqs-dialog-overlay` | Sets the style for the dialog overlay |
-| `.jqs-dialog-container` | The dialog container |
-| `.jqs-dialog` | Sets the style for the dialog |
+## Events
+
+### `onInit(jqs)`
+- `jqs` Schedule container
+
+A callback fire just after the schedule init
+
+### `onAddPeriod(period, jqs)`
+- `period` The new period added
+- `jqs` Schedule container
+
+A callback fire after a new period is added. 
+
+### `onRemovePeriod(period, jqs)`
+- `period` The period to remove
+- `jqs` Schedule container
+
+A callback fire before a period is removed
+
+### `onPeriodClicked(event, period, jqs)`
+- `event` click event
+- `period` The period target
+- `jqs` Schedule container
+
+A callback fire on a period click
+
+
 
 ## Methods 
 
-#### Export
-> Export periods to json format
+### `export`
+Export all periods in the schedule to a JSON.
 
 ```javascript
 var data = $("#schedule").jqs('export');
 ```
-Export example (json) :
+Example :
 
 ```json
 [
@@ -163,8 +184,8 @@ Export example (json) :
 ]
 ```
 
-#### Import
-> Import periods programmatically
+### `import` <a href="#import"></a>
+Import periods programmatically
 
 ```javascript
 $("#schedule").jqs('import', [
@@ -177,7 +198,7 @@ $("#schedule").jqs('import', [
 ]);
 ```
 
-Return a json with each period status 
+Return a JSON with each period status 
 
 ```json
 [
@@ -185,9 +206,31 @@ Return a json with each period status
 ]
 ```
 
-#### Reset
-> Reset the schedule (remove all periods)
+### `reset`
+Reset the schedule (remove all periods)
 
 ```javascript
 $("#schedule").jqs('reset');
 ```
+
+
+
+## Theming
+
+| CSS Class | Description
+| --- | --- |  
+| `.jqs` | Plugin main container |
+| `.jqs-table` | Define the schedule structure |
+| `.jqs-grid` | Grid container |
+| `.jqs-grid-head` | Header grid container. Contain  |
+| `.jqs-grid-line` | Line grid container |
+| `.jqs-grid-day` | Sets the style for the day title |
+| `.jqs-grid-hour` | Sets the style for the hour title |
+| `.jqs-day` | Day container |
+| `.jqs-period` | Period container |
+| `.jqs-period-container` | Sets css style for a period |
+| `.jqs-period-title` | Sets css style for a period title |
+| `.jqs-remove` | Sets the style for the remove button in a period |
+| `.jqs-dialog-overlay` | Sets the style for the dialog overlay |
+| `.jqs-dialog-container` | The dialog container |
+| `.jqs-dialog` | Sets the style for the dialog |
