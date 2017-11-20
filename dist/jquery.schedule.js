@@ -1,8 +1,3 @@
-/**
- * jQuery Schedule v2.0.0
- * https://github.com/Yehzuna/jquery-schedule
- * Thomas BORUSZEWSKI <yehzuna@outlook.com>
- */
 ;(function ($, window, document, undefined) {
     "use strict";
 
@@ -10,6 +5,7 @@
     var defaults = {
             mode: "edit", // read
             hour: 24, // 12
+            periodDuration: 30, // 15/30/60
             data: [],
             days: [
                 "Monday",
@@ -20,10 +16,10 @@
                 "Saturday",
                 "Sunday"
             ],
-            onInit: function() {},
-            onAddPeriod: function() {},
-            onRemovePeriod: function() {},
-            onPeriodClicked: function() {}
+            onInit: function () {},
+            onAddPeriod: function () {},
+            onRemovePeriod: function () {},
+            onPeriodClicked: function () {}
         },
         pluginName = "jqs",
         invalidPeriod = "Invalid period.",
@@ -47,6 +43,10 @@
          */
         counter: 0,
 
+        periodInterval: 0,
+        periodHeight: 0,
+        periodPosition: 0,
+
         /**
          * Generate id for a period
          * @returns {string}
@@ -63,7 +63,12 @@
         init: function () {
             var $this = this;
 
-            $(this.element).addClass("jqs");
+            this.periodInterval = 60 / this.settings.periodDuration;
+            this.periodHeight = 24 * this.periodInterval;
+            this.periodPosition = 40 / this.periodInterval;
+            console.log('periodInterval', this.periodInterval, 'periodHeight', this.periodHeight, 'periodPosition', this.periodPosition);
+
+            $(this.element).addClass("jqs").addClass("jqs-period-" + this.settings.periodDuration);
 
             if (this.settings.mode === "edit") {
                 // add a new period
@@ -72,18 +77,13 @@
                         return false;
                     }
 
-                    var position = Math.round(event.offsetY / 20);
-                    if (position >= 48) {
-                        position = 47;
-                    }
-
-                    $this.add($(this), position, 1);
+                    $this.add($(this), Math.floor(event.offsetY / $this.periodPosition), 1);
                 });
 
                 // delete a period
                 $(this.element).on("click", ".jqs-remove", function () {
                     var period = $(this).parents(".jqs-period");
-                    if(!$this.settings.onRemovePeriod.call(this, period, $this.element)) {
+                    if (!$this.settings.onRemovePeriod.call(this, period, $this.element)) {
                         period.remove();
                     }
                 });
@@ -130,7 +130,7 @@
                         var height = $this.positionFormat(period[1]);
 
                         if (height === 0) {
-                            height = 48;
+                            height = this.periodHeight;
                         }
 
                         $this.add(parent, position, height - position);
@@ -146,7 +146,9 @@
          * @param height
          */
         add: function (parent, position, height) {
-            if (height <= 0) {
+            console.log('position', position, 'height', height);
+
+            if (height <= 0 || position >= this.periodHeight) {
                 console.error(invalidPeriod);
 
                 return false;
@@ -162,8 +164,8 @@
             var content = "<div class='jqs-period-title'>" + this.periodInit(position, position + height) + "</div>";
             var period = $("<div class='jqs-period'><div class='jqs-period-container'>" + remove + content + "</div></div>")
                 .css({
-                    "top": position * 20,
-                    "height": height * 20
+                    "top": position * this.periodPosition,
+                    "height": height * this.periodPosition
                 })
                 .attr("id", this.uniqId())
                 .appendTo(parent);
@@ -181,13 +183,13 @@
                 var $this = this;
 
                 period.draggable({
-                    grid: [0, 20],
+                    grid: [0, this.periodPosition],
                     containment: "parent",
                     drag: function (event, ui) {
                         $(".jqs-period-title", ui.helper).text($this.periodDrag(ui));
                     },
                     stop: function (event, ui) {
-                        //console.log(ui);
+                        console.log(ui);
 
                         if (!$this.isValid($(ui.helper))) {
                             console.error(invalidPosition);
@@ -196,14 +198,14 @@
                         }
                     }
                 }).resizable({
-                    grid: [0, 20],
+                    grid: [0, this.periodPosition],
                     containment: "parent",
                     handles: "n, s",
                     resize: function (event, ui) {
                         $(".jqs-period-title", ui.helper).text($this.periodResize(ui));
                     },
                     stop: function (event, ui) {
-                        // console.log(ui);
+                        console.log(ui);
 
                         if (!$this.isValid($(ui.helper))) {
                             console.log(invalidPosition);
@@ -214,9 +216,9 @@
                             });
                         }
                     }
-                }).click(function (e) {
+                })/*.click(function (e) {
                     $this.settings.onPeriodClicked.call(this, e, period, $this.element);
-                });
+                })*/;
             }
 
             this.settings.onAddPeriod.call(this, period, this.element);
@@ -240,8 +242,8 @@
          * @returns {string}
          */
         periodDrag: function (ui) {
-            var start = Math.round(ui.position.top / 20);
-            var end = Math.round(($(ui.helper).height() + ui.position.top) / 20);
+            var start = Math.round(ui.position.top / this.periodPosition);
+            var end = Math.round(($(ui.helper).height() + ui.position.top) / this.periodPosition);
 
             return this.periodFormat(start) + " - " + this.periodFormat(end);
         },
@@ -252,8 +254,8 @@
          * @returns {string}
          */
         periodResize: function (ui) {
-            var start = Math.round(ui.position.top / 20);
-            var end = Math.round((ui.size.height + ui.position.top) / 20);
+            var start = Math.round(ui.position.top / this.periodPosition);
+            var end = Math.round((ui.size.height + ui.position.top) / this.periodPosition);
 
             return this.periodFormat(start) + " - " + this.periodFormat(end);
         },
@@ -264,8 +266,8 @@
          * @returns {[*,*]}
          */
         periodData: function (period) {
-            var start = Math.round(period.position().top / 20);
-            var end = Math.round((period.height() + period.position().top) / 20);
+            var start = Math.round(period.position().top / this.periodPosition);
+            var end = Math.round((period.height() + period.position().top) / this.periodPosition);
 
             return [this.periodFormat(start), this.periodFormat(end)];
         },
@@ -276,94 +278,77 @@
          * @returns {number}
          */
         periodFormat: function (position) {
-            var hour = 0;
+            if (position >= this.periodHeight) {
+                position = 0;
+            }
+
+            var time = "";
+            var hour = Math.floor(position / this.periodInterval);
+            var mn = (position / this.periodInterval - hour) * 60;
 
             if (this.settings.hour === 12) {
-                var calc = Math.floor(position / 2);
-
-                var min = ":30";
-                if (position % 2 === 0) {
-                    min = "";
+                var ind = " am";
+                if (hour >= 12) {
+                    ind = " pm";
+                }
+                if (hour === 24) {
+                    ind = " am";
                 }
 
-                hour = calc + min + "am";
-                if (calc > 12) {
-                    hour = (calc - 12) + min + "pm";
-                }
-
-                if (calc === 0 || calc === 24) {
-                    hour = 12 + min + "am";
-                }
-
-                if (calc === 12) {
-                    hour = 12 + min + "pm";
-                }
+                var newHour = Math.floor(hour / 2);
+                time = newHour + ":" + mn + ind;
             } else {
-
-                if (position >= 48) {
-                    position = 0;
-                }
-
-                hour = Math.floor(position / 2);
                 if (hour < 10) {
                     hour = "0" + hour;
                 }
-
-                if (position % 2 === 0) {
-                    hour += ":00";
-                } else {
-                    hour += ":30";
+                if (mn < 10) {
+                    mn = "0" + mn;
                 }
+
+                time = hour + ":" + mn;
             }
 
-            return hour;
+            return time;
         },
 
         /**
          * Return a position from a readable hour
-         * @param hour
+         * @param time
          * @returns {number}
          */
-        positionFormat: function (hour) {
+        positionFormat: function (time) {
             var position = 0;
 
+            var split = time.split(":");
+            var hour = parseInt(split[0]);
+            var mn = parseInt(split[1]);
+
             if (this.settings.hour === 12) {
-                var matches = hour.match(/([0-1]?[0-9]):?([0-5][0-9])?\s?(am|pm)/);
-                //console.log(matches);
+                var matches = time.match(/([0-1]?[0-9]):?([0-5][0-9])?\s?(am|pm)/);
+                // console.log(matches);
+                hour = parseInt(matches[1]);
+                mn = parseInt(matches[2]);
+                var ind = matches[3];
 
-                var h = parseInt(matches[1]);
-                var m = parseInt(matches[2]);
-                var time = matches[3];
-
-                if (h === 12 && time === "am") {
-                    h = 0;
+                if (hour === 12 && ind === "am") {
+                    hour = 0;
                 }
-                if (h === 12 && time === "pm") {
-                    time = "am";
+                if (hour === 12 && ind === "pm") {
+                    ind = "am";
                 }
-                if (time === "pm") {
-                    h += 12;
-                }
-
-                position = h * 2;
-                if (m === 30) {
-                    position++;
-                }
-
-            } else {
-                var split = hour.split(":");
-
-                position = parseInt(split[0]) * 2;
-                if (parseInt(split[1]) === 30) {
-                    position++;
+                if (ind === "pm") {
+                    hour += 12;
                 }
             }
+
+            position += hour * this.periodInterval;
+            position += mn / 60 * this.periodInterval;
 
             return position;
         },
 
         /**
-         * Return a hour to readable format
+         * Return a hour to readable format (Grid structure)
          * @param hour
          * @returns {string}
          */
@@ -385,7 +370,6 @@
                         }
                 }
             } else {
-
                 if (hour >= 24) {
                     hour = 0;
                 }
@@ -476,12 +460,12 @@
                     var height = $this.positionFormat(period[1]);
 
                     if (height === 0) {
-                        height = 48;
+                        height = this.periodHeight;
                     }
 
-                    var check = true;
+                    var status = true;
                     if (!$this.add(parent, position, height - position)) {
-                        check = false;
+                        status = false;
                     }
 
                     ret.push({
@@ -490,7 +474,7 @@
                             $this.periodFormat(position),
                             $this.periodFormat(height)
                         ],
-                        status: check
+                        status: status
                     });
                 });
             });
