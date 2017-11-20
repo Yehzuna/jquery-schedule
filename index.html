@@ -89,7 +89,8 @@ $("#schedule3").jqs({
 <script src="dist/jquery.schedule.js"></script>
 <script>
     $(function () {
-        $("#schedule").jqs();
+        //$("#schedule").jqs();
+
 
         $("#schedule2").jqs({
             mode: "read",
@@ -110,6 +111,7 @@ $("#schedule3").jqs({
             ]
         });
 
+        /*
         $("#schedule3").jqs({
             mode: "read",
             days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
@@ -124,6 +126,7 @@ $("#schedule3").jqs({
                 }
             ]
         });
+        */
 
         $("#export").click(function () {
             $("#result").val($("#schedule").jqs('export'));
