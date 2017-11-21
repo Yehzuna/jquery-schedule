@@ -1,15 +1,15 @@
 # jQuery Schedule
 
-A simple schedule management with jQuery.
+A simple schedule management with jQuery and jQuery ui.
 
 [![GitHub release](https://img.shields.io/github/release/Yehzuna/jquery-schedule.svg)](https://github.com/Yehzuna/jquery-schedule)
 [![Version](https://img.shields.io/npm/v/jquery-schedule.svg)](https://www.npmjs.org/package/jquery-schedule)
 
 ## Requirements
 
-jQuery >= 3.2.1
+jQuery >= 3.2.*
 
-jQuery ui >= 1.12.1
+jQuery ui >= 1.12.*
 
 
 ## Demo
@@ -90,8 +90,8 @@ The plugin use this format
 
 #### Hour format
 Two formats are supported :
-- 24-hour clock (hh:mm)
-- 12-hour clock (hh:mm am/pm)
+- 24-hour clock (`hh:mm`)
+- 12-hour clock (`hh:mm am/pm`)
 
 #### Example
 ```json
@@ -110,27 +110,36 @@ Two formats are supported :
 
 ### `mode`
 - Type: `string`
-- Default : `edit` 
+- Default: `edit` 
+- Options: `read` `edit`
 
-Define the schedule mode (read or edit)
+Define the schedule mode
 
 ### `hour`
 - Type: `int`
-- Default : `24` 
+- Default: `24` 
+- Options: `12` `24`
 
-Set the 12-hour or 24-hour clock (12 or 24)
+Define the time format
+
+### `periodDuration`
+- Type: `int`
+- Default : `30` 
+- Options: `15` `30` `60`
+
+Define the period duration interval
 
 ### `data`
 - Type: `array`
 - Default : `[]`
 
-Set periods on plugin init (see [import method](#import))
+Define periods on schedule init (see [import method](#import))
 
 ### `days`
 - Type: `array`
 - Default : `["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]`
 
-Days list
+Define days 
 
 
 

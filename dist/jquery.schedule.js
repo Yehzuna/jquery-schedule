@@ -5,7 +5,7 @@
     var defaults = {
             mode: "edit", // read
             hour: 24, // 12
-            periodDuration: 30, // 15/30/60
+            periodDuration: 15, // 15/30/60
             data: [],
             days: [
                 "Monday",
@@ -43,8 +43,19 @@
          */
         counter: 0,
 
+        /**
+         * Period interval multiplier
+         */
         periodInterval: 0,
+
+        /**
+         * Period max height
+         */
         periodHeight: 0,
+
+        /**
+         * Period position max step
+         */
         periodPosition: 0,
 
         /**
@@ -62,6 +73,10 @@
          */
         init: function () {
             var $this = this;
+
+            if ($.inArray(this.settings.periodDuration, [15, 30, 60]) === -1) {
+                throw new Error("Invalid periodDuration");
+            }
 
             this.periodInterval = 60 / this.settings.periodDuration;
             this.periodHeight = 24 * this.periodInterval;
@@ -125,12 +140,14 @@
 
                 $.each(this.settings.data, function (index, data) {
                     $.each(data.periods, function (index, period) {
+
+                        console.log('generate', index, period);
+
                         var parent = $(".jqs-day", $this.element).eq(data.day);
                         var position = $this.positionFormat(period[0]);
                         var height = $this.positionFormat(period[1]);
-
                         if (height === 0) {
-                            height = this.periodHeight;
+                            height = $this.periodHeight;
                         }
 
                         $this.add(parent, position, height - position);
@@ -282,33 +299,40 @@
                 position = 0;
             }
 
-            var time = "";
             var hour = Math.floor(position / this.periodInterval);
             var mn = (position / this.periodInterval - hour) * 60;
 
+            console.log('periodFormat', position, hour, mn);
+
             if (this.settings.hour === 12) {
-                var ind = " am";
+                var time = hour;
+                var ind = "";
+
                 if (hour >= 12) {
-                    ind = " pm";
+                    ind = "p";
                 }
-                if (hour === 24) {
-                    ind = " am";
+                if (hour > 12) {
+                    time = hour - 12;
                 }
-
-                var newHour = Math.floor(hour / 2);
-                time = newHour + ":" + mn + ind;
-            } else {
-                if (hour < 10) {
-                    hour = "0" + hour;
+                if (hour === 0 || hour === 24) {
+                    ind = "";
+                    time = 12;
                 }
-                if (mn < 10) {
-                    mn = "0" + mn;
+                if (mn !== 0) {
+                    time += ":" + mn;
                 }
 
-                time = hour + ":" + mn;
+                return time + ind;
             }
 
-            return time;
+            if (hour < 10) {
+                hour = "0" + hour;
+            }
+            if (mn < 10) {
+                mn = "0" + mn;
+            }
+
+            return hour + ":" + mn;
         },
 
         /**
@@ -317,32 +341,49 @@
          * @returns {number}
          */
         positionFormat: function (time) {
-            var position = 0;
-
             var split = time.split(":");
             var hour = parseInt(split[0]);
             var mn = parseInt(split[1]);
 
             if (this.settings.hour === 12) {
-                var matches = time.match(/([0-1]?[0-9]):?([0-5][0-9])?\s?(am|pm)/);
-                // console.log(matches);
+                var matches = time.match(/([0-1]?[0-9]):?([0-5][0-9])?\s?(am|pm|p)?/);
+                var ind = matches[3];
+                if (!ind) {
+                    ind = "am";
+                }
+
                 hour = parseInt(matches[1]);
                 mn = parseInt(matches[2]);
-                var ind = matches[3];
+
+                console.log('positionFormat', hour, mn, ind);
+
+
+                if(!mn) {
+                    mn = 0;
+                }
 
                 if (hour === 12 && ind === "am") {
                     hour = 0;
                 }
-                if (hour === 12 && ind === "pm") {
+                if (hour === 12 && (ind === "pm" || ind === "p")) {
                     ind = "am";
                 }
-                if (ind === "pm") {
+                if (ind === "pm" || ind === "p") {
                     hour += 12;
                 }
             }
 
+            console.log(hour * this.periodInterval, mn / 60 * this.periodInterval);
+
+            var position = 0;
             position += hour * this.periodInterval;
             position += mn / 60 * this.periodInterval;
+
+            console.log(position);
+
+            if (Math.floor(position) !== position) {
+                return -1;
+            }
 
             return position;
         },
@@ -357,16 +398,16 @@
                 switch (hour) {
                     case 0:
                     case 24:
-                        hour = "12 am";
+                        hour = "12am";
                         break;
                     case 12:
-                        hour = "12 pm";
+                        hour = "12pm";
                         break;
                     default:
                         if (hour > 12) {
-                            hour = (hour - 12) + " pm";
+                            hour = (hour - 12) + "pm";
                         } else {
-                            hour += " am";
+                            hour += "am";
                         }
                 }
             } else {
@@ -460,7 +501,7 @@
                     var height = $this.positionFormat(period[1]);
 
                     if (height === 0) {
-                        height = this.periodHeight;
+                        height = $this.periodHeight;
                     }
 
                     var status = true;

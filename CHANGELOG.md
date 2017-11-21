@@ -9,7 +9,7 @@
 - Remove `debug` option
     - Remove debug messages (`invalidPosition` & `invalidPeriod`) 
 - Rename `.jqs-wrapper` to `.jqs-day`
-- Remove `remove button` in period
+- Remove `remove button` in periods
 
 **New features**
 - Add `periodDuration` option (15/30/60)
@@ -22,6 +22,7 @@
     - `onAddPeriod`
     - `onRemovePeriod`
     - `onPeriodClicked`
+- Add compact mode support for Ante meridiem and Post meridiem `8am - 2pm -> 8 - 2p`
 
 **Other changes**
 - Remove bower support
