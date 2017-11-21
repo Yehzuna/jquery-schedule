@@ -3,11 +3,12 @@
 <head>
     <meta charset="utf-8">
     <title>jQuery Schedule Demo</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="dist/jquery.schedule.css">
     <link rel="stylesheet" href="dist/jquery.schedule-demo.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </head>
 <body>
 <h1>jQuery Schedule Demo</h1>
@@ -86,11 +87,12 @@ $("#schedule3").jqs({
 </pre>
 <div id="schedule3" class="jqs-demo"></div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script src="dist/jquery.schedule.js"></script>
 <script>
     $(function () {
-        //$("#schedule").jqs();
-
+        $("#schedule").jqs();
 
         $("#schedule2").jqs({
             mode: "read",
@@ -111,7 +113,6 @@ $("#schedule3").jqs({
             ]
         });
 
-        /*
         $("#schedule3").jqs({
             mode: "read",
             days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
@@ -123,10 +124,23 @@ $("#schedule3").jqs({
                         ["10pm", "12am"],
                         ["12am", "2:30am"]
                     ]
+                },{
+                    day: 1,
+                    periods: [
+                        ["1:45am", "5:15am"],
+                        ["10am", "12pm"]
+                    ]
+                }, {
+                    day: 2,
+                    periods: [
+                        ["5:45", "6:15"],
+                        ["10", "2p"],
+                        ["6p", "8p"],
+                        ["8:15p", "9p"]
+                    ]
                 }
             ]
         });
-        */
 
         $("#export").click(function () {
             $("#result").val($("#schedule").jqs('export'));
