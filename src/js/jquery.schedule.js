@@ -5,7 +5,7 @@
     var defaults = {
             mode: "edit", // read
             hour: 24, // 12
-            periodDuration: 15, // 15/30/60
+            periodDuration: 30, // 15/30/60
             data: [],
             days: [
                 "Monday",
@@ -81,7 +81,6 @@
             this.periodInterval = 60 / this.settings.periodDuration;
             this.periodHeight = 24 * this.periodInterval;
             this.periodPosition = 40 / this.periodInterval;
-            console.log('periodInterval', this.periodInterval, 'periodHeight', this.periodHeight, 'periodPosition', this.periodPosition);
 
             $(this.element).addClass("jqs").addClass("jqs-period-" + this.settings.periodDuration);
 
@@ -141,8 +140,6 @@
                 $.each(this.settings.data, function (index, data) {
                     $.each(data.periods, function (index, period) {
 
-                        console.log('generate', index, period);
-
                         var parent = $(".jqs-day", $this.element).eq(data.day);
                         var position = $this.positionFormat(period[0]);
                         var height = $this.positionFormat(period[1]);
@@ -163,7 +160,6 @@
          * @param height
          */
         add: function (parent, position, height) {
-            console.log('position', position, 'height', height);
 
             if (height <= 0 || position >= this.periodHeight) {
                 console.error(invalidPeriod);
@@ -206,8 +202,6 @@
                         $(".jqs-period-title", ui.helper).text($this.periodDrag(ui));
                     },
                     stop: function (event, ui) {
-                        console.log(ui);
-
                         if (!$this.isValid($(ui.helper))) {
                             console.error(invalidPosition);
 
@@ -222,10 +216,8 @@
                         $(".jqs-period-title", ui.helper).text($this.periodResize(ui));
                     },
                     stop: function (event, ui) {
-                        console.log(ui);
-
                         if (!$this.isValid($(ui.helper))) {
-                            console.log(invalidPosition);
+                            console.error(invalidPosition);
 
                             $(ui.helper).css({
                                 "height": Math.round(ui.originalSize.height),
@@ -302,8 +294,6 @@
             var hour = Math.floor(position / this.periodInterval);
             var mn = (position / this.periodInterval - hour) * 60;
 
-            console.log('periodFormat', position, hour, mn);
-
             if (this.settings.hour === 12) {
                 var time = hour;
                 var ind = "";
@@ -355,9 +345,6 @@
                 hour = parseInt(matches[1]);
                 mn = parseInt(matches[2]);
 
-                console.log('positionFormat', hour, mn, ind);
-
-
                 if(!mn) {
                     mn = 0;
                 }
@@ -373,13 +360,9 @@
                 }
             }
 
-            console.log(hour * this.periodInterval, mn / 60 * this.periodInterval);
-
             var position = 0;
             position += hour * this.periodInterval;
             position += mn / 60 * this.periodInterval;
-
-            console.log(position);
 
             if (Math.floor(position) !== position) {
                 return -1;
