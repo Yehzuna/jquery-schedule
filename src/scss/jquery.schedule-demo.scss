@@ -7,34 +7,23 @@ html {
 }
 
 .jqs-demo {
-  width: 800px;
-  height: 600px;
+  min-width: 600px;
+  width: 100%;
+  height: 500px;
   background: #fff;
   border: 1px solid #ddd;
-  margin-bottom: 20px;
-}
-
-/*
-h2 {
-  text-decoration: underline;
 }
 
 pre {
-  width: 800px;
-  padding: 20px;
+  width: 100%;
   background: #eee;
   border: 1px solid #ddd;
-  box-sizing: border-box;
+  &.large {
+    height: 500px;
+  }
 }
 
 textarea {
-  width: 800px;
-  height: 100px;
-  margin-bottom: 20px;
+  width: 100%;
+  height: 80px;
 }
-
-.export-container {
-  margin-bottom: 20px;
-}
-
-*/
