@@ -4,16 +4,16 @@
 **Breaking changes**
 - Remove confirm feature (use `onRemovePeriod` callback then)
     - Remove `confirm` option
-    - Remove confirm popup messages (`removePeriod`, `dialogYes` & `dialogNo`)
-    - Remove theming class
+    - Remove confirm messages (`removePeriod`, `dialogYes` & `dialogNo`)
+    - Remove theming classes
 - Remove `debug` option
     - Remove debug messages (`invalidPosition` & `invalidPeriod`) 
 - Rename `.jqs-wrapper` to `.jqs-day`
-- Remove `remove button` in periods
+- Remove the delete button in periods
 
 **New features**
 - Add `periodDuration` option (15/30/60)
-- Add new option popup on period click
+- Add new popup options whith new features when clicking on a period
     - custom title
     - custom color
     - remove button
