@@ -167,15 +167,10 @@
                 return false;
             }
 
-            // remove button
-            var remove = "";
-            if (this.settings.mode === "edit") {
-                remove = "<div class='jqs-remove'></div>";
-            }
-
             // new period
-            var content = "<div class='jqs-period-title'>" + this.periodInit(position, position + height) + "</div>";
-            var period = $("<div class='jqs-period'><div class='jqs-period-container'>" + remove + content + "</div></div>")
+            var title = "<div class='jqs-period-title'></div>";
+            var time = "<div class='jqs-period-time'>" + this.periodInit(position, position + height) + "</div>";
+            var period = $("<div class='jqs-period'><div class='jqs-period-container'>" + title + time + "</div></div>")
                 .css({
                     "top": position * this.periodPosition,
                     "height": height * this.periodPosition
@@ -199,7 +194,7 @@
                     grid: [0, this.periodPosition],
                     containment: "parent",
                     drag: function (event, ui) {
-                        $(".jqs-period-title", ui.helper).text($this.periodDrag(ui));
+                        $(".jqs-period-time", ui.helper).text($this.periodDrag(ui));
                     },
                     stop: function (event, ui) {
                         if (!$this.isValid($(ui.helper))) {
@@ -213,7 +208,7 @@
                     containment: "parent",
                     handles: "n, s",
                     resize: function (event, ui) {
-                        $(".jqs-period-title", ui.helper).text($this.periodResize(ui));
+                        $(".jqs-period-time", ui.helper).text($this.periodResize(ui));
                     },
                     stop: function (event, ui) {
                         if (!$this.isValid($(ui.helper))) {
@@ -225,15 +220,38 @@
                             });
                         }
                     }
-                })/*.click(function (e) {
+                }).click(function (e) {
                     $this.settings.onPeriodClicked.call(this, e, period, $this.element);
-                })*/;
+                    $this.openOptions(period);
+                });
             }
 
             this.settings.onAddPeriod.call(this, period, this.element);
 
             return true;
         },
+
+        /**
+         *
+         * @param period
+         */
+        openOptions: function (period) {
+            var title = $("jqs-period-title", period).html();
+            var color = $(period).css("background-color");
+
+            var titleInput = "<div class='jqs-period-title'><input type='text' value='"+title+"'></div>";
+            var colorInput = "<div class='jqs-period-colors'></div>";
+            var remove = "<div class='jqs-remove'></div>";
+            $("<div class='jqs-options'>"+ titleInput + colorInput + remove +"</div>").append(this.element);
+        },
+
+        /**
+         *
+         */
+        closeOptions: function () {
+
+        },
+
 
         /**
          * Return a readable period string from a period position
