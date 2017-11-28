@@ -103,40 +103,30 @@ $zone: 20px;
       border-radius: 3px;
     }
 
+    .jqs-period-time,
     .jqs-period-title {
       font-size: 11px;
     }
+  }
 
-    &:hover {
-      .jqs-remove {
-        display: block;
-      }
-    }
+  .jqs-options {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    background: #fff;
+    border: 1px solid #333;
+  }
+
+  .jqs-color {
+    display: inline-block;
+    border-style: solid;
+    border-width: 1px;
+    height: 25px;
+    width: 25px;
   }
 
   .jqs-remove {
-    display: none;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    height: 14px;
-    width: 14px;
-    cursor: pointer;
-    &:before,
-    &:after {
-      content: "";
-      display: block;
-      position: absolute;
-      height: 100%;
-      width: 2px;
-      left: 6px;
-      background: #2a3cff;
-    }
-    &:before {
-      transform: rotate(45deg);
-    }
-    &:after {
-      transform: rotate(-45deg);
-    }
+
   }
 }
