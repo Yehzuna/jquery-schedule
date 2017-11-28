@@ -10,28 +10,30 @@
     - Remove debug messages (`invalidPosition` & `invalidPeriod`) 
 - Rename `.jqs-wrapper` to `.jqs-day`
 - Remove the delete button in periods
+- Change import and export JSON to include title and colors features
 
 **New features**
+- Change period creation method. Use `mouseup` & `mousedown` events instead of `click` event 
 - Add `periodDuration` option (15/30/60)
-- Add new popup options whith new features when clicking on a period
-    - custom title
-    - custom color
-    - remove button
+- Add new popup when clicking on a period
+- New features on periods
+    - Custom title
+    - Custom color
 - Add new callbacks
     - `onInit`
     - `onAddPeriod`
     - `onRemovePeriod`
-    - `onPeriodClicked`
+    - `onClickPeriod`
 - Add compact mode support for Ante meridiem and Post meridiem `8am - 2pm -> 8 - 2p`
 
 **Other changes**
-- Remove bower support
-- Update jQuery version
-- use Bootstrap 4 on demo page
-- Remove useless global variables 
-- Code clean
 - `reset` and `export` methods optimization
+- Remove useless global variables
+- Remove bower support to yarn
+- Update jQuery version
+- Use Bootstrap 4 on the demo page
 - Period IDs standardization
+- Code clean
 
 # 1.2.1
 - Fixed : Block position error with Bootstrap 3.x

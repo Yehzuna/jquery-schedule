@@ -1,8 +1,3 @@
-/**
- * jQuery Schedule v2.0.0
- * https://github.com/Yehzuna/jquery-schedule
- * Thomas BORUSZEWSKI <yehzuna@outlook.com>
- */
 ;(function ($, window, document, undefined) {
     "use strict";
 
@@ -10,7 +5,7 @@
     var defaults = {
             mode: "edit", // read
             hour: 24, // 12
-            periodDuration: 30, // 15/30/60
+            periodDuration: 15, // 15/30/60
             data: [],
             days: [
                 "Monday",
@@ -87,16 +82,26 @@
             this.periodHeight = 24 * this.periodInterval;
             this.periodPosition = 40 / this.periodInterval;
 
-            $(this.element).addClass("jqs").addClass("jqs-period-" + this.settings.periodDuration);
+            $(this.element).addClass("jqs").addClass("jqs-interval-" + this.settings.periodDuration);
 
             if (this.settings.mode === "edit") {
                 // add a new period
-                $(this.element).on("click", ".jqs-day", function (event) {
-                    if ($(event.target).hasClass("jqs-period") || $(event.target).parents(".jqs-period").length > 0) {
-                        return false;
-                    }
+                var position = 0;
+                $(this.element).on("mousedown", ".jqs-day", function (event) {
+                    position = Math.floor(event.offsetY / $this.periodPosition);
+                });
 
-                    $this.add($(this), Math.floor(event.offsetY / $this.periodPosition), 1);
+                $(this.element).on("mouseup", ".jqs-day", function (event) {
+                    console.log(event.target);
+
+                    if (!$(event.target).hasClass("jqs-period") && $(event.target).parents(".jqs-period").length === 0) {
+                        var height = Math.round(event.offsetY / $this.periodPosition) - position;
+                        if (height <= 0) {
+                            height = 1;
+                        }
+
+                        $this.add($(this), position, height);
+                    }
                 });
 
                 // delete a period
@@ -161,10 +166,11 @@
         /**
          * Add a period to a day
          * @param parent
-         * @param position
-         * @param height
+         * @param {int} position
+         * @param {int} height
+         * @param data
          */
-        add: function (parent, position, height) {
+        add: function (parent, position, height, data) {
 
             if (height <= 0 || position >= this.periodHeight) {
                 console.error(invalidPeriod);
@@ -172,21 +178,24 @@
                 return false;
             }
 
-            // remove button
-            var remove = "";
-            if (this.settings.mode === "edit") {
-                remove = "<div class='jqs-remove'></div>";
-            }
+            var title = (data && data.title) ? data.title : "";
 
             // new period
-            var content = "<div class='jqs-period-title'>" + this.periodInit(position, position + height) + "</div>";
-            var period = $("<div class='jqs-period'><div class='jqs-period-container'>" + remove + content + "</div></div>")
+            var periodTitle = "<div class='jqs-period-title'>" + title + "</div>";
+            var periodTime = "<div class='jqs-period-time'>" + this.periodInit(position, position + height) + "</div>";
+            var period = $("<div class='jqs-period'><div class='jqs-period-container'>" + periodTitle + periodTime + "</div></div>")
                 .css({
                     "top": position * this.periodPosition,
                     "height": height * this.periodPosition
                 })
                 .attr("id", this.uniqId())
+                .attr("title", title)
                 .appendTo(parent);
+
+            if (data) {
+                if (data.backgroundColor) $(".jqs-period-container", period).css("background-color", data.backgroundColor);
+                if (data.borderColor) $(".jqs-period-container", period).css("border-color", data.borderColor);
+            }
 
             // period validation
             if (!this.isValid(period)) {
@@ -204,7 +213,7 @@
                     grid: [0, this.periodPosition],
                     containment: "parent",
                     drag: function (event, ui) {
-                        $(".jqs-period-title", ui.helper).text($this.periodDrag(ui));
+                        $(".jqs-period-time", ui.helper).text($this.periodDrag(ui));
                     },
                     stop: function (event, ui) {
                         if (!$this.isValid($(ui.helper))) {
@@ -218,7 +227,9 @@
                     containment: "parent",
                     handles: "n, s",
                     resize: function (event, ui) {
-                        $(".jqs-period-title", ui.helper).text($this.periodResize(ui));
+                        $(".jqs-period-time", ui.helper).text($this.periodResize(ui));
+
+                        console.log(ui.height);
                     },
                     stop: function (event, ui) {
                         if (!$this.isValid($(ui.helper))) {
@@ -230,14 +241,66 @@
                             });
                         }
                     }
-                })/*.click(function (e) {
-                    $this.settings.onPeriodClicked.call(this, e, period, $this.element);
-                })*/;
+                }).click(function (event) {
+                    $this.settings.onPeriodClicked.call(this, event, period, $this.element);
+                    $this.openOptions(event, period);
+                });
             }
 
             this.settings.onAddPeriod.call(this, period, this.element);
 
             return true;
+        },
+
+        /**
+         *
+         * @param event
+         * @param period
+         */
+        openOptions: function (event, period) {
+            var title = $("jqs-period-title", period).html();
+
+            var colors = [
+                ["rgba(82, 155, 255, 0.5)", "rgba(82, 155, 255, 1)"],
+                ["rgba(0, 0, 255, 0.5)", "rgba(0, 0, 255, 1)"],
+                ["rgba(0, 255, 0, 0.5)", "rgba(0, 255, 0, 1)"]
+            ];
+
+            var titleInput = "<div class='jqs-title'><input type='text' value='" + title + "'></div>";
+
+            var colorInput = "<div class='jqs-period-colors'>";
+            $.each(colors, function (index, color) {
+                colorInput += "<button class='jqs-color' style='background-color: " + color[0] + "; border-color: " + color[1] + "'></button>";
+            });
+            colorInput += "</div>";
+
+            var remove = "<button class='jqs-remove'>Remove</button>";
+            $("<div class='jqs-options'>" + titleInput + colorInput + remove + "</div>").appendTo(this.element);
+
+
+            $(".jqs-options .jqs-color").click(function () {
+                $(".jqs-period-container", period).css({
+                    "background-color": $(this).css("background-color"),
+                    "border-color": $(this).css("border-top-color")
+                });
+            });
+
+            $(".jqs-options .jqs-title input").keyup(function () {
+                $(".jqs-period-title", period).html($(this).val());
+                period.attr('title', $(this).val());
+            });
+
+            $(".jqs-options .jqs-remove").click(function () {
+                period.remove();
+                $(".jqs-options").remove();
+            });
+        },
+
+        /**
+         *
+         */
+        closeOptions: function () {
+
         },
 
         /**
@@ -275,7 +338,7 @@
         },
 
         /**
-         * Return an array with a readable period string from a period position
+         * Return an object with all period data
          * @param period
          * @returns {[*,*]}
          */
@@ -283,7 +346,13 @@
             var start = Math.round(period.position().top / this.periodPosition);
             var end = Math.round((period.height() + period.position().top) / this.periodPosition);
 
-            return [this.periodFormat(start), this.periodFormat(end)];
+            return {
+                start: this.periodFormat(start),
+                end: this.periodFormat(end),
+                title: $(".jqs-period-title", period).html(),
+                backgroundColor: $(".jqs-period-container", period).css("background-color"),
+                borderColor: $(".jqs-period-container", period).css("border-top-color")
+            };
         },
 
         /**
@@ -350,7 +419,7 @@
                 hour = parseInt(matches[1]);
                 mn = parseInt(matches[2]);
 
-                if(!mn) {
+                if (!mn) {
                     mn = 0;
                 }
 
@@ -485,15 +554,15 @@
             $.each(dataImport, function (index, data) {
                 $.each(data.periods, function (index, period) {
                     var parent = $(".jqs-day", $this.element).eq(data.day);
-                    var position = $this.positionFormat(period[0]);
-                    var height = $this.positionFormat(period[1]);
+                    var position = $this.positionFormat(period.start);
+                    var height = $this.positionFormat(period.end);
 
                     if (height === 0) {
                         height = $this.periodHeight;
                     }
 
                     var status = true;
-                    if (!$this.add(parent, position, height - position)) {
+                    if (!$this.add(parent, position, height - position, period)) {
                         status = false;
                     }
 
