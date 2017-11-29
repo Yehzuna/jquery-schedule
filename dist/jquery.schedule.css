@@ -1,3 +1,8 @@
+/**
+ * jQuery Schedule v2.0.0
+ * https://github.com/Yehzuna/jquery-schedule
+ * Thomas BORUSZEWSKI <yehzuna@outlook.com>
+ */
 .jqs {
   position: relative;
   padding: 40px 20px 20px 60px;
@@ -79,7 +84,6 @@
   position: absolute;
   width: 100%;
   min-height: 10px;
-  line-height: 1;
 }
 .jqs .jqs-period .jqs-period-container {
   position: absolute;
@@ -87,14 +91,32 @@
   bottom: 2px;
   left: 2px;
   right: 2px;
-  padding: 3px;
-  background: rgba(82, 155, 255, 0.5);
-  border: 1px solid #2a3cff;
+  padding: 0 3px;
   border-radius: 3px;
+  box-sizing: border-box;
 }
 .jqs .jqs-period .jqs-period-time,
 .jqs .jqs-period .jqs-period-title {
+  display: block;
   font-size: 11px;
+  line-height: 12px;
+  letter-spacing: -0.5px;
+  word-break: break-all;
+  overflow: hidden;
+}
+.jqs .jqs-period .jqs-period-time {
+  font-weight: 700;
+  line-height: 16px;
+}
+.jqs .jqs-period.min .jqs-period-time,
+.jqs .jqs-period.min .jqs-period-title {
+  display: none;
+}
+.jqs .jqs-period.small .jqs-period-time {
+  display: block;
+}
+.jqs .jqs-period.small .jqs-period-title {
+  display: none;
 }
 .jqs .jqs-options {
   position: absolute;
@@ -102,12 +124,52 @@
   left: 0;
   z-index: 50;
   background: #fff;
-  border: 1px solid #333;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 16px;
 }
-.jqs .jqs-color {
+.jqs .jqs-title-container .jqs-title {
+  width: 220px;
+  font-size: 11px;
+  border: none;
+  border-bottom: 1px solid #333;
+  margin-bottom: 16px;
+  margin-right: 36px;
+}
+.jqs .jqs-colors-container .jqs-color {
   display: inline-block;
+  border-radius: 3px;
   border-style: solid;
   border-width: 1px;
   height: 25px;
-  width: 25px;
+  font-size: 11px;
+  margin-bottom: 16px;
+  margin-right: 4px;
+}
+.jqs .jqs-remove {
+  cursor: pointer;
+  padding: 8px;
+}
+.jqs .jqs-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+}
+.jqs .jqs-close:before, .jqs .jqs-close:after {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 2px;
+  left: 6px;
+  background: #000;
+}
+.jqs .jqs-close:before {
+  transform: rotate(45deg);
+}
+.jqs .jqs-close:after {
+  transform: rotate(-45deg);
 }

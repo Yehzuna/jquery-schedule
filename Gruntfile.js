@@ -52,10 +52,18 @@ module.exports = function (grunt) {
                 dest: 'dist/'
             }
         },
-        uglify: {
+        removelogging: {
             dist: {
                 expand: true,
                 cwd: 'src/js/',
+                src: '*.js',
+                dest: 'cache/'
+            }
+        },
+        uglify: {
+            dist: {
+                expand: true,
+                cwd: 'cache/',
                 src: '*.js',
                 dest: 'dist/',
                 ext: '.min.js',
@@ -102,7 +110,7 @@ module.exports = function (grunt) {
             },
             prod: {
                 options: {
-                    banner: '/** jQuery Schedule v<%= package.version %> | <%= package.homepage %> */',
+                    banner: '/** jQuery Schedule v<%= package.version %> | <%= package.homepage %> */'
                 },
                 expand: true,
                 cwd: 'dist/',
@@ -129,8 +137,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-banner');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-remove-logging');
+    grunt.loadNpmTasks('grunt-banner');
 
     grunt.registerTask('default', [
         'clean',
@@ -139,6 +148,7 @@ module.exports = function (grunt) {
         'compass:dev',
         'copy:js',
         'copy:css',
+        'removelogging',
         'uglify',
         'usebanner:dev',
         'usebanner:prod'
