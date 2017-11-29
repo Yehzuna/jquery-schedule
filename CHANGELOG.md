@@ -2,7 +2,7 @@
 
 # 2.0.0
 **Breaking changes**
-- Remove confirm feature (use `onRemovePeriod` callback then)
+- Remove confirm on remove feature (use `onRemovePeriod` callback then)
     - Remove `confirm` option
     - Remove confirm messages (`removePeriod`, `dialogYes` & `dialogNo`)
     - Remove theming classes
@@ -10,7 +10,7 @@
     - Remove debug messages (`invalidPosition` & `invalidPeriod`) 
 - Rename `.jqs-wrapper` to `.jqs-day`
 - Remove the delete button in periods
-- Change import and export JSON to include title and colors features
+- Update import and export JSON to include title and colors features
 
 **New features**
 - Change period creation method. Use `mouseup` & `mousedown` events instead of `click` event 
@@ -18,7 +18,7 @@
 - Add new popup when clicking on a period
 - New features on periods
     - Custom title
-    - Custom color
+    - Custom color for background, borders and text
 - Add new callbacks
     - `onInit`
     - `onAddPeriod`

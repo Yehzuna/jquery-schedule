@@ -89,7 +89,6 @@ $zone: 20px;
     position: absolute;
     width: 100%;
     min-height: 10px;
-    line-height: 1;
 
     .jqs-period-container {
       position: absolute;
@@ -97,17 +96,44 @@ $zone: 20px;
       bottom: 2px;
       left: 2px;
       right: 2px;
-      padding: 3px;
-      background: rgba(82, 155, 255, .5);
-      border: 1px solid #2a3cff;
+      padding: 0 3px;
       border-radius: 3px;
+      box-sizing: border-box;
     }
 
     .jqs-period-time,
     .jqs-period-title {
+      display: block;
       font-size: 11px;
+      line-height: 12px;
+      letter-spacing: -0.5px;
+      word-break: break-all;
+      overflow: hidden;
+    }
+
+    .jqs-period-time {
+      font-weight: 700;
+      line-height: 16px;
+    }
+
+    &.min {
+      .jqs-period-time,
+      .jqs-period-title {
+        display: none;
+      }
+    }
+
+    &.small {
+      .jqs-period-time {
+        display: block;
+      }
+      .jqs-period-title {
+        display: none;
+      }
     }
   }
+
+  $padding: 16px;
 
   .jqs-options {
     position: absolute;
@@ -115,18 +141,62 @@ $zone: 20px;
     left: 0;
     z-index: 50;
     background: #fff;
-    border: 1px solid #333;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+    padding: $padding;
   }
 
-  .jqs-color {
-    display: inline-block;
-    border-style: solid;
-    border-width: 1px;
-    height: 25px;
-    width: 25px;
+  .jqs-title-container {
+    .jqs-title {
+      width: 220px;
+      font-size: 11px;
+      border: none;
+      border-bottom: 1px solid #333;
+      margin-bottom: $padding;
+      margin-right: $padding + 20;
+    }
+  }
+
+  .jqs-colors-container {
+    .jqs-color {
+      display: inline-block;
+      border-radius: 3px;
+      border-style: solid;
+      border-width: 1px;
+      height: 25px;
+      font-size: 11px;
+      margin-bottom: $padding;
+      margin-right: $padding/4;
+    }
   }
 
   .jqs-remove {
+    cursor: pointer;
+    padding: $padding/2;
+  }
 
+  .jqs-close {
+    position: absolute;
+    top: $padding;
+    right: $padding;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+    &:before,
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      height: 100%;
+      width: 2px;
+      left: 6px;
+      background: #000;
+    }
+    &:before {
+      transform: rotate(45deg);
+    }
+    &:after {
+      transform: rotate(-45deg);
+    }
   }
 }
