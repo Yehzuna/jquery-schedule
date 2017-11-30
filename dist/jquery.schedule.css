@@ -145,10 +145,21 @@
   font-size: 11px;
   margin-bottom: 16px;
   margin-right: 4px;
+  cursor: pointer;
 }
 .jqs .jqs-remove {
+  display: inline-block;
   cursor: pointer;
-  padding: 8px;
+  padding: 10px 20px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #f5f5f5;
+  color: #444;
+  font-weight: 700;
+  font-size: 11px;
+}
+.jqs .jqs-remove:hover {
+  background: #c6c6c6;
+  color: #333;
 }
 .jqs .jqs-close {
   position: absolute;
