@@ -108,6 +108,33 @@
   font-weight: 700;
   line-height: 16px;
 }
+.jqs .jqs-period .jqs-period-remove {
+  display: none;
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  height: 10px;
+  width: 10px;
+  cursor: pointer;
+}
+.jqs .jqs-period .jqs-period-remove:before, .jqs .jqs-period .jqs-period-remove:after {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 2px;
+  left: 4px;
+  background: #000;
+}
+.jqs .jqs-period .jqs-period-remove:before {
+  transform: rotate(45deg);
+}
+.jqs .jqs-period .jqs-period-remove:after {
+  transform: rotate(-45deg);
+}
+.jqs .jqs-period:hover .jqs-period-remove {
+  display: block;
+}
 .jqs .jqs-period.min .jqs-period-time,
 .jqs .jqs-period.min .jqs-period-title {
   display: none;
@@ -150,7 +177,7 @@
 .jqs .jqs-remove {
   display: inline-block;
   cursor: pointer;
-  padding: 10px 20px;
+  padding: 5px 10px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   background: #f5f5f5;
   color: #444;
@@ -175,7 +202,7 @@
   position: absolute;
   height: 100%;
   width: 2px;
-  left: 6px;
+  left: 4px;
   background: #000;
 }
 .jqs .jqs-close:before {
