@@ -10,14 +10,10 @@
     var defaults = {
             mode: "edit", // read
             hour: 24, // 12
+            periodDuration: 30, // 15/30/60
             data: [],
-            periodDuration: 15, // 15/30/60
             periodOptions: true,
-            periodColors: [
-                ["rgba(82, 155, 255, 0.5)", "#2a3cff", "#000"],
-                ["rgba(0, 0, 255, 0.5)", "#0f0", "#000"],
-                ["rgba(0, 0, 0, 0.5)", "#000", "#f00"]
-            ],
+            periodColors: [],
             periodTitle: "",
             periodBackgroundColor: "rgba(82, 155, 255, 0.5)",
             periodBorderColor: "#2a3cff",
@@ -206,7 +202,7 @@
 
             // new period
             var periodRemove = "";
-            if (!this.settings.periodOptions) {
+            if (!this.settings.periodOptions && this.settings.mode === "edit") {
                 periodRemove = "<div class='jqs-period-remove' title='" + this.settings.periodRemoveButton + "'></div>";
             }
             var periodTitle = "<div class='jqs-period-title'>" + options.title + "</div>";
@@ -274,10 +270,14 @@
                             });
                         }
                     }
-                }).click(function (event) {
-                    $this.settings.onClickPeriod.call(this, event, period, $this.element);
-                    $this.openOptions(event, period);
                 });
+
+                if (this.settings.periodOptions) {
+                    period.click(function (event) {
+                        $this.settings.onClickPeriod.call(this, event, period, $this.element);
+                        $this.openOptions(event, period);
+                    });
+                }
             }
 
             this.settings.onAddPeriod.call(this, period, this.element);

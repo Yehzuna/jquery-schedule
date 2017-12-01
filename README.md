@@ -116,14 +116,14 @@ Two formats are supported :
 Define the schedule mode
 
 ### `hour`
-- Type: `int`
+- Type: `integer`
 - Default: `24` 
 - Options: `12` `24`
 
 Define the time format
 
 ### `periodDuration`
-- Type: `int`
+- Type: `integer`
 - Default : `30` 
 - Options: `15` `30` `60`
 
@@ -133,7 +133,59 @@ Define the period duration interval
 - Type: `array`
 - Default : `[]`
 
-Define periods on schedule init (see [import method](#import))
+Define periods on schedule init (see import method)
+
+### `periodOptions`
+- Type: `boolean`
+- Default : `true` 
+
+Enable/Disable the option popup
+
+### `periodColors`
+- Type: `array`
+- Default : `[]` 
+
+Define list of available colors in the option popup
+
+```javascript
+    periodColors: [
+        ["rgba(82, 155, 255, 0.5)", "#2a3cff", "#000"]
+        ["rgba(82, 155, 255, 0.5)", "#2a3cff", "#000"]
+    ],
+```
+### `periodTitle`
+- Type: `string`
+- Default : `""` 
+
+Period default title
+
+### `periodBackgroundColor`
+- Type: `string`
+- Default : `rgba(82, 155, 255, 0.5)` 
+
+Period default background color
+
+### `periodBorderColor`
+- Type: `string`
+- Default : `#2a3cff` 
+
+Period default border color
+
+### `periodTextColor`
+- Type: `string`
+- Default : `#2a3cff` 
+
+Period default text color
+
+### `periodRemoveButton`
+- Type: `string`
+- Default : `Remove` 
+
+ to the period remove button
+
+### `periodTitlePlaceholder`
+- Type: `string`
+- Default : `Title` 
 
 ### `days`
 - Type: `array`
@@ -148,7 +200,7 @@ Define days
 ### `onInit(jqs)`
 - `jqs` Schedule container
 
-A callback fire just after the schedule init
+A callback fire just after the schedule init.
 
 ### `onAddPeriod(period, jqs)`
 - `period` The new period added
@@ -160,14 +212,14 @@ A callback fire after a new period is added.
 - `period` The period to remove
 - `jqs` Schedule container
 
-A callback fire before a period is removed
+A callback fire before a period is removed.
 
 ### `onPeriodClicked(event, period, jqs)`
 - `event` click event
 - `period` The period target
 - `jqs` Schedule container
 
-A callback fire on a period click
+A callback fire on a period click.
 
 
 
@@ -193,7 +245,7 @@ Example :
 ]
 ```
 
-### `import` <a href="#import"></a>
+### `import`
 Import periods programmatically
 
 ```javascript
@@ -240,6 +292,3 @@ $("#schedule").jqs('reset');
 | `.jqs-period-container` | Sets css style for a period |
 | `.jqs-period-title` | Sets css style for a period title |
 | `.jqs-remove` | Sets the style for the remove button in a period |
-| `.jqs-dialog-overlay` | Sets the style for the dialog overlay |
-| `.jqs-dialog-container` | The dialog container |
-| `.jqs-dialog` | Sets the style for the dialog |

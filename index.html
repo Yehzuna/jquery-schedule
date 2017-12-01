@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>jQuery Schedule v2.0 Demo</title>
-    <meta name="description" content="A schedule management with jQuery and jQuery ui.">
+    <meta name="description" content="A schedule management with jQuery">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
@@ -31,7 +31,6 @@
                 <div id="schedule" class="jqs-demo mb-3"></div>
             </div>
         </div>
-
 
 
         <div class="row">
@@ -67,7 +66,6 @@ $("#schedule2").jqs({
         </div>
 
 
-
         <div class="row">
             <div class="col">
                 <h2>Events & Methods</h2>
@@ -98,8 +96,8 @@ $("#schedule3").jqs({
     onRemovePeriod: function () {
         $("#log").val("onRemovePeriod fire !\n" + $("#log").val());
     },
-    onPeriodClicked: function () {
-        $("#log").val("onPeriodClicked fire !\n" + $("#log").val());
+    onClickPeriod: function () {
+        $("#log").val("onClickPeriod fire !\n" + $("#log").val());
     }
 });
 
@@ -134,10 +132,9 @@ $("#schedule3").jqs('reset');
         </div>
 
 
-
         <div class="row">
             <div class="col">
-                <h2>Translation & 12-hour clock</h2>
+                <h2>Custom periods</h2>
             </div>
         </div>
         <div class="row">
@@ -147,6 +144,36 @@ $("#schedule3").jqs('reset');
             <div class="col-lg-4">
             <pre class="p-2 mb-3 large">
 $("#schedule4").jqs({
+    periodColors: [
+        ["rgba(0, 0, 0, 0.5)", "#000", "#fff"],
+        ["rgba(200, 0, 0, 0.5)", "#f00", "#000"],
+        ["rgba(0, 200, 0, 0.5)", "#0f0", "#000"],
+        ["rgba(0, 0, 200, 0.5)", "#00f", "#000"]
+    ],
+    periodTitle: "No title",
+    periodBackgroundColor: "rgba(0, 0, 0, 0.5)",
+    periodBorderColor: "#000",
+    periodTextColor: "#fff",
+    periodRemoveButton: "Remove please !",
+    periodTitlePlaceholder: "A custom title"
+});
+</pre>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col">
+                <h2>Translation & 12-hour clock</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <div id="schedule5" class="jqs-demo mb-3"></div>
+            </div>
+            <div class="col-lg-4">
+            <pre class="p-2 mb-3 large">
+$("#schedule5").jqs({
     mode: "read",
     days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
     hour: 12,
@@ -176,7 +203,7 @@ $("#schedule4").jqs({
 
 </footer>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script src="dist/jquery.schedule.js"></script>
 <script>
@@ -211,15 +238,31 @@ $("#schedule4").jqs({
             onRemovePeriod: function () {
                 $("#log").val("onRemovePeriod fire !\n" + $("#log").val());
             },
-            onPeriodClicked: function () {
-                $("#log").val("onPeriodClicked fire !\n" + $("#log").val());
+            onClickPeriod: function () {
+                $("#log").val("onClickPeriod fire !\n" + $("#log").val());
             }
         });
 
         $("#schedule4").jqs({
-            mode: "read",
+            periodColors: [
+                ["rgba(0, 0, 0, 0.5)", "#000", "#fff"],
+                ["rgba(200, 0, 0, 0.5)", "#f00", "#000"],
+                ["rgba(0, 200, 0, 0.5)", "#0f0", "#000"],
+                ["rgba(0, 0, 200, 0.5)", "#00f", "#000"]
+            ],
+            periodTitle: "No title",
+            periodBackgroundColor: "rgba(0, 0, 0, 0.5)",
+            periodBorderColor: "#000",
+            periodTextColor: "#fff",
+            periodRemoveButton: "Remove please !",
+            periodTitlePlaceholder: "A custom title"
+        });
+
+        $("#schedule5").jqs({
+            mode: "edit",
             days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
             hour: 12,
+            periodOptions: false,
             data: [
                 {
                     day: 0,
