@@ -2,9 +2,10 @@
   "title": "jQuery Schedule",
   "name": "jquery-schedule",
   "version": "2.0.0",
-  "description": "A jQuery plugin for schedule management.",
+  "description": "A schedule management with jQuery.",
   "keywords": [
     "schedule",
+    "calendar",
     "management",
     "jquery",
     "jquery-ui",

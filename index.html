@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>jQuery Schedule v2.0 Demo</title>
-    <meta name="description" content="A schedule management with jQuery">
+    <title>jQuery Schedule v2 Demo</title>
+    <meta name="description" content="A schedule management with jQuery.">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
@@ -85,19 +85,19 @@ $("#schedule2").jqs({
                 <div id="schedule3" class="jqs-demo mb-3"></div>
             </div>
             <div class="col-lg-4">
-            <pre class="p-2 mb-3 large">
+                <pre class="p-2 mb-3 large">
 $("#schedule3").jqs({
     onInit: function () {
-        $("#log").val("onInit fire !\n" + $("#log").val());
+        $("#logs").val("onInit fire !\n" + $("#logs").val());
     },
     onAddPeriod: function () {
-        $("#log").val("onAddPeriod fire !\n" + $("#log").val());
+        $("#logs").val("onAddPeriod fire !\n" + $("#logs").val());
     },
     onRemovePeriod: function () {
-        $("#log").val("onRemovePeriod fire !\n" + $("#log").val());
+        $("#logs").val("onRemovePeriod fire !\n" + $("#logs").val());
     },
     onClickPeriod: function () {
-        $("#log").val("onClickPeriod fire !\n" + $("#log").val());
+        $("#logs").val("onClickPeriod fire !\n" + $("#logs").val());
     }
 });
 
@@ -107,13 +107,25 @@ $("#schedule3").jqs('import', [
     {
         day: 1,
         periods: [
-            ["8:00", "10:00"]
+            ["8:00", "10:00"] // Compact
+        ]
+    }, {
+        day: 2,
+        periods: [
+            ["20:00", "00:00"],
+            ["20:00", "22:00"] // Invalid period, not displayed
         ]
     }, {
         day: 4,
         periods: [
-            ["20:00", "00:00"],
-            ["20:00", "22:00"], // Invalid period, not displayed
+            { // Full
+                start: "10:00",
+                end: "12:00",
+                title: "A black period",
+                backgroundColor: "#000",
+                borderColor:"#000",
+                textColor: "#fff"
+            }
         ]
     }
 ]);
@@ -124,10 +136,12 @@ $("#schedule3").jqs('reset');
         </div>
         <div class="row">
             <div class="col-lg-6">
+                <label for="result">Result :</label>
                 <textarea id="result" class="mb-3"></textarea>
             </div>
             <div class="col-lg-6">
-                <textarea id="log" class="mb-3"></textarea>
+                <label for="logs">Logs :</label>
+                <textarea id="logs" class="mb-3"></textarea>
             </div>
         </div>
 
@@ -142,7 +156,7 @@ $("#schedule3").jqs('reset');
                 <div id="schedule4" class="jqs-demo mb-3"></div>
             </div>
             <div class="col-lg-4">
-            <pre class="p-2 mb-3 large">
+                <pre class="p-2 mb-3 large">
 $("#schedule4").jqs({
     periodColors: [
         ["rgba(0, 0, 0, 0.5)", "#000", "#fff"],
@@ -174,21 +188,28 @@ $("#schedule4").jqs({
             <div class="col-lg-4">
             <pre class="p-2 mb-3 large">
 $("#schedule5").jqs({
-    mode: "read",
+    mode: "edit",
     days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
     hour: 12,
+    periodDuration: 15,
+    periodOptions: false,
     data: [
         {
             day: 0,
             periods: [
+                ["2", "6"], // Compact 12 hour
                 ["10pm", "12am"],
-                ["12am", "2:30am"]
+                ["12am", "2:30am"] // Invalid period, not displayed
             ]
         }, {
             day: 1,
             periods: [
-                ["1:45am", "5:15am"],
-                ["10am", "12pm"]
+                ["1:45am", "5:15am"]
+            ]
+        }, {
+            day: 2,
+            periods: [
+                ["2", "2p"] // Compact 12 hour
             ]
         }
     ]
@@ -230,16 +251,16 @@ $("#schedule5").jqs({
 
         $("#schedule3").jqs({
             onInit: function () {
-                $("#log").val("onInit fire !\n" + $("#log").val());
+                $("#logs").val("onInit fire !\n" + $("#logs").val());
             },
             onAddPeriod: function () {
-                $("#log").val("onAddPeriod fire !\n" + $("#log").val());
+                $("#logs").val("onAddPeriod fire !\n" + $("#logs").val());
             },
             onRemovePeriod: function () {
-                $("#log").val("onRemovePeriod fire !\n" + $("#log").val());
+                $("#logs").val("onRemovePeriod fire !\n" + $("#logs").val());
             },
             onClickPeriod: function () {
-                $("#log").val("onClickPeriod fire !\n" + $("#log").val());
+                $("#logs").val("onClickPeriod fire !\n" + $("#logs").val());
             }
         });
 
@@ -262,19 +283,25 @@ $("#schedule5").jqs({
             mode: "edit",
             days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
             hour: 12,
+            periodDuration: 15,
             periodOptions: false,
             data: [
                 {
                     day: 0,
                     periods: [
+                        ["2", "6"], // Compact 12 hour
                         ["10pm", "12am"],
-                        ["12am", "2:30am"]
+                        ["12am", "2:30am"] // Invalid period, not displayed
                     ]
                 }, {
                     day: 1,
                     periods: [
-                        ["1:45am", "5:15am"],
-                        ["10am", "12pm"]
+                        ["1:45am", "5:15am"]
+                    ]
+                }, {
+                    day: 2,
+                    periods: [
+                        ["2", "2p"] // Compact 12 hour
                     ]
                 }
             ]
@@ -289,13 +316,25 @@ $("#schedule5").jqs({
                 {
                     day: 1,
                     periods: [
-                        ["8:00", "10:00"]
+                        ["8:00", "10:00"] // Compact
+                    ]
+                }, {
+                    day: 2,
+                    periods: [
+                        ["20:00", "00:00"],
+                        ["20:00", "22:00"] // Invalid period, not displayed
                     ]
                 }, {
                     day: 4,
                     periods: [
-                        ["20:00", "00:00"],
-                        ["20:00", "22:00"] // Invalid period, not displayed
+                        { // Full
+                            start: "10:00",
+                            end: "12:00",
+                            title: "A black period",
+                            backgroundColor: "#000",
+                            borderColor:"#000",
+                            textColor: "#fff"
+                        }
                     ]
                 }
             ]);

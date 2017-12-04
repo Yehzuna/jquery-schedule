@@ -1,8 +1,3 @@
-/**
- * jQuery Schedule v2.0.0
- * https://github.com/Yehzuna/jquery-schedule
- * Thomas BORUSZEWSKI <yehzuna@outlook.com>
- */
 ;(function ($, window, document, undefined) {
     "use strict";
 
@@ -123,7 +118,7 @@
 
                 // delete a period
                 if (!this.settings.periodOptions) {
-                    $(this.element).on("click", ".jqs-remove", function () {
+                    $(this.element).on("click", ".jqs-period-remove", function () {
                         var period = $(this).parents(".jqs-period");
                         if (!$this.settings.onRemovePeriod.call(this, period, $this.element)) {
                             period.remove();
@@ -171,13 +166,22 @@
                     $.each(data.periods, function (index, period) {
 
                         var parent = $(".jqs-day", $this.element).eq(data.day);
-                        var position = $this.positionFormat(period[0]);
-                        var height = $this.positionFormat(period[1]);
+                        var options = {};
+                        var height, position;
+                        if($.isArray(period)) {
+                            position = $this.positionFormat(period[0]);
+                            height = $this.positionFormat(period[1]);
+                        } else {
+                            position = $this.positionFormat(period.start);
+                            height = $this.positionFormat(period.end);
+                            options = period;
+                        }
+
                         if (height === 0) {
                             height = $this.periodHeight;
                         }
 
-                        $this.add(parent, position, height - position);
+                        $this.add(parent, position, height - position, options);
                     });
                 });
             }
@@ -645,15 +649,23 @@
             $.each(dataImport, function (index, data) {
                 $.each(data.periods, function (index, period) {
                     var parent = $(".jqs-day", $this.element).eq(data.day);
-                    var position = $this.positionFormat(period.start);
-                    var height = $this.positionFormat(period.end);
+                    var options = {};
+                    var height, position;
+                    if($.isArray(period)) {
+                        position = $this.positionFormat(period[0]);
+                        height = $this.positionFormat(period[1]);
+                    } else {
+                        position = $this.positionFormat(period.start);
+                        height = $this.positionFormat(period.end);
+                        options = period;
+                    }
 
                     if (height === 0) {
                         height = $this.periodHeight;
                     }
 
                     var status = true;
-                    if (!$this.add(parent, position, height - position, period)) {
+                    if (!$this.add(parent, position, height - position, options)) {
                         status = false;
                     }
 
