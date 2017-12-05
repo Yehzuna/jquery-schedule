@@ -163,6 +163,12 @@ $zone: 20px;
     }
   }
 
+  .jqs-period-helper {
+    position: absolute;
+    width: 100%;
+    background-color: rgba(50, 50, 50, .1);
+  }
+
   $padding: 16px;
 
   .jqs-options {

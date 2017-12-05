@@ -46,7 +46,7 @@ jQuery ui >= 1.12.*
 $("#schedule").jqs();
 
 $("#schedule").jqs({
-    mode: "read",
+    periodDuration: 15,
     data: [
         {
             "day": 0,
@@ -59,6 +59,7 @@ $("#schedule").jqs({
 });
 
 $("#schedule").jqs({
+    mode: "read",
     hour: 12,
     data: [
         {
@@ -212,7 +213,7 @@ Period default border color.
 
 ### `periodTextColor`
 - Type: `string`
-- Default : `#2a3cff` 
+- Default : `#000` 
 
 Period default text color.
 
@@ -232,7 +233,7 @@ Label to the title input in the option popup.
 - Type: `array`
 - Default : `["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]`
 
-Define days.
+Define list of days.
 
 
 
@@ -278,7 +279,9 @@ Example :
 [
     {"day":0,"periods":[]},
     {"day":1,"periods":[]},
-    {"day":2,"periods":[["10:30","13:00"]]},
+    {"day":2,"periods":[
+      {"start":"02:00","end":"04:00","title":"","backgroundColor":"rgba(82, 155, 255, 0.5)","borderColor":"rgb(42, 60, 255)","textColor":"rgb(0, 0, 0)"}
+    ]},
     {"day":3,"periods":[]},
     {"day":4,"periods":[]},
     {"day":5,"periods":[]},
@@ -287,14 +290,15 @@ Example :
 ```
 
 ### `import`
-Import periods programmatically.
+Import periods from a JSON.
 
 ```javascript
 $("#schedule").jqs('import', [
     {
         "day": 0,
         "periods": [
-            ["00:00", "02:00"]
+            ["00:00", "04:00"],
+            ["02:00", "04:00"] // Invalid period
         ]
     },
     {
@@ -317,7 +321,9 @@ Return a JSON with each period status.
 
 ```json
 [
-  {"day": 2, "period": ["10:30","13:00"], "status": true}
+  {"day":0,"period":["00:00","04:00"],"status":true},
+  {"day":0,"period":["02:00","04:00"],"status":false},
+  {"day":2,"period":["10:00","12:00"],"status":true}
 ]
 ```
 
