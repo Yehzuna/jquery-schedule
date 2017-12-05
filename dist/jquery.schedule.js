@@ -101,8 +101,29 @@
             if (this.settings.mode === "edit") {
                 // add a new period
                 var position = 0;
+                var helper = false;
                 $(this.element).on("mousedown", ".jqs-day", function (event) {
                     position = Math.floor(event.offsetY / $this.periodPosition);
+
+                    if (!$(event.target).hasClass("jqs-period") && $(event.target).parents(".jqs-period").length === 0) {
+                        console.log(event.offsetY);
+
+                        helper = $("<div>").addClass("jqs-period-helper").css({
+                            "height": 0,
+                            "top": event.offsetY
+                        });
+                        $(this).append(helper);
+                    }
+                });
+
+                $(this.element).on("mousemove", ".jqs-day", function (event) {
+                    if (helper) {
+                        console.log(event.offsetY - helper.height());
+
+                        helper.css({
+                            "height": event.offsetY - helper.height()
+                        });
+                    }
                 });
 
                 $(this.element).on("mouseup", ".jqs-day", function (event) {
@@ -113,6 +134,10 @@
                         }
 
                         $this.add($(this), position, height);
+                        position = 0;
+                        //helper.remove();
+
+                        helper = false;
                     }
                 });
 
@@ -457,6 +482,10 @@
          */
         periodFormat: function (position) {
             if (position >= this.periodHeight) {
+                position = 0;
+            }
+
+            if (position < 0) {
                 position = 0;
             }
 
