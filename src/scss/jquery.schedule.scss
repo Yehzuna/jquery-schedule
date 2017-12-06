@@ -166,7 +166,17 @@ $zone: 20px;
   .jqs-period-helper {
     position: absolute;
     width: 100%;
-    background-color: rgba(50, 50, 50, .1);
+    min-height: 10px;
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 2px;
+      bottom: 2px;
+      left: 2px;
+      right: 2px;
+      background-color: rgba(50, 50, 50, .1);
+    }
   }
 
   $padding: 16px;
