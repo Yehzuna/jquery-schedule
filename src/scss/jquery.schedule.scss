@@ -167,6 +167,13 @@ $zone: 20px;
     position: absolute;
     width: 100%;
     min-height: 10px;
+    .jqs-period-helper-time {
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 16px;
+      letter-spacing: -0.5px;
+      color: #666;
+    }
     &:after {
       content: "";
       display: block;
@@ -192,32 +199,35 @@ $zone: 20px;
     padding: $padding;
   }
 
-  .jqs-title-container {
-    .jqs-title {
-      width: 220px;
-      font-size: 11px;
-      border: none;
-      border-bottom: 1px solid #333;
-      margin-bottom: $padding;
-      margin-right: $padding + 20;
-    }
+  .jqs-options-time {
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 16px;
+    letter-spacing: -0.5px;
+    color: #000;
   }
 
-  .jqs-colors-container {
-    .jqs-color {
-      display: inline-block;
-      border-radius: 3px;
-      border-style: solid;
-      border-width: 1px;
-      height: 25px;
-      font-size: 11px;
-      margin-bottom: $padding;
-      margin-right: $padding/4;
-      cursor: pointer;
-    }
+  .jqs-options-title {
+    width: 220px;
+    font-size: 11px;
+    border: none;
+    border-bottom: 1px solid #333;
+    margin-bottom: $padding;
+    margin-right: $padding + 20;
+  }
+  .jqs-options-color {
+    display: inline-block;
+    border-radius: 3px;
+    border-style: solid;
+    border-width: 1px;
+    height: 25px;
+    font-size: 11px;
+    margin-bottom: $padding;
+    margin-right: $padding/4;
+    cursor: pointer;
   }
 
-  .jqs-remove {
+  .jqs-options-remove {
     display: inline-block;
     cursor: pointer;
     padding: 5px 10px;
@@ -232,7 +242,7 @@ $zone: 20px;
     }
   }
 
-  .jqs-close {
+  .jqs-options-close {
     position: absolute;
     top: $padding;
     right: $padding;

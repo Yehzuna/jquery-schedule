@@ -1,8 +1,3 @@
-/**
- * jQuery Schedule v2.0.0
- * https://github.com/Yehzuna/jquery-schedule
- * Thomas BORUSZEWSKI <yehzuna@outlook.com>
- */
 .jqs {
   position: relative;
   padding: 40px 20px 20px 60px;
@@ -150,6 +145,13 @@
   width: 100%;
   min-height: 10px;
 }
+.jqs .jqs-period-helper .jqs-period-helper-time {
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: -0.5px;
+  color: #666;
+}
 .jqs .jqs-period-helper:after {
   content: "";
   display: block;
@@ -170,7 +172,14 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   padding: 16px;
 }
-.jqs .jqs-title-container .jqs-title {
+.jqs .jqs-options-time {
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: -0.5px;
+  color: #000;
+}
+.jqs .jqs-options-title {
   width: 220px;
   font-size: 11px;
   border: none;
@@ -178,7 +187,7 @@
   margin-bottom: 16px;
   margin-right: 36px;
 }
-.jqs .jqs-colors-container .jqs-color {
+.jqs .jqs-options-color {
   display: inline-block;
   border-radius: 3px;
   border-style: solid;
@@ -189,7 +198,7 @@
   margin-right: 4px;
   cursor: pointer;
 }
-.jqs .jqs-remove {
+.jqs .jqs-options-remove {
   display: inline-block;
   cursor: pointer;
   padding: 5px 10px;
@@ -199,11 +208,11 @@
   font-weight: 700;
   font-size: 11px;
 }
-.jqs .jqs-remove:hover {
+.jqs .jqs-options-remove:hover {
   background: #c6c6c6;
   color: #333;
 }
-.jqs .jqs-close {
+.jqs .jqs-options-close {
   position: absolute;
   top: 16px;
   right: 16px;
@@ -211,7 +220,7 @@
   width: 20px;
   cursor: pointer;
 }
-.jqs .jqs-close:before, .jqs .jqs-close:after {
+.jqs .jqs-options-close:before, .jqs .jqs-options-close:after {
   content: "";
   display: block;
   position: absolute;
@@ -220,9 +229,9 @@
   left: 4px;
   background: #000;
 }
-.jqs .jqs-close:before {
+.jqs .jqs-options-close:before {
   transform: rotate(45deg);
 }
-.jqs .jqs-close:after {
+.jqs .jqs-options-close:after {
   transform: rotate(-45deg);
 }

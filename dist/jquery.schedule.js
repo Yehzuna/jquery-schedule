@@ -1,8 +1,3 @@
-/**
- * jQuery Schedule v2.0.0
- * https://github.com/Yehzuna/jquery-schedule
- * Thomas BORUSZEWSKI <yehzuna@outlook.com>
- */
 ;(function ($, window, document, undefined) {
     "use strict";
 
@@ -112,7 +107,7 @@
                     position = Math.floor(offset / $this.periodPosition);
 
                     if (!$(event.target).hasClass("jqs-period") && $(event.target).parents(".jqs-period").length === 0) {
-                        helper = $("<div>").addClass("jqs-period-helper").css({
+                        helper = $("<div><div class='jqs-period-helper-time'></div></div>").addClass("jqs-period-helper").css({
                             "height": $this.periodPosition,
                             "top": position * $this.periodPosition
                         });
@@ -129,9 +124,10 @@
                             height = 1;
                         }
 
-                        helper.text($this.periodInit(position, position + height)).css({
+                        helper.css({
                             "height": height * $this.periodPosition
                         });
+                        $(".jqs-period-helper-time", helper).text($this.periodInit(position, position + height))
                     }
                 });
 
@@ -147,8 +143,10 @@
                     }
 
                     position = 0;
-                    helper.remove();
-                    helper = false;
+                    if (helper) {
+                        helper.remove();
+                        helper = false;
+                    }
                 });
 
                 // delete a period
@@ -352,10 +350,16 @@
                 left = left - 330 - period.width();
             }
 
+            // time
+            var position = period.position().top / this.periodPosition;
+            var height = period.height() / this.periodPosition;
+            console.log(position, height);
+            var time = "<div class='jqs-options-time'>" + this.periodInit(position, position + height) + "</div>";
+
             // title
             var title = $("jqs-period-title", period).text();
-            var titleInput = "<div class='jqs-title-container'>" +
-                "<input type='text' placeholder='" + this.settings.periodTitlePlaceholder + "' value='" + title + "' class='jqs-title'>" +
+            var titleInput = "<div class='jqs-options-title-container'>" +
+                "<input type='text' placeholder='" + this.settings.periodTitlePlaceholder + "' value='" + title + "' class='jqs-options-title'>" +
                 "</div>";
 
             // color
@@ -363,9 +367,9 @@
             if (this.settings.periodColors && this.settings.periodColors.length > 0) {
                 var colorText = (this.settings.hour === 12) ? "12pm" : "00:00";
 
-                colorInput = "<div class='jqs-colors-container'>";
+                colorInput = "<div class='jqs-options-color-container'>";
                 $.each(this.settings.periodColors, function (index, color) {
-                    colorInput += "<button class='jqs-color' " +
+                    colorInput += "<button class='jqs-options-color' " +
                         "style='background-color: " + color[0] + "; border-color: " + color[1] + "; color:" + color[2] + "'>" +
                         colorText +
                         "</button>";
@@ -374,14 +378,14 @@
             }
 
             // button
-            var remove = "<div class='jqs-remove'>" + this.settings.periodRemoveButton + "</div>";
-            var close = "<div class='jqs-close'></div>";
-            $("<div class='jqs-options'>" + titleInput + colorInput + remove + close + "</div>").css({
+            var remove = "<div class='jqs-options-remove'>" + this.settings.periodRemoveButton + "</div>";
+            var close = "<div class='jqs-options-close'></div>";
+            $("<div class='jqs-options'>" + time + titleInput + colorInput + remove + close + "</div>").css({
                 top: top,
                 left: left
             }).appendTo(this.element);
 
-            $(".jqs-options .jqs-color", this.element).click(function () {
+            $(".jqs-options-color", this.element).click(function () {
                 $(".jqs-period-container", period).css({
                     "background-color": $(this).css("background-color"),
                     "border-color": $(this).css("border-top-color"),
@@ -389,19 +393,19 @@
                 });
             });
 
-            $(".jqs-options .jqs-title", this.element).keyup(function () {
+            $(".jqs-options-title", this.element).keyup(function () {
                 $(".jqs-period-title", period).text($(this).val());
                 period.attr("title", $(this).val());
             });
 
-            $(".jqs-options .jqs-remove", this.element).click(function () {
+            $(".jqs-options-remove", this.element).click(function () {
                 if (!$this.settings.onRemovePeriod.call(this, period, $this.element)) {
                     period.remove();
                     $this.closeOptions();
                 }
             });
 
-            $(".jqs-options .jqs-close", this.element).click(function () {
+            $(".jqs-options-close", this.element).click(function () {
                 $this.closeOptions();
             });
         },

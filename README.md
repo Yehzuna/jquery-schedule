@@ -341,15 +341,28 @@ $("#schedule").jqs('reset');
 | CSS Class | Description
 | --- | --- |  
 | `.jqs` | Plugin main container |
-| `.jqs-table` | Define the schedule structure |
+| `.jqs-table` | Schedule structure |
 | `.jqs-grid` | Grid container |
-| `.jqs-grid-head` | Header grid container. Contain  |
+| `.jqs-grid-head` | Header grid container  |
 | `.jqs-grid-line` | Line grid container |
-| `.jqs-grid-day` | Sets the style for the day title |
-| `.jqs-grid-hour` | Sets the style for the hour title |
+| `.jqs-grid-day` | Grid day label |
+| `.jqs-grid-hour` | Grid hour label |
 | `.jqs-day` | Day container |
-| `.jqs-period` | Period container |
-| `.jqs-period-container` | Sets css style for a period |
-| `.jqs-period-title` | Sets css style for a period title |
 
-| `.jqs-remove` | Sets the style for the remove button in a period |
+| `.jqs-period` | Period container |
+| `.jqs-period-container` | Period placeholder |
+| `.jqs-period-time` | Period time container |
+| `.jqs-period-title` | Period title container |
+| `.jqs-period-remove` | Period remove button |
+
+| `.jqs-options` | Popup option container |
+| `.jqs-options-time` | Popup option container |
+| `.jqs-options-color-title` | Popup option container |
+| `.jqs-options-title` | Popup option container |
+| `.jqs-options-color-container` | Popup option container |
+| `.jqs-options-color` | Popup option container |
+| `.jqs-options-remove` | Period remove button |
+| `.jqs-options-close` |  |
+
+
+| `.jqs-period-helper` |  |
