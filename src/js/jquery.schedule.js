@@ -103,42 +103,47 @@
                 var position = 0;
                 var helper = false;
                 $(this.element).on("mousedown", ".jqs-day", function (event) {
-                    position = Math.floor(event.offsetY / $this.periodPosition);
+                    var offset = event.pageY - $(this).offset().top;
+                    position = Math.floor(offset / $this.periodPosition);
 
                     if (!$(event.target).hasClass("jqs-period") && $(event.target).parents(".jqs-period").length === 0) {
-                        console.log(event.offsetY);
-
                         helper = $("<div>").addClass("jqs-period-helper").css({
-                            "height": 0,
-                            "top": event.offsetY
+                            "height": $this.periodPosition,
+                            "top": position * $this.periodPosition
                         });
+
                         $(this).append(helper);
                     }
                 });
 
                 $(this.element).on("mousemove", ".jqs-day", function (event) {
                     if (helper) {
-                        console.log(event.offsetY - helper.height());
+                        var offset = event.pageY - $(this).offset().top;
+                        var height = Math.round(offset / $this.periodPosition) - position;
+                        if (height <= 0) {
+                            height = 1;
+                        }
 
-                        helper.css({
-                            "height": event.offsetY - helper.height()
+                        helper.text($this.periodInit(position, position + height)).css({
+                            "height": height * $this.periodPosition
                         });
                     }
                 });
 
                 $(this.element).on("mouseup", ".jqs-day", function (event) {
                     if (!$(event.target).hasClass("jqs-period") && $(event.target).parents(".jqs-period").length === 0) {
-                        var height = Math.round(event.offsetY / $this.periodPosition) - position;
+                        var offset = event.pageY - $(this).offset().top;
+                        var height = Math.round(offset/ $this.periodPosition) - position;
                         if (height <= 0) {
                             height = 1;
                         }
 
                         $this.add($(this), position, height);
-                        position = 0;
-                        //helper.remove();
-
-                        helper = false;
                     }
+
+                    position = 0;
+                    helper.remove();
+                    helper = false;
                 });
 
                 // delete a period
@@ -193,7 +198,7 @@
                         var parent = $(".jqs-day", $this.element).eq(data.day);
                         var options = {};
                         var height, position;
-                        if($.isArray(period)) {
+                        if ($.isArray(period)) {
                             position = $this.positionFormat(period[0]);
                             height = $this.positionFormat(period[1]);
                         } else {
@@ -236,8 +241,9 @@
             }
             var periodTitle = "<div class='jqs-period-title'>" + options.title + "</div>";
             var periodTime = "<div class='jqs-period-time'>" + this.periodInit(position, position + height) + "</div>";
-            var period = $("<div class='jqs-period'><div class='jqs-period-container'>" + periodTime + periodTitle + periodRemove + "</div></div>")
-                .css({
+            var period = $("<div class='jqs-period'>" +
+                "<div class='jqs-period-container'>" + periodTime + periodTitle + periodRemove + "</div>" +
+                "</div>").css({
                     "top": position * this.periodPosition,
                     "height": height * this.periodPosition
                 })
@@ -272,6 +278,7 @@
                     containment: "parent",
                     drag: function (event, ui) {
                         $(".jqs-period-time", ui.helper).text($this.periodDrag(ui));
+                        $this.closeOptions();
                     },
                     stop: function (event, ui) {
                         if (!$this.isValid($(ui.helper))) {
@@ -288,6 +295,7 @@
                         $(".jqs-period-time", ui.helper).text($this.periodResize(ui));
 
                         $this.periodText(period);
+                        $this.closeOptions();
                     },
                     stop: function (event, ui) {
                         if (!$this.isValid($(ui.helper))) {
@@ -680,7 +688,7 @@
                     var parent = $(".jqs-day", $this.element).eq(data.day);
                     var options = {};
                     var height, position;
-                    if($.isArray(period)) {
+                    if ($.isArray(period)) {
                         position = $this.positionFormat(period[0]);
                         height = $this.positionFormat(period[1]);
                     } else {

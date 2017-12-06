@@ -1,3 +1,8 @@
+/**
+ * jQuery Schedule v2.0.0
+ * https://github.com/Yehzuna/jquery-schedule
+ * Thomas BORUSZEWSKI <yehzuna@outlook.com>
+ */
 .jqs {
   position: relative;
   padding: 40px 20px 20px 60px;
@@ -143,6 +148,16 @@
 .jqs .jqs-period-helper {
   position: absolute;
   width: 100%;
+  min-height: 10px;
+}
+.jqs .jqs-period-helper:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: 2px;
+  right: 2px;
   background-color: rgba(50, 50, 50, 0.1);
 }
 .jqs .jqs-options {
