@@ -1,3 +1,8 @@
+/**
+ * jQuery Schedule v2.0.0
+ * https://github.com/Yehzuna/jquery-schedule
+ * Thomas BORUSZEWSKI <yehzuna@outlook.com>
+ */
 ;(function ($, window, document, undefined) {
     "use strict";
 
@@ -107,10 +112,11 @@
                     position = Math.floor(offset / $this.periodPosition);
 
                     if (!$(event.target).hasClass("jqs-period") && $(event.target).parents(".jqs-period").length === 0) {
-                        helper = $("<div><div class='jqs-period-helper-time'></div></div>").addClass("jqs-period-helper").css({
+                        var time = "<div class='jqs-period-helper-time'>" + $this.periodInit(position, position + 1) + "</div>";
+                        helper = $("<div>").addClass("jqs-period-helper").css({
                             "height": $this.periodPosition,
                             "top": position * $this.periodPosition
-                        });
+                        }).append(time);
 
                         $(this).append(helper);
                     }
@@ -127,7 +133,7 @@
                         helper.css({
                             "height": height * $this.periodPosition
                         });
-                        $(".jqs-period-helper-time", helper).text($this.periodInit(position, position + height))
+                        $(".jqs-period-helper-time", helper).text($this.periodInit(position, position + height));
                     }
                 });
 
@@ -353,14 +359,13 @@
             // time
             var position = period.position().top / this.periodPosition;
             var height = period.height() / this.periodPosition;
-            console.log(position, height);
             var time = "<div class='jqs-options-time'>" + this.periodInit(position, position + height) + "</div>";
 
             // title
             var title = $("jqs-period-title", period).text();
             var titleInput = "<div class='jqs-options-title-container'>" +
-                "<input type='text' placeholder='" + this.settings.periodTitlePlaceholder + "' value='" + title + "' class='jqs-options-title'>" +
-                "</div>";
+                "<input type='text' placeholder='" + this.settings.periodTitlePlaceholder +
+                "' value='" + title + "' class='jqs-options-title'></div>";
 
             // color
             var colorInput = "";
@@ -457,15 +462,15 @@
          */
         periodText: function (period) {
             var height = period.height();
-            period.removeClass("min").removeClass("small");
+            period.removeClass("jqs-period-15").removeClass("jqs-period-30");
 
             if (height === 10) {
-                period.addClass("min");
+                period.addClass("jqs-period-15");
                 return false;
             }
 
             if (height === 20) {
-                period.addClass("small");
+                period.addClass("jqs-period-30");
                 return false;
             }
 

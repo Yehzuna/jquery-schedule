@@ -5,21 +5,23 @@
 - Remove confirmation feature on period remove (use `onRemovePeriod` callback then)
     - Remove `confirm` option
     - Remove confirm messages (`removePeriod`, `dialogYes` & `dialogNo`)
-    - Remove theming classes
+    - Remove classes
 - Remove `debug` option
     - Remove debug messages (`invalidPosition` & `invalidPeriod`) 
-- Rename `.jqs-wrapper` to `.jqs-day`
-- Update import and export JSON to include title and colors features
+- Rename some css classes   
+    - `.jqs-wrapper` to `.jqs-day`
 
 **New features**
 - Change period creation method. Use `mouseup` & `mousedown` events instead of `click` event 
+- Add period helper on period creation 
 - Add `periodDuration` feature (15/30/60)
-- Add `periodOptions` feature. Add a new popup when clicking on a period 
-- New features on periods 
+- Add `periodOptions` feature. Add a new popup when clicking on a period
+- Add new periods features
     - Custom title
     - Custom color for background, borders and text
     - Custom color selector (`periodColors`)
     - Defaults style customisation (`periodTitle`, `periodBackgroundColor`, `periodBorderColor` & `periodTextColor`) 
+- Update data format for period to include customisation features
 - Add new translation (`periodRemoveButton` & `periodTitlePlaceholder`)
 - Add new callbacks
     - `onInit`
@@ -29,12 +31,13 @@
 - Add compact mode support for Ante meridiem and Post meridiem `8am - 2pm -> 8 - 2p`
 
 **Other changes**
-- `reset` and `export` methods optimization
+- Update and add new css classes
+- Period IDs standardization
 - Remove useless global variables
+- `reset` and `export` methods optimization
 - Remove bower support to yarn
 - Update jQuery version
 - Use Bootstrap 4 on the demo page
-- Period IDs standardization
 - Code clean
 
 # 1.2.1
