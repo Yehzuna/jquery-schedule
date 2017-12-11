@@ -10,6 +10,12 @@
   font-family: system, -apple-system, Roboto, Helvetica Neue, Arial, Helvetica, Geneva, sans-serif;
   box-sizing: border-box;
 }
+.jqs-mode-edit .jqs-period {
+  cursor: pointer;
+}
+.jqs-mode-edit .ui-draggable-dragging {
+  cursor: move;
+}
 .jqs-table {
   position: relative;
   z-index: 10;
@@ -92,17 +98,13 @@
 .jqs-period:hover .jqs-period-remove {
   display: block;
 }
-.jqs-period-15 .jqs-period-time,
-.jqs-period-15 .jqs-period-title {
-  display: none;
-}
 .jqs-period-15 .jqs-period-remove {
   height: 8px;
   width: 8px;
   bottom: -1px;
 }
-.jqs-period-30 .jqs-period-time {
-  display: block;
+.jqs-period-15 .jqs-period-time, .jqs-period-15 .jqs-period-title {
+  display: none;
 }
 .jqs-period-30 .jqs-period-title {
   display: none;

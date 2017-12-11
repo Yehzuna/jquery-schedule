@@ -10,6 +10,13 @@ $padding: 16px;
   font-family: system, -apple-system, Roboto, Helvetica Neue, Arial, Helvetica, Geneva, sans-serif;
   box-sizing: border-box;
 
+  &-mode-edit &-period {
+    cursor: pointer;
+  }
+  &-mode-edit .ui-draggable-dragging {
+    cursor: move;
+  }
+
   &-table {
     position: relative;
     z-index: 10;
@@ -96,29 +103,23 @@ $padding: 16px;
     width: 100%;
     min-height: 10px;
 
-    &:hover .jqs-period-remove {
+    &:hover &-remove {
       display: block;
     }
 
-    &-15 {
-      .jqs-period-time,
-      .jqs-period-title {
-        display: none;
-      }
-      .jqs-period-remove {
-        height: 8px;
-        width: 8px;
-        bottom: -1px;
-      }
+    &-15 &-remove {
+      height: 8px;
+      width: 8px;
+      bottom: -1px;
     }
 
-    &-30 {
-      .jqs-period-time {
-        display: block;
-      }
-      .jqs-period-title {
-        display: none;
-      }
+    &-15 &-time,
+    &-15 &-title {
+      display: none;
+    }
+
+    &-30 &-title {
+      display: none;
     }
 
     &-time,
