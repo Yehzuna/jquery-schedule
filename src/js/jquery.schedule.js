@@ -29,9 +29,7 @@
             onRemovePeriod: function () {},
             onClickPeriod: function () {}
         },
-        pluginName = "jqs",
-        invalidPeriod = "Invalid period.",
-        invalidPosition = "Invalid position.";
+        pluginName = "jqs";
 
     // Plugin constructor
     function Plugin(element, options) {
@@ -88,6 +86,16 @@
         init: function () {
             var $this = this;
 
+            // colors validation
+            if (this.settings.periodColors.length > 0) {
+                $.each(this.settings.periodColors, function (index, color) {
+                    if (!$.inArray(color) || color.length !== 3) {
+                        throw new Error("Invalid periodColors");
+                    }
+                });
+            }
+
+            // duration validation
             if ($.inArray(this.settings.periodDuration, [15, 30, 60]) === -1) {
                 throw new Error("Invalid periodDuration");
             }
@@ -96,7 +104,7 @@
             this.periodHeight = 24 * this.periodInterval;
             this.periodPosition = 40 / this.periodInterval;
 
-            $(this.element).addClass("jqs").addClass("jqs-interval-" + this.settings.periodDuration);
+            $(this.element).addClass("jqs").addClass("jqs-mode-" + this.settings.mode);
 
             if (this.settings.mode === "edit") {
                 // add a new period
@@ -107,11 +115,16 @@
                     position = Math.floor(offset / $this.periodPosition);
 
                     if (!$(event.target).hasClass("jqs-period") && $(event.target).parents(".jqs-period").length === 0) {
-                        var time = "<div class='jqs-period-helper-time'>" + $this.periodInit(position, position + 1) + "</div>";
+
+                        var time = "";
+                        if ($this.settings.periodDuration !== 15) {
+                            time = $this.periodInit(position, position + 1);
+                        }
+
                         helper = $("<div>").addClass("jqs-period-helper").css({
                             "height": $this.periodPosition,
                             "top": position * $this.periodPosition
-                        }).append(time);
+                        }).append("<div class='jqs-period-helper-time'>" + time + "</div>");
 
                         $(this).append(helper);
                     }
@@ -128,7 +141,12 @@
                         helper.css({
                             "height": height * $this.periodPosition
                         });
-                        $(".jqs-period-helper-time", helper).text($this.periodInit(position, position + height));
+
+                        if (height > 1) {
+                            $(".jqs-period-helper-time", helper).text($this.periodInit(position, position + height));
+                        } else {
+                            $(".jqs-period-helper-time", helper).text("");
+                        }
                     }
                 });
 
@@ -151,14 +169,12 @@
                 });
 
                 // delete a period
-                if (!this.settings.periodOptions) {
-                    $(this.element).on("click", ".jqs-period-remove", function () {
-                        var period = $(this).parents(".jqs-period");
-                        if (!$this.settings.onRemovePeriod.call(this, period, $this.element)) {
-                            period.remove();
-                        }
-                    });
-                }
+                $(this.element).on("click", ".jqs-period-remove", function () {
+                    var period = $(this).parents(".jqs-period");
+                    if (!$this.settings.onRemovePeriod.call(this, period, $this.element)) {
+                        period.remove();
+                    }
+                });
             }
 
             this.create();
@@ -231,7 +247,7 @@
         add: function (parent, position, height, options) {
 
             if (height <= 0 || position >= this.periodHeight) {
-                console.error(invalidPeriod);
+                console.error("Invalid period");
 
                 return false;
             }
@@ -240,7 +256,7 @@
 
             // new period
             var periodRemove = "";
-            if (!this.settings.periodOptions && this.settings.mode === "edit") {
+            if (this.settings.mode === "edit") {
                 periodRemove = "<div class='jqs-period-remove' title='" + this.settings.periodRemoveButton + "'></div>";
             }
             var periodTitle = "<div class='jqs-period-title'>" + options.title + "</div>";
@@ -263,7 +279,7 @@
 
             // period validation
             if (!this.isValid(period)) {
-                console.error(invalidPeriod, this.periodInit(position, position + height));
+                console.error("Invalid period", this.periodInit(position, position + height));
 
                 $(period).remove();
 
@@ -286,7 +302,7 @@
                     },
                     stop: function (event, ui) {
                         if (!$this.isValid($(ui.helper))) {
-                            console.error(invalidPosition);
+                            console.error("Invalid position");
 
                             $(ui.helper).css("top", Math.round(ui.originalPosition.top));
                         }
@@ -303,7 +319,7 @@
                     },
                     stop: function (event, ui) {
                         if (!$this.isValid($(ui.helper))) {
-                            console.error(invalidPosition);
+                            console.error("Invalid position");
 
                             $(ui.helper).css({
                                 "height": Math.round(ui.originalSize.height),
@@ -315,8 +331,10 @@
 
                 if (this.settings.periodOptions) {
                     period.click(function (event) {
-                        $this.settings.onClickPeriod.call(this, event, period, $this.element);
-                        $this.openOptions(event, period);
+                        if (!$(event.target).hasClass("jqs-period-remove")) {
+                            $this.settings.onClickPeriod.call(this, event, period, $this.element);
+                            $this.openOptions(event, period);
+                        }
                     });
                 }
             }

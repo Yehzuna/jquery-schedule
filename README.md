@@ -46,31 +46,32 @@ jQuery ui >= 1.12.*
 $("#schedule").jqs();
 
 $("#schedule").jqs({
-    periodDuration: 15,
-    data: [
-        {
-            "day": 0,
-            "periods": [
-                ["00:00", "02:00"],
-                ["20:00", "00:00"]
-            ]
-        }
-    ]
+    mode: "edit",
+    hour: 24,
+    periodDuration: 30,
+    data: [],
+    periodOptions: true,
+    periodColors: [],
+    periodTitle: "",
+    periodBackgroundColor: "rgba(82, 155, 255, 0.5)",
+    periodBorderColor: "#2a3cff",
+    periodTextColor: "#000",
+    periodRemoveButton: "Remove",
+    periodTitlePlaceholder: "Title",
+    days: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+    ],
+    onInit: function () {},
+    onAddPeriod: function () {},
+    onRemovePeriod: function () {},
+    onClickPeriod: function () {}
 });
-
-$("#schedule").jqs({
-    mode: "read",
-    hour: 12,
-    data: [
-        {
-            "day": 0,
-            "periods": [
-                ["1pm", "3:30pm"]
-            ]
-        }
-    ]
-});
-
 ```
 
 ## Data Format
@@ -170,7 +171,7 @@ Define the period duration interval.
 - Type: `array`
 - Default : `[]`
 
-Define periods on schedule init. (see import method for more details)
+Define periods on schedule init. (see data format section for more details)
 
 ### `periodOptions`
 - Type: `boolean`
@@ -182,7 +183,7 @@ Enable/Disable the option popup.
 - Type: `array`
 - Default : `[]` 
 
-Define list of available colors in the option popup.
+Define list of available colors in the option popup. Must be an array of 3 colors (`backgroundColor`, `borderColor` and `textColor`)
 
 ```json
 {
@@ -197,7 +198,7 @@ Define list of available colors in the option popup.
 - Type: `string`
 - Default : `""` 
 
-Period default title.
+Period default title on creation.
 
 ### `periodBackgroundColor`
 - Type: `string`
@@ -227,7 +228,7 @@ Label to the period remove button.
 - Type: `string`
 - Default : `Title` 
 
-Label to the title input in the option popup.
+Label to the title input placeholder in the option popup.
 
 ### `days`
 - Type: `array`
@@ -338,18 +339,20 @@ $("#schedule").jqs('reset');
 
 ## Theming
 
-**Structure**
+**Plugin**
 
 | CSS Class | Description |
 | --- | --- |  
 | `.jqs` | Plugin main container |
 | `.jqs-table` | Schedule structure |
 | `.jqs-grid` | Grid container |
-| `.jqs-grid-head` | Header grid container  |
+| `.jqs-grid-head` | Header grid container |
 | `.jqs-grid-line` | Line grid container |
 | `.jqs-grid-day` | Grid day label |
 | `.jqs-grid-hour` | Grid hour label |
 | `.jqs-day` | Day container |
+| `.jqs-mode-read` | Added on init |
+| `.jqs-mode-edit` | Added on init |
 
 **Period**
 
@@ -377,3 +380,9 @@ $("#schedule").jqs('reset');
 | `.jqs-options-color-container` | Color items container |
 | `.jqs-options-remove` | Period remove button |
 | `.jqs-options-close` | Popup close button |
+
+
+
+## Todo
+- Responsive
+- Better options validation and tests

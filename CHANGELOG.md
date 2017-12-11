@@ -8,20 +8,19 @@
     - Remove classes
 - Remove `debug` option
     - Remove debug messages (`invalidPosition` & `invalidPeriod`) 
-- Rename some css classes   
-    - `.jqs-wrapper` to `.jqs-day`
+- Rename `.jqs-wrapper` class to `.jqs-day`
 
 **New features**
 - Change period creation method. Use `mouseup` & `mousedown` events instead of `click` event 
-- Add period helper on period creation 
-- Add `periodDuration` feature (15/30/60)
-- Add `periodOptions` feature. Add a new popup when clicking on a period
+- Add a helper on period creation 
+- Add `periodDuration` feature (Change the period interval to 15/30 or 60)
+- Add `periodOptions` feature (Add a new popup when clicking on a period)
 - Add new periods features
     - Custom title
     - Custom color for background, borders and text
-    - Custom color selector (`periodColors`)
+    - Custom color selector (`periodColors` option)
     - Defaults style customisation (`periodTitle`, `periodBackgroundColor`, `periodBorderColor` & `periodTextColor`) 
-- Update data format for period to include customisation features
+- Update data format for period to include new customisation features
 - Add new translation (`periodRemoveButton` & `periodTitlePlaceholder`)
 - Add new callbacks
     - `onInit`
@@ -35,10 +34,10 @@
 - Period IDs standardization
 - Remove useless global variables
 - `reset` and `export` methods optimization
-- Remove bower support to yarn
+- Remove bower support
 - Update jQuery version
 - Use Bootstrap 4 on the demo page
-- Code clean
+- A lot of code clean
 
 # 1.2.1
 - Fixed : Block position error with Bootstrap 3.x
