@@ -1,6 +1,6 @@
 # jQuery Schedule
 
-A simple schedule management with jQuery and jQuery ui.
+A simple scheduler with jQuery.
 
 [![GitHub release](https://img.shields.io/github/release/Yehzuna/jquery-schedule.svg)](https://github.com/Yehzuna/jquery-schedule)
 [![Version](https://img.shields.io/npm/v/jquery-schedule.svg)](https://www.npmjs.org/package/jquery-schedule)
