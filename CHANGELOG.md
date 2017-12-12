@@ -8,11 +8,11 @@
     - Remove classes
 - Remove `debug` option
     - Remove debug messages (`invalidPosition` & `invalidPeriod`) 
-- Rename `.jqs-wrapper` class to `.jqs-day`
+- Refactoring a lot of CSS classes
 
 **New features**
 - Change period creation method. Use `mouseup` & `mousedown` events instead of `click` event 
-- Add a helper on period creation 
+- Add helper on period creation 
 - Add `periodDuration` feature (Change the period interval to 15/30 or 60)
 - Add `periodOptions` feature (Add a new popup when clicking on a period)
 - Add new periods features
@@ -20,7 +20,7 @@
     - Custom color for background, borders and text
     - Custom color selector (`periodColors` option)
     - Defaults style customisation (`periodTitle`, `periodBackgroundColor`, `periodBorderColor` & `periodTextColor`) 
-- Update data format for period to include new customisation features
+- Update period data format to include new customisation features
 - Add new translation (`periodRemoveButton` & `periodTitlePlaceholder`)
 - Add new callbacks
     - `onInit`
@@ -30,14 +30,13 @@
 - Add compact mode support for Ante meridiem and Post meridiem `8am - 2pm -> 8 - 2p`
 
 **Other changes**
-- Update and add new css classes
 - Period IDs standardization
 - Remove useless global variables
 - `reset` and `export` methods optimization
 - Remove bower support
 - Update jQuery version
-- Use Bootstrap 4 on the demo page
-- A lot of code clean
+- Add Bootstrap 4 on the demo page
+- A lot of code clean !
 
 # 1.2.1
 - Fixed : Block position error with Bootstrap 3.x

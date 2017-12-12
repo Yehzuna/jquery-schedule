@@ -14,7 +14,7 @@ jQuery ui >= 1.12.*
 
 ## Demo
 
-[View demo page](https://yehzuna.github.io/jquery-schedule/)
+[Link](https://yehzuna.github.io/jquery-schedule/)
 
 
 
@@ -43,8 +43,10 @@ jQuery ui >= 1.12.*
 ## Usage examples
 
 ```javascript
+// Base
 $("#schedule").jqs();
 
+// Full options
 $("#schedule").jqs({
     mode: "edit",
     hour: 24,
@@ -75,7 +77,7 @@ $("#schedule").jqs({
 ```
 
 ## Data Format
-The plugin use two data formats to render days and periods.
+The plugin use two data formats to render periods.
 
 **Full**
 ```json
@@ -119,7 +121,7 @@ Two formats are supported :
 - RGB `rgb(0, 0, 0)`
 - RGBa `rgb(0, 0, 0, 0.5)`
 
-#### Example
+#### Examples
 ```json
 [
     {
@@ -189,8 +191,8 @@ Define list of available colors in the option popup. Must be an array of 3 color
 {
     "periodColors": [
         ["backgroundColor", "borderColor", "textColor"],
-        ["rgba(82, 155, 255, 0.5)", "#2a3cff", "#000"],
-        ["rgba(82, 155, 255, 0.5)", "#2a3cff", "#000"]
+        ["rgba(82, 155, 255, 0.5)", "#2a3cff", "#000000"],
+        ["#000", "#fff", "#fff"]
     ]
 }
 ```
@@ -198,7 +200,7 @@ Define list of available colors in the option popup. Must be an array of 3 color
 - Type: `string`
 - Default : `""` 
 
-Period default title on creation.
+Period default title.
 
 ### `periodBackgroundColor`
 - Type: `string`
@@ -243,7 +245,7 @@ Define list of days.
 ### `onInit(jqs)`
 - `jqs` Schedule container
 
-A callback fire just after the schedule init.
+A callback fire after the schedule init.
 
 ### `onAddPeriod(period, jqs)`
 - `period` The new period added
@@ -384,5 +386,5 @@ $("#schedule").jqs('reset');
 
 
 ## Todo
-- Responsive
-- Better options validation and tests
+- Responsive.
+- Better options validation and tests.
