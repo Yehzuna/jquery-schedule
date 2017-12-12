@@ -1,35 +1,36 @@
 # jQuery Schedule
 
-A simple schedule management with jQuery.
+A simple scheduler with jQuery.
 
+[![GitHub release](https://img.shields.io/github/release/Yehzuna/jquery-schedule.svg)](https://github.com/Yehzuna/jquery-schedule)
 [![Version](https://img.shields.io/npm/v/jquery-schedule.svg)](https://www.npmjs.org/package/jquery-schedule)
-[![Version](https://img.shields.io/bower/v/jquery-schedule.svg)](https://github.com/Yehzuna/jquery-schedule)
 
 ## Requirements
 
-jQuery >= 1.12.4
+jQuery >= 3.2.*
 
-jQuery ui >= 1.12.1
+jQuery ui >= 1.12.*
+
 
 ## Demo
 
-[Demo link](https://yehzuna.github.io/jquery-schedule/)
+[Link](https://yehzuna.github.io/jquery-schedule/)
 
-## Installation
 
-**bower**
 
-    bower install jquery-schedule
-    
-**npm**
+
+## Install
+
+
+### npm
 
     npm install jquery-schedule
     
-**yarn**
+### yarn
     
     yarn add jquery-schedule
     
-**scripts**
+### scripts
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -37,64 +38,90 @@ jQuery ui >= 1.12.1
     <script src="dist/jquery.schedule.min.js"></script>
     <link rel="stylesheet" href="dist/jquery.schedule.min.css">
 
-## Usage
+
+
+## Usage examples
 
 ```javascript
+// Base
 $("#schedule").jqs();
 
+// Full options
 $("#schedule").jqs({
-    mode: "read",
-    data: [
-        {
-            "day": 0,
-            "periods": [
-                ["00:00", "02:00"],
-                ["20:00", "00:00"]
-            ]
-        }
-    ]
+    mode: "edit",
+    hour: 24,
+    periodDuration: 30,
+    data: [],
+    periodOptions: true,
+    periodColors: [],
+    periodTitle: "",
+    periodBackgroundColor: "rgba(82, 155, 255, 0.5)",
+    periodBorderColor: "#2a3cff",
+    periodTextColor: "#000",
+    periodRemoveButton: "Remove",
+    periodTitlePlaceholder: "Title",
+    days: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+    ],
+    onInit: function () {},
+    onAddPeriod: function () {},
+    onRemovePeriod: function () {},
+    onClickPeriod: function () {}
 });
-
-$("#schedule").jqs({
-    hour: 12,
-    data: [
-        {
-            "day": 0,
-            "periods": [
-                ["1pm", "3:30pm"]
-            ]
-        }
-    ]
-});
-
 ```
 
 ## Data Format
+The plugin use two data formats to render periods.
 
+**Full**
 ```json
 [
     {
         "day": "Day number",
         "periods": [
-            ["Period start", "Period end"]
+            {
+                "start": "Period start time",
+                "end": "Period end time",
+                "title": "Period title",
+                "backgroundColor": "Period background color",
+                "borderColor":"Period border color",
+                "textColor": "Period text color"
+            }
+        ]
+    }
+]
+```
+**Compact**
+```json
+[
+    {
+        "day": "Day number",
+        "periods": [
+            ["Period start time", "Period end time"]
         ]
     }
 ]
 ```
 #### Day format
-> 0 to 6
-
-> Monday to Sunday
+0 to 6 (Monday to Sunday)
 
 #### Hour format
+Two formats are supported :
+- 24-hour clock (`hh:mm`)
+- 12-hour clock (`hh:mm am/pm` or `h:m a/p`)
 
-24-hour clock 
-> hh:mm
+#### Colors support
+- Hexadecimal `#000`
+- RGB `rgb(0, 0, 0)`
+- RGBa `rgb(0, 0, 0, 0.5)`
 
-12-hour clock 
->hh:mm am/pm
-
-#### Example
+#### Examples
 ```json
 [
     {
@@ -102,60 +129,162 @@ $("#schedule").jqs({
         "periods": [
             ["00:00", "02:00"]
         ]
+    },
+    {
+        "day": 2,
+        "periods": [
+            {
+                "start": "10:00",
+                "end": "12:00",
+                "title": "A black period",
+                "backgroundColor": "rgba(0, 0, 0, 0.5)",
+                "borderColor":"#000",
+                "textColor": "#fff"
+            }
+        ]
     }
 ]
 ```
 
 ## Options
 
-| Option | Type | Default | Description
-| --- | --- |  --- |  --- |
-| `debug` | `bool` | `false` | Show log/error messages in console
-| `mode` | `string` | `edit` | Define the schedule mode (read or edit)
-| `confirm` | `bool` | `true` | Show a confirmation dialog when removing a period
-| `hour` | `int` | `24` | Set the 12-hour or 24-hour clock (12/24)
-| `data` | `array` | `[]` | Add a list of period by day
-| `days` | `array` | `["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]` | Days list 
-| `invalidPeriod` | `string` | `Invalid period.` | Debug message
-| `invalidPosition` | `string` | `Invalid position.` | Debug message
-| `removePeriod` | `string` | `Remove this period ?` | The confirmation dialog message
+### `mode`
+- Type: `string`
+- Default: `edit` 
+- Options: `read` `edit`
+
+Define the schedule mode.
+
+### `hour`
+- Type: `integer`
+- Default: `24` 
+- Options: `12` `24`
+
+Define the time format.
+
+### `periodDuration`
+- Type: `integer`
+- Default : `30` 
+- Options: `15` `30` `60`
+
+Define the period duration interval.
+
+### `data`
+- Type: `array`
+- Default : `[]`
+
+Define periods on schedule init. (see data format section for more details)
+
+### `periodOptions`
+- Type: `boolean`
+- Default : `true` 
+
+Enable/Disable the option popup.
+
+### `periodColors`
+- Type: `array`
+- Default : `[]` 
+
+Define list of available colors in the option popup. Must be an array of 3 colors (`backgroundColor`, `borderColor` and `textColor`)
+
+```json
+{
+    "periodColors": [
+        ["backgroundColor", "borderColor", "textColor"],
+        ["rgba(82, 155, 255, 0.5)", "#2a3cff", "#000000"],
+        ["#000", "#fff", "#fff"]
+    ]
+}
+```
+### `periodTitle`
+- Type: `string`
+- Default : `""` 
+
+Period default title.
+
+### `periodBackgroundColor`
+- Type: `string`
+- Default : `rgba(82, 155, 255, 0.5)` 
+
+Period default background color.
+
+### `periodBorderColor`
+- Type: `string`
+- Default : `#2a3cff` 
+
+Period default border color.
+
+### `periodTextColor`
+- Type: `string`
+- Default : `#000` 
+
+Period default text color.
+
+### `periodRemoveButton`
+- Type: `string`
+- Default : `Remove` 
+
+Label to the period remove button.
+
+### `periodTitlePlaceholder`
+- Type: `string`
+- Default : `Title` 
+
+Label to the title input placeholder in the option popup.
+
+### `days`
+- Type: `array`
+- Default : `["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]`
+
+Define list of days.
 
 
-## Theming
 
-| CSS Class | Description
-| --- | --- |  
-| `.jqs` | The plugin main container |
-| `.jqs-table` | Define the schedule structure |
-| `.jqs-wrapper` | The container that holds all periods for one day |
-| `.jqs-grid` | The grid container |
-| `.jqs-grid-head` | The header grid container |
-| `.jqs-grid-line` | The line grid container |
-| `.jqs-grid-day` | Sets the style for the day title |
-| `.jqs-grid-hour` | Sets the style for the hour title |
-| `.jqs-period` | The period container |
-| `.jqs-period-container` | Sets the style for the period |
-| `.jqs-period-title` | Sets the style for the period title |
-| `.jqs-remove` | Sets the style for the remove button in a period |
-| `.jqs-dialog-overlay` | Sets the style for the dialog overlay |
-| `.jqs-dialog-container` | The dialog container |
-| `.jqs-dialog` | Sets the style for the dialog |
+## Events
+
+### `onInit(jqs)`
+- `jqs` Schedule container
+
+A callback fire after the schedule init.
+
+### `onAddPeriod(period, jqs)`
+- `period` The new period added
+- `jqs` Schedule container
+
+A callback fire after a new period is added. 
+
+### `onRemovePeriod(period, jqs)`
+- `period` The period to remove
+- `jqs` Schedule container
+
+A callback fire before a period is removed.
+
+### `onPeriodClicked(event, period, jqs)`
+- `event` click event
+- `period` The period target
+- `jqs` Schedule container
+
+A callback fire on a period click.
+
+
 
 ## Methods 
 
-#### Export
-> Export periods to json format
+### `export`
+Export all periods to a JSON.
 
 ```javascript
 var data = $("#schedule").jqs('export');
 ```
-Export example (json) :
+Example :
 
 ```json
 [
     {"day":0,"periods":[]},
     {"day":1,"periods":[]},
-    {"day":2,"periods":[["10:30","13:00"]]},
+    {"day":2,"periods":[
+      {"start":"02:00","end":"04:00","title":"","backgroundColor":"rgba(82, 155, 255, 0.5)","borderColor":"rgb(42, 60, 255)","textColor":"rgb(0, 0, 0)"}
+    ]},
     {"day":3,"periods":[]},
     {"day":4,"periods":[]},
     {"day":5,"periods":[]},
@@ -163,31 +292,99 @@ Export example (json) :
 ]
 ```
 
-#### Import
-> Import periods programmatically
+### `import`
+Import periods from a JSON.
 
 ```javascript
 $("#schedule").jqs('import', [
     {
-        day: 2,
-        periods:[
-            ["10:30","13:00"]
+        "day": 0,
+        "periods": [
+            ["00:00", "04:00"],
+            ["02:00", "04:00"] // Invalid period
+        ]
+    },
+    {
+        "day": 2,
+        "periods": [
+            {
+                "start": "10:00",
+                "end": "12:00",
+                "title": "A black period",
+                "backgroundColor": "rgba(0, 0, 0, 0.5)",
+                "borderColor":"#000",
+                "textColor": "#fff"
+            }
         ]
     }
 ]);
 ```
 
-Return a json with each period status 
+Return a JSON with each period status.
 
 ```json
 [
-  {"day": 2, "period": ["10:30","13:00"], "status": true}
+  {"day":0,"period":["00:00","04:00"],"status":true},
+  {"day":0,"period":["02:00","04:00"],"status":false},
+  {"day":2,"period":["10:00","12:00"],"status":true}
 ]
 ```
 
-#### Reset
-> Reset the schedule (remove all periods)
+### `reset`
+Reset the schedule. (remove all periods)
 
 ```javascript
 $("#schedule").jqs('reset');
 ```
+
+
+
+## Theming
+
+**Plugin**
+
+| CSS Class | Description |
+| --- | --- |  
+| `.jqs` | Plugin main container |
+| `.jqs-table` | Schedule structure |
+| `.jqs-grid` | Grid container |
+| `.jqs-grid-head` | Header grid container |
+| `.jqs-grid-line` | Line grid container |
+| `.jqs-grid-day` | Grid day label |
+| `.jqs-grid-hour` | Grid hour label |
+| `.jqs-day` | Day container |
+| `.jqs-mode-read` | Added on init |
+| `.jqs-mode-edit` | Added on init |
+
+**Period**
+
+| CSS Class | Description |
+| --- | --- |  
+| `.jqs-period` | Period container |
+| `.jqs-period-container` | Period placeholder (contains colors style) |
+| `.jqs-period-time` | Period time container |
+| `.jqs-period-title` | Period title container |
+| `.jqs-period-remove` | Period remove button (when popup is disabled) |
+| `.jqs-period-15` | Added to `.jqs-period-container` when the period duration is 15mn |
+| `.jqs-period-30` | Added to `.jqs-period-container` when the period duration is 30mn |
+| `.jqs-period-helper` | Period helper |
+| `.jqs-period-helper-time` | Period helper title |
+
+**Popup**
+
+| CSS Class | Description |
+| --- | --- |  
+| `.jqs-options` | Popup option container |
+| `.jqs-options-time` | Popup title |
+| `.jqs-options-title` | Title input |
+| `.jqs-options-title-container` | Title input container |
+| `.jqs-options-color` | Color items |
+| `.jqs-options-color-container` | Color items container |
+| `.jqs-options-remove` | Period remove button |
+| `.jqs-options-close` | Popup close button |
+
+
+
+## Todo
+- Responsive.
+- Better options validation and tests.

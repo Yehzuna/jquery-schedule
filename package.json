@@ -1,14 +1,15 @@
 {
   "title": "jQuery Schedule",
   "name": "jquery-schedule",
-  "version": "1.2.1",
-  "description": "A jQuery plugin for schedule management.",
+  "version": "2.0.0",
+  "description": "A simple scheduler with jQuery.",
   "keywords": [
     "schedule",
+    "scheduler",
+    "calendar",
     "management",
     "jquery",
-    "jquery-ui",
-    "jquery-plugin"
+    "plugin"
   ],
   "author": {
     "name": "Thomas BORUSZEWSKI",
@@ -31,7 +32,12 @@
     "grunt-contrib-compass": "^1.1.1",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-jshint": "^1.1.0",
-    "grunt-contrib-uglify": "^3.0.1"
+    "grunt-contrib-uglify": "^3.0.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-remove-logging": "^0.2.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "jquery-ui": "^1.12.1"
+  }
 }

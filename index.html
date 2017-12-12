@@ -1,91 +1,231 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>jQuery Schedule Demo</title>
+    <title>jQuery Schedule v2 Demo</title>
+    <meta name="description" content="A schedule management with jQuery.">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="dist/jquery.schedule.css">
     <link rel="stylesheet" href="dist/jquery.schedule-demo.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </head>
 <body>
-<h1>jQuery Schedule Demo</h1>
 
-<h2>Edition mode</h2>
-<pre>
-$("#schedule").jqs();
-</pre>
-<div id="schedule" class="jqs-demo"></div>
+<header>
+    <nav class="navbar navbar-dark bg-dark mb-3">
+        <h1 class="navbar-brand mb-0">jQuery Schedule Demo v2.0</h1>
+    </nav>
+</header>
 
-<input type="button" value="Export" id="export" />
-<input type="button" value="Import" id="import" />
-<input type="button" value="Reset" id="reset" />
-<pre>
-$("#schedule").jqs('export');
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2>Basic</h2>
+                <pre class="p-2 mb-3">$("#schedule").jqs();</pre>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div id="schedule" class="jqs-demo mb-3"></div>
+            </div>
+        </div>
 
-$("#schedule").jqs('import', [
-     {
-         day: 1,
-         periods: [
-             ["8:00", "10:00"],
-         ]
-     }, {
-        day: 4,
+
+        <div class="row">
+            <div class="col">
+                <h2>Read mode</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <div id="schedule2" class="jqs-demo mb-3"></div>
+            </div>
+            <div class="col-lg-4">
+            <pre class="p-2 mb-3 large">
+$("#schedule2").jqs({
+    mode: "read",
+    data: [{
+        day: 0,
         periods: [
             ["20:00", "00:00"],
+            ["20:00", "22:00"], // Invalid period, not displayed
             ["00:00", "02:00"]
+        ]
+    }, {
+        day: 3,
+        periods: [
+            ["00:00", "08:30"],
+            ["09:00", "12:00"]
+        ]
+    }]
+});
+</pre>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col">
+                <h2>Events & Methods</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="btn-group mb-3">
+                    <button type="button" class="btn btn-primary" id="export">Export</button>
+                    <button type="button" class="btn btn-primary" id="import">Import</button>
+                    <button type="button" class="btn btn-warning" id="reset">Reset</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <div id="schedule3" class="jqs-demo mb-3"></div>
+            </div>
+            <div class="col-lg-4">
+                <pre class="p-2 mb-3 large">
+$("#schedule3").jqs({
+    onInit: function () {
+        $("#logs").val("onInit fire !\n" + $("#logs").val());
+    },
+    onAddPeriod: function () {
+        $("#logs").val("onAddPeriod fire !\n" + $("#logs").val());
+    },
+    onRemovePeriod: function () {
+        $("#logs").val("onRemovePeriod fire !\n" + $("#logs").val());
+    },
+    onClickPeriod: function () {
+        $("#logs").val("onClickPeriod fire !\n" + $("#logs").val());
+    }
+});
+
+$("#schedule3").jqs('export');
+
+$("#schedule3").jqs('import', [
+    {
+        day: 1,
+        periods: [
+            ["8:00", "10:00"] // Compact
+        ]
+    }, {
+        day: 2,
+        periods: [
+            ["20:00", "00:00"],
+            ["20:00", "22:00"] // Invalid period, not displayed
+        ]
+    }, {
+        day: 4,
+        periods: [
+            { // Full
+                start: "10:00",
+                end: "12:00",
+                title: "A black period",
+                backgroundColor: "#000",
+                borderColor:"#000",
+                textColor: "#fff"
+            }
         ]
     }
 ]);
 
-$("#schedule").jqs('reset');
+$("#schedule3").jqs('reset');
 </pre>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <label for="result">Result :</label>
+                <textarea id="result" class="mb-3"></textarea>
+            </div>
+            <div class="col-lg-6">
+                <label for="logs">Logs :</label>
+                <textarea id="logs" class="mb-3"></textarea>
+            </div>
+        </div>
 
-<textarea id="result"></textarea>
 
-<h2>Read mode</h2>
-<pre>
-$("#schedule2").jqs({
-    mode: "read",
-    data: [
-        {
-            day: 0,
-            periods: [
-                ["20:00", "00:00"],
-                ["00:00", "02:00"]
-            ]
-        }, {
-            day: 3,
-            periods: [
-                ["00:00", "08:30"],
-                ["09:00", "12:00"]
-            ]
-        }
-    ]
+        <div class="row">
+            <div class="col">
+                <h2>Custom periods</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <div id="schedule4" class="jqs-demo mb-3"></div>
+            </div>
+            <div class="col-lg-4">
+                <pre class="p-2 mb-3 large">
+$("#schedule4").jqs({
+    periodColors: [
+        ["rgba(0, 0, 0, 0.5)", "#000", "#fff"],
+        ["rgba(200, 0, 0, 0.5)", "#f00", "#000"],
+        ["rgba(0, 200, 0, 0.5)", "#0f0", "#000"],
+        ["rgba(0, 0, 200, 0.5)", "#00f", "#000"]
+    ],
+    periodTitle: "No title",
+    periodBackgroundColor: "rgba(0, 0, 0, 0.5)",
+    periodBorderColor: "#000",
+    periodTextColor: "#fff",
+    periodRemoveButton: "Remove please !",
+    periodTitlePlaceholder: "A custom title"
 });
 </pre>
-<div id="schedule2" class="jqs-demo"></div>
+            </div>
+        </div>
 
-<h2>Translation & 12-hour clock</h2>
-<pre>
-$("#schedule3").jqs({
-    mode: "read",
+
+        <div class="row">
+            <div class="col">
+                <h2>Translation & 12-hour clock</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <div id="schedule5" class="jqs-demo mb-3"></div>
+            </div>
+            <div class="col-lg-4">
+            <pre class="p-2 mb-3 large">
+$("#schedule5").jqs({
+    mode: "edit",
     days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
     hour: 12,
+    periodDuration: 15,
+    periodOptions: false,
     data: [
         {
             day: 0,
             periods: [
+                ["2", "6"], // Compact 12 hour
                 ["10pm", "12am"],
-                ["12am", "2:30am"]
+                ["12am", "2:30am"] // Invalid period, not displayed
+            ]
+        }, {
+            day: 1,
+            periods: [
+                ["1:45am", "5:15am"]
+            ]
+        }, {
+            day: 2,
+            periods: [
+                ["2", "2p"] // Compact 12 hour
             ]
         }
     ]
 });
 </pre>
-<div id="schedule3" class="jqs-demo"></div>
+            </div>
+        </div>
+    </div>
+</main>
 
+<footer>
+
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script src="dist/jquery.schedule.js"></script>
 <script>
     $(function () {
@@ -93,54 +233,108 @@ $("#schedule3").jqs({
 
         $("#schedule2").jqs({
             mode: "read",
-            data: [
-                {
-                    day: 0,
-                    periods: [
-                        ["20:00", "00:00"],
-                        ["00:00", "02:00"]
-                    ]
-                }, {
-                    day: 3,
-                    periods: [
-                        ["00:00", "08:30"],
-                        ["09:00", "12:00"]
-                    ]
-                }
-            ]
+            data: [{
+                day: 0,
+                periods: [
+                    ["20:00", "00:00"],
+                    ["20:00", "22:00"], // Invalid period, not displayed
+                    ["00:00", "02:00"]
+                ]
+            }, {
+                day: 3,
+                periods: [
+                    ["00:00", "08:30"],
+                    ["09:00", "12:00"]
+                ]
+            }]
         });
 
         $("#schedule3").jqs({
-            mode: "read",
+            onInit: function () {
+                $("#logs").val("onInit fire !\n" + $("#logs").val());
+            },
+            onAddPeriod: function () {
+                $("#logs").val("onAddPeriod fire !\n" + $("#logs").val());
+            },
+            onRemovePeriod: function () {
+                $("#logs").val("onRemovePeriod fire !\n" + $("#logs").val());
+            },
+            onClickPeriod: function () {
+                $("#logs").val("onClickPeriod fire !\n" + $("#logs").val());
+            }
+        });
+
+        $("#schedule4").jqs({
+            periodColors: [
+                ["rgba(0, 0, 0, 0.5)", "#000", "#fff"],
+                ["rgba(200, 0, 0, 0.5)", "#f00", "#000"],
+                ["rgba(0, 200, 0, 0.5)", "#0f0", "#000"],
+                ["rgba(0, 0, 200, 0.5)", "#00f", "#000"]
+            ],
+            periodTitle: "No title",
+            periodBackgroundColor: "rgba(0, 0, 0, 0.5)",
+            periodBorderColor: "#000",
+            periodTextColor: "#fff",
+            periodRemoveButton: "Remove please !",
+            periodTitlePlaceholder: "A custom title"
+        });
+
+        $("#schedule5").jqs({
+            mode: "edit",
             days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
             hour: 12,
+            periodDuration: 15,
+            periodOptions: false,
             data: [
                 {
                     day: 0,
                     periods: [
+                        ["2", "6"], // Compact 12 hour
                         ["10pm", "12am"],
-                        ["12am", "2:30am"]
+                        ["12am", "2:30am"] // Invalid period, not displayed
+                    ]
+                }, {
+                    day: 1,
+                    periods: [
+                        ["1:45am", "5:15am"]
+                    ]
+                }, {
+                    day: 2,
+                    periods: [
+                        ["2", "2p"] // Compact 12 hour
                     ]
                 }
             ]
         });
 
         $("#export").click(function () {
-            $("#result").val($("#schedule").jqs('export'));
+            $("#result").val($("#schedule3").jqs('export'));
         });
 
         $("#import").click(function () {
-             var ret = $("#schedule").jqs('import', [
-                 {
-                     day: 1,
-                     periods: [
-                         ["8:00", "10:00"],
-                     ]
-                 }, {
-                    day: 4,
+            var ret = $("#schedule3").jqs('import', [
+                {
+                    day: 1,
+                    periods: [
+                        ["8:00", "10:00"] // Compact
+                    ]
+                }, {
+                    day: 2,
                     periods: [
                         ["20:00", "00:00"],
-                        ["00:00", "02:00"]
+                        ["20:00", "22:00"] // Invalid period, not displayed
+                    ]
+                }, {
+                    day: 4,
+                    periods: [
+                        { // Full
+                            start: "10:00",
+                            end: "12:00",
+                            title: "A black period",
+                            backgroundColor: "#000",
+                            borderColor:"#000",
+                            textColor: "#fff"
+                        }
                     ]
                 }
             ]);
@@ -149,7 +343,8 @@ $("#schedule3").jqs({
         });
 
         $("#reset").click(function () {
-            $("#schedule").jqs('reset');
+            $("#schedule3").jqs('reset');
+            $("#result").val("");
         });
     });
 </script>

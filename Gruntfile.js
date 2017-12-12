@@ -1,4 +1,5 @@
 module.exports = function (grunt) {
+    'use strict';
 
     grunt.initConfig({
         package: grunt.file.readJSON('package.json'),
@@ -10,27 +11,9 @@ module.exports = function (grunt) {
         },
         jshint: {
             options: {
-                boss: true,
-                eqnull: true,
-                expr: true,
-                immed: true,
-                noarg: true,
-                quotmark: "double",
-                smarttabs: true,
-                trailing: true,
-                unused: true,
-                curly: true,
-                browser: true,
-                devel: true,
-                eqeqeq: true,
-                undef: true,
-                globals: {
-                    jQuery: true
-                }
+                jshintrc: true
             },
-            dist: {
-                src: 'src/js'
-            }
+            all: ['src/js/*.js', 'dist/*.js']
         },
         copy: {
             css: {
@@ -48,10 +31,18 @@ module.exports = function (grunt) {
                 dest: 'dist/'
             }
         },
-        uglify: {
+        removelogging: {
             dist: {
                 expand: true,
                 cwd: 'src/js/',
+                src: '*.js',
+                dest: 'cache/'
+            }
+        },
+        uglify: {
+            dist: {
+                expand: true,
+                cwd: 'cache/',
                 src: '*.js',
                 dest: 'dist/',
                 ext: '.min.js',
@@ -98,7 +89,7 @@ module.exports = function (grunt) {
             },
             prod: {
                 options: {
-                    banner: '/** jQuery Schedule v<%= package.version %> | <%= package.homepage %> */',
+                    banner: '/** jQuery Schedule v<%= package.version %> | <%= package.homepage %> */'
                 },
                 expand: true,
                 cwd: 'dist/',
@@ -106,6 +97,16 @@ module.exports = function (grunt) {
                     '*.min.js',
                     '*.min.css'
                 ]
+            }
+        },
+        watch: {
+            js: {
+                files: ['src/js/*.js'],
+                tasks: ['copy:js']
+            },
+            css: {
+                files: ['src/scss/*.scss'],
+                tasks: ['compass:dev']
             }
         }
     });
@@ -115,6 +116,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-remove-logging');
     grunt.loadNpmTasks('grunt-banner');
 
     grunt.registerTask('default', [
@@ -124,6 +127,7 @@ module.exports = function (grunt) {
         'compass:dev',
         'copy:js',
         'copy:css',
+        'removelogging',
         'uglify',
         'usebanner:dev',
         'usebanner:prod'

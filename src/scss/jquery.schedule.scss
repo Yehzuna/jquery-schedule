@@ -1,6 +1,8 @@
 $gutter: 20px;
 $zone: 20px;
 
+$padding: 16px;
+
 .jqs {
   position: relative;
   padding: $gutter*2 $gutter $gutter $gutter*3;
@@ -8,7 +10,14 @@ $zone: 20px;
   font-family: system, -apple-system, Roboto, Helvetica Neue, Arial, Helvetica, Geneva, sans-serif;
   box-sizing: border-box;
 
-  .jqs-table {
+  &-mode-edit &-period {
+    cursor: pointer;
+  }
+  &-mode-edit .ui-draggable-dragging {
+    cursor: move;
+  }
+
+  &-table {
     position: relative;
     z-index: 10;
     width: 100%;
@@ -27,14 +36,14 @@ $zone: 20px;
     }
   }
 
-  .jqs-grid {
+  &-grid {
     position: absolute;
     top: $gutter * 2;
     left: $gutter * 3;
     right: $gutter;
     box-sizing: content-box;
 
-    .jqs-grid-head {
+    &-head {
       position: absolute;
       top: -$gutter;
       left: 0;
@@ -42,13 +51,13 @@ $zone: 20px;
       display: flex;
     }
 
-    .jqs-grid-day {
+    &-day {
       width: (100%/7);
       text-align: center;
       font-size: 12px;
     }
 
-    .jqs-grid-line {
+    &-line {
       border-top: 1px solid #ccc;
       border-bottom: 1px solid transparent;
       position: relative;
@@ -68,7 +77,7 @@ $zone: 20px;
       }
     }
 
-    .jqs-grid-hour {
+    &-hour {
       position: absolute;
       top: ($zone/2 - 3) * -1;
       left: ($gutter * 2.5) * -1;
@@ -79,111 +88,193 @@ $zone: 20px;
     }
   }
 
-  .jqs-wrapper {
+  &-day {
     width: 100%;
     height: $zone* 2 * 24;
     position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 
-  .jqs-period {
+  &-period {
     position: absolute;
     width: 100%;
-    min-height: $zone;
-    line-height: 1;
+    min-height: 10px;
 
-    .jqs-period-container {
+    &:hover &-remove {
+      display: block;
+    }
+
+    &-15 &-remove {
+      height: 8px;
+      width: 8px;
+      bottom: -1px;
+    }
+
+    &-15 &-time,
+    &-15 &-title {
+      display: none;
+    }
+
+    &-30 &-title {
+      display: none;
+    }
+
+    &-time,
+    &-title {
+      display: block;
+      font-size: 11px;
+      line-height: 12px;
+      letter-spacing: -0.5px;
+      word-break: break-all;
+      overflow: hidden;
+    }
+
+    &-time {
+      font-weight: 700;
+      line-height: 16px;
+    }
+
+    &-container {
       position: absolute;
       top: 2px;
       bottom: 2px;
       left: 2px;
       right: 2px;
-      padding: 3px;
-      background: rgba(82, 155, 255, .5);
-      border: 1px solid #2a3cff;
+      padding: 0 3px;
       border-radius: 3px;
+      box-sizing: border-box;
     }
 
-    .jqs-period-title {
-      font-size: 11px;
-    }
-
-    &:hover {
-      .jqs-remove {
+    &-helper {
+      position: absolute;
+      width: 100%;
+      min-height: 10px;
+      &:after {
+        content: "";
         display: block;
+        position: absolute;
+        top: 2px;
+        bottom: 2px;
+        left: 2px;
+        right: 2px;
+        background-color: rgba(50, 50, 50, .1);
+      }
+      &-time {
+        padding: 2px 0 0 5px;
+        font-size: 11px;
+        font-weight: 700;
+        line-height: $padding;
+        letter-spacing: -0.5px;
+        color: #666;
+      }
+    }
+
+    &-remove {
+      display: none;
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      height: 10px;
+      width: 10px;
+      cursor: pointer;
+      &:before,
+      &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        height: 100%;
+        width: 2px;
+        left: 4px;
+        background: #000;
+      }
+      &:before {
+        transform: rotate(45deg);
+      }
+      &:after {
+        transform: rotate(-45deg);
       }
     }
   }
 
-  .jqs-remove {
-    display: none;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    height: 14px;
-    width: 14px;
-    cursor: pointer;
-    &:before,
-    &:after {
-      content: "";
-      display: block;
-      position: absolute;
-      height: 100%;
-      width: 2px;
-      left: 6px;
-      background: #2a3cff;
-    }
-    &:before {
-      transform: rotate(45deg);
-    }
-    &:after {
-      transform: rotate(-45deg);
-    }
-  }
-
-  .jqs-dialog-overlay {
+  &-options {
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    z-index: 10;
-    background: rgba(255, 255, 255, .5);
-  }
+    z-index: 50;
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+    padding: $padding;
 
-  .jqs-dialog-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 100%;
-    z-index: 15;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .jqs-dialog {
-      padding: 25px;
-      background: #fff;
-      border: 1px solid #ccc;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    &-time {
+      font-size: 11px;
+      font-weight: 700;
+      line-height: $padding;
+      letter-spacing: -0.5px;
+      color: #000;
     }
-    .jqs-dialog-txt {
-      padding: 5px 0;
-      margin-bottom: 20px;
-      font-size: 16px;
+
+    &-title {
+      width: 220px;
+      font-size: 11px;
+      border: none;
+      border-bottom: 1px solid #333;
+      margin-bottom: $padding;
+      margin-right: $padding + 20;
     }
-    .jqs-dialog-yes,
-    .jqs-dialog-no {
+
+    &-color {
+      display: inline-block;
+      border-radius: 3px;
+      border-style: solid;
+      border-width: 1px;
+      height: 25px;
+      font-size: 11px;
+      margin-bottom: $padding;
+      margin-right: $padding/4;
+      cursor: pointer;
+    }
+
+    &-remove {
       display: inline-block;
       cursor: pointer;
-      width: 100px;
-      text-align: center;
-      padding: 10px 20px;
-      color: #106CC8;
-      font-weight: 600;
-      font-size: 14px;
-      text-transform: uppercase;
+      padding: 5px 10px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      background: #f5f5f5;
+      color: #444;
+      font-weight: 700;
+      font-size: 11px;
       &:hover {
-        background: rgba(158, 158, 158, 0.2);
+        background: #c6c6c6;
+        color: #333;
+      }
+    }
+
+    &-close {
+      position: absolute;
+      top: $padding;
+      right: $padding;
+      height: 20px;
+      width: 20px;
+      cursor: pointer;
+      &:before,
+      &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        height: 100%;
+        width: 2px;
+        left: 4px;
+        background: #000;
+      }
+      &:before {
+        transform: rotate(45deg);
+      }
+      &:after {
+        transform: rotate(-45deg);
       }
     }
   }
