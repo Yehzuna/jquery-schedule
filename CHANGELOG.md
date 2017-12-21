@@ -1,5 +1,12 @@
 # jQuery Schedule
 
+# Next
+- Add custom data for periods (import/export/options)
+- Add option to reduce schedule hours range
+- Add option to disable period selection by day or not
+- Add a duplicate button for periods
+- Add a duplicate and remove button for days
+
 # 2.0.0
 **Breaking changes**
 - Remove confirmation feature on period remove (use `onRemovePeriod` callback then)
