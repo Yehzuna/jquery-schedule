@@ -14,6 +14,7 @@
       periodBorderColor: '#2a3cff',
       periodTextColor: '#000',
       periodRemoveButton: 'Remove',
+      periodDuplicateButton: 'Duplicate',
       periodTitlePlaceholder: 'Title',
       days: [
         'Monday',
@@ -200,8 +201,17 @@
           appendTo($('.jqs-grid', this.element));
       }
 
+      var periodRemoveAll = '';
+      var periodDuplicateAll = '';
+      if (this.settings.mode === 'edit') {
+        periodRemoveAll = '<div class="jqs-period-remove" title="' + this.settings.periodRemoveButton + '"></div>';
+        periodDuplicateAll = '<div class="jqs-period-duplicate" title="' + this.settings.periodDuplicateButton +
+          '"></div>';
+      }
+
       for (var k = 0; k < 7; k++) {
-        $('<div class="jqs-grid-day">' + this.settings.days[k] + '</div>').appendTo($('.jqs-grid-head', this.element));
+        $('<div class="jqs-grid-day">' + this.settings.days[k] + periodRemoveAll + periodDuplicateAll + '</div>').
+          appendTo($('.jqs-grid-head', this.element));
       }
     },
 
@@ -256,13 +266,18 @@
 
       // new period
       var periodRemove = '';
+      var periodDuplicate = '';
       if (this.settings.mode === 'edit') {
         periodRemove = '<div class="jqs-period-remove" title="' + this.settings.periodRemoveButton + '"></div>';
+        periodDuplicate = '<div class="jqs-period-duplicate" title="' + this.settings.periodDuplicateButton +
+          '"></div>';
       }
+
       var periodTitle = '<div class="jqs-period-title">' + options.title + '</div>';
       var periodTime = '<div class="jqs-period-time">' + this.periodInit(position, position + height) + '</div>';
-      var period = $('<div class="jqs-period"><div class="jqs-period-container">' +
-        periodTime + periodTitle + periodRemove + '</div></div>').css({
+      var period = $('<div class="jqs-period">' +
+        '<div class="jqs-period-container">' + periodTime + periodTitle + periodRemove + periodDuplicate + '</div>' +
+        '</div>').css({
         'top': position * this.periodPosition,
         'height': height * this.periodPosition
       }).attr('id', this.uniqId()).attr('title', options.title).appendTo(parent);
