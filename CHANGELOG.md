@@ -1,7 +1,7 @@
 # jQuery Schedule
 
 # 2.0.1
-- Fixed : Time error in title of the option popup with IE 11 
+- Fixed : IE11 time error in the option popup
 
 # 2.0.0
 **Breaking changes**
