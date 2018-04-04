@@ -6,6 +6,7 @@
 - Add option to disable period selection by day or not
 - Add a duplicate button for periods
 - Add a duplicate and remove button for days
+- Add an option to define compact or full data export
 
 # 2.0.1
 - Fixed : IE11 time error in the option popup
