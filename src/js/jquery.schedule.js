@@ -381,8 +381,8 @@
       }
 
       // time
-      var position = period.position().top / this.periodPosition;
-      var height = period.height() / this.periodPosition;
+      var position = Math.round(period.position().top / this.periodPosition);
+      var height = Math.round(period.height() / this.periodPosition);
       var time = '<div class="jqs-options-time">' + this.periodInit(position, position + height) + '</div>';
 
       // title

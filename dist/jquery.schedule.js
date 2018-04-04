@@ -1,5 +1,5 @@
 /**
- * jQuery Schedule v2.0.0
+ * jQuery Schedule v2.0.1
  * https://github.com/Yehzuna/jquery-schedule
  * Thomas BORUSZEWSKI <yehzuna@outlook.com>
  */
@@ -386,8 +386,8 @@
       }
 
       // time
-      var position = period.position().top / this.periodPosition;
-      var height = period.height() / this.periodPosition;
+      var position = Math.round(period.position().top / this.periodPosition);
+      var height = Math.round(period.height() / this.periodPosition);
       var time = '<div class="jqs-options-time">' + this.periodInit(position, position + height) + '</div>';
 
       // title
