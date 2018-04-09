@@ -271,19 +271,36 @@ A callback fire on a period click.
 ## Methods 
 
 ### `export`
-Export all periods to a JSON.
+Export all periods to a JSON. Add `compact` param to the method to force the compact mode.
 
 ```javascript
 var data = $("#schedule").jqs('export');
-```
-Example :
 
+var data = $("#schedule").jqs('export', 'compact');
+```
+Examples :
+
+**Full**
 ```json
 [
     {"day":0,"periods":[]},
     {"day":1,"periods":[]},
     {"day":2,"periods":[
       {"start":"02:00","end":"04:00","title":"","backgroundColor":"rgba(82, 155, 255, 0.5)","borderColor":"rgb(42, 60, 255)","textColor":"rgb(0, 0, 0)"}
+    ]},
+    {"day":3,"periods":[]},
+    {"day":4,"periods":[]},
+    {"day":5,"periods":[]},
+    {"day":6,"periods":[]}
+]
+```
+**Compact**
+```json
+[
+    {"day":0,"periods":[]},
+    {"day":1,"periods":[]},
+    {"day":2,"periods":[
+      ["02:00", "04:00"]
     ]},
     {"day":3,"periods":[]},
     {"day":4,"periods":[]},

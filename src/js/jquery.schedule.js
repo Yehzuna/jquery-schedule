@@ -504,11 +504,16 @@
     /**
      * Return an object with all period data
      * @param period
-     * @returns {[*,*]}
+     * @param compact
+     * @returns {*}
      */
-    periodData: function (period) {
+    periodData: function (period, compact) {
       var start = Math.round(period.position().top / this.periodPosition);
       var end = Math.round((period.height() + period.position().top) / this.periodPosition);
+
+      if (compact) {
+        return [this.periodFormat(start), this.periodFormat(end)];
+      }
 
       return {
         start: this.periodFormat(start),
@@ -692,14 +697,15 @@
      * Export data to JSON string
      * @returns {string}
      */
-    export: function () {
+    export: function (args) {
       var $this = this;
+      var compact = (args[1] && args[1] === 'compact') ? true : false;
       var data = [];
 
       $('.jqs-day', $this.element).each(function (index, day) {
         var periods = [];
         $('.jqs-period', day).each(function (index, period) {
-          periods.push($this.periodData($(period)));
+          periods.push($this.periodData($(period), compact));
         });
 
         data.push({
