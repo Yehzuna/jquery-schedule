@@ -28,6 +28,7 @@
       onInit: function () {},
       onAddPeriod: function () {},
       onRemovePeriod: function () {},
+      onDuplicatePeriod: function () {},
       onClickPeriod: function () {}
     },
     pluginName = 'jqs';
@@ -107,6 +108,7 @@
 
       $(this.element).addClass('jqs').addClass('jqs-mode-' + this.settings.mode);
 
+      // Init events
       if (this.settings.mode === 'edit') {
         // add a new period
         var position = 0;
@@ -176,6 +178,20 @@
             period.remove();
           }
         });
+
+        $(this.element).on('click', '.jqs-period-duplicate', function () {
+          var period = $(this).parents('.jqs-period');
+        });
+
+        $(this.element).on('click', '.jqs-period-remove-all', function () {
+          var parent = $(this).parents('.jqs-grid-day');
+          $this.remove(parent);
+        });
+
+        $(this.element).on('click', '.jqs-period-remove-all', function () {
+          var parent = $(this).parents('.jqs-grid-day');
+          $this.remove(parent);
+        });
       }
 
       this.create();
@@ -204,8 +220,8 @@
       var periodRemoveAll = '';
       var periodDuplicateAll = '';
       if (this.settings.mode === 'edit') {
-        periodRemoveAll = '<div class="jqs-period-remove" title="' + this.settings.periodRemoveButton + '"></div>';
-        periodDuplicateAll = '<div class="jqs-period-duplicate" title="' + this.settings.periodDuplicateButton +
+        periodRemoveAll = '<div class="jqs-period-remove-all" title="' + this.settings.periodRemoveButton + '"></div>';
+        periodDuplicateAll = '<div class="jqs-period-duplicate-all" title="' + this.settings.periodDuplicateButton +
           '"></div>';
       }
 
@@ -354,6 +370,21 @@
 
       return true;
     },
+
+
+    remove: function(parent) {
+      var $this = this;
+      $('.jqs-period', parent).each(function (period) {
+        if (!$this.settings.onRemovePeriod.call(this, period, $this.element)) {
+          period.remove();
+        }
+      });
+    },
+
+    duplicate: function(period) {
+
+    },
+
 
     /**
      * Open the options popup
@@ -761,7 +792,7 @@
      * Remove all periods
      */
     reset: function () {
-      $('.jqs-period', this.element).remove();
+      this.remove(this.element);
     }
   });
 
