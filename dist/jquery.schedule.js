@@ -1,3 +1,8 @@
+/**
+ * jQuery Schedule v2.0.1
+ * https://github.com/Yehzuna/jquery-schedule
+ * Thomas BORUSZEWSKI <yehzuna@outlook.com>
+ */
 ;(function ($, window, document, undefined) {
   'use strict';
 
@@ -171,26 +176,23 @@
           }
         });
 
-        // delete a period
         $(this.element).on('click', '.jqs-period-remove', function () {
           var period = $(this).parents('.jqs-period');
-          if (!$this.settings.onRemovePeriod.call(this, period, $this.element)) {
-            period.remove();
-          }
+          $this.remove(period);
         });
 
         $(this.element).on('click', '.jqs-period-duplicate', function () {
           var period = $(this).parents('.jqs-period');
+          $this.duplicate(period);
         });
 
         $(this.element).on('click', '.jqs-period-remove-all', function () {
-          var parent = $(this).parents('.jqs-grid-day');
-          $this.remove(parent);
+          var index = $(this).parents('.jqs-grid-day').index();
+          var parent = $('.jqs-day', $this.element).eq(index);
+          $this.removeAll(parent);
         });
 
-        $(this.element).on('click', '.jqs-period-remove-all', function () {
-          var parent = $(this).parents('.jqs-grid-day');
-          $this.remove(parent);
+        $(this.element).on('click', '.jqs-period-duplicate-all', function () {
         });
       }
 
@@ -371,20 +373,39 @@
       return true;
     },
 
+    /**
+     * Remove a period
+     * @param period
+     */
+    remove: function(period) {
+      if (!this.settings.onRemovePeriod.call(this, period, this.element)) {
+        period.remove();
+      }
+    },
 
-    remove: function(parent) {
+    /**
+     * Remove all period in the parent container
+     * @param parent
+     */
+    removeAll: function(parent) {
       var $this = this;
-      $('.jqs-period', parent).each(function (period) {
-        if (!$this.settings.onRemovePeriod.call(this, period, $this.element)) {
-          period.remove();
-        }
+      $('.jqs-period', parent).each(function (index, period) {
+        $this.remove(period);
       });
     },
 
+    /**
+     *
+     * @param period
+     */
     duplicate: function(period) {
+      var options = this.periodData(period);
+      var parent = period.parents('.jqs-day');
+      var position = Math.round(period.position().top / this.periodPosition);
+      var height = Math.round(period.height() / this.periodPosition);
 
+      this.add(parent, position, height, options);
     },
-
 
     /**
      * Open the options popup
@@ -792,7 +813,7 @@
      * Remove all periods
      */
     reset: function () {
-      this.remove(this.element);
+      this.removeAll(this.element);
     }
   });
 
