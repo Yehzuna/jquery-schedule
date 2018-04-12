@@ -72,6 +72,7 @@ $("#schedule").jqs({
     onInit: function () {},
     onAddPeriod: function () {},
     onRemovePeriod: function () {},
+    onDuplicatePeriod: function () {},
     onClickPeriod: function () {}
 });
 ```
@@ -259,6 +260,12 @@ A callback fire after a new period is added.
 
 A callback fire before a period is removed.
 
+### `onDuplicatePeriod(period, jqs)`
+- `period` The period to duplicate
+- `jqs` Schedule container
+
+A callback fire before a period is duplicated.
+
 ### `onPeriodClicked(event, period, jqs)`
 - `event` click event
 - `period` The period target
@@ -364,7 +371,10 @@ $("#schedule").jqs('reset');
 | `.jqs-period-container` | Period placeholder (contains colors style) |
 | `.jqs-period-time` | Period time container |
 | `.jqs-period-title` | Period title container |
-| `.jqs-period-remove` | Period remove button (when popup is disabled) |
+| `.jqs-period-remove` | Period remove button |
+| `.jqs-period-remove-all` | Period remove button for the day |
+| `.jqs-period-duplicate` | Period duplicate button |
+| `.jqs-period-duplicate-all` | Period duplicate button for the day |
 | `.jqs-period-15` | Added to `.jqs-period-container` when the period duration is 15mn |
 | `.jqs-period-30` | Added to `.jqs-period-container` when the period duration is 30mn |
 | `.jqs-period-helper` | Period helper |
@@ -381,6 +391,7 @@ $("#schedule").jqs('reset');
 | `.jqs-options-color` | Color items |
 | `.jqs-options-color-container` | Color items container |
 | `.jqs-options-remove` | Period remove button |
+| `.jqs-options-duplicate` | Period duplicate button |
 | `.jqs-options-close` | Popup close button |
 
 

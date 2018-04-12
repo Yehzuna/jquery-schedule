@@ -1,8 +1,3 @@
-/**
- * jQuery Schedule v2.0.1
- * https://github.com/Yehzuna/jquery-schedule
- * Thomas BORUSZEWSKI <yehzuna@outlook.com>
- */
 ;(function ($, window, document, undefined) {
   'use strict';
 
@@ -193,6 +188,9 @@
         });
 
         $(this.element).on('click', '.jqs-period-duplicate-all', function () {
+          var index = $(this).parents('.jqs-grid-day').index();
+          var parent = $('.jqs-day', $this.element).eq(index);
+          $this.duplicateAll(parent);
         });
       }
 
@@ -360,7 +358,10 @@
 
         if (this.settings.periodOptions) {
           period.click(function (event) {
-            if (!$(event.target).hasClass('jqs-period-remove')) {
+            if (
+              !$(event.target).hasClass('jqs-period-remove') ||
+              !$(event.target).hasClass('jqs-period-duplicate')
+            ) {
               $this.settings.onClickPeriod.call(this, event, period, $this.element);
               $this.openOptions(event, period);
             }
@@ -380,11 +381,12 @@
     remove: function(period) {
       if (!this.settings.onRemovePeriod.call(this, period, this.element)) {
         period.remove();
+        this.closeOptions();
       }
     },
 
     /**
-     * Remove all period in the parent container
+     * Remove all periods in the parent container
      * @param parent
      */
     removeAll: function(parent) {
@@ -395,16 +397,33 @@
     },
 
     /**
-     *
+     * Duplicate a period
      * @param period
      */
     duplicate: function(period) {
-      var options = this.periodData(period);
-      var parent = period.parents('.jqs-day');
-      var position = Math.round(period.position().top / this.periodPosition);
-      var height = Math.round(period.height() / this.periodPosition);
+      if (!this.settings.onDuplicatePeriod.call(this, period, this.element)) {
+        var options = this.periodData(period);
+        var position = Math.round(period.position().top / this.periodPosition);
+        var height = Math.round(period.height() / this.periodPosition);
 
-      this.add(parent, position, height, options);
+        var $this = this;
+        $('.jqs-day', this.element).each(function (index, parent) {
+          $this.add(parent, position, height, options);
+        });
+
+        this.closeOptions();
+      }
+    },
+
+    /**
+     * Duplicate all periods in the parent container
+     * @param parent
+     */
+    duplicateAll: function(parent) {
+      var $this = this;
+      $('.jqs-period', parent).each(function (index, period) {
+        $this.duplicate($(period));
+      });
     },
 
     /**
@@ -459,8 +478,9 @@
 
       // button
       var remove = '<div class="jqs-options-remove">' + this.settings.periodRemoveButton + '</div>';
+      var duplicate = '<div class="jqs-options-duplicate">' + this.settings.periodDuplicateButton + '</div>';
       var close = '<div class="jqs-options-close"></div>';
-      $('<div class="jqs-options">' + time + titleInput + colorInput + remove + close + '</div>').css({
+      $('<div class="jqs-options">' + time + titleInput + colorInput + remove + duplicate + close + '</div>').css({
         top: top,
         left: left
       }).appendTo(this.element);
@@ -479,10 +499,11 @@
       });
 
       $('.jqs-options-remove', this.element).click(function () {
-        if (!$this.settings.onRemovePeriod.call(this, period, $this.element)) {
-          period.remove();
-          $this.closeOptions();
-        }
+        $this.remove(period);
+      });
+
+      $('.jqs-options-duplicate', this.element).click(function () {
+        $this.duplicate(period);
       });
 
       $('.jqs-options-close', this.element).click(function () {
