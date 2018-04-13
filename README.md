@@ -44,30 +44,30 @@ jQuery ui >= 1.12.*
 
 ```javascript
 // Base
-$("#schedule").jqs();
+$('#schedule').jqs();
 
 // Full options
-$("#schedule").jqs({
-    mode: "edit",
+$('#schedule').jqs({
+    mode: 'edit',
     hour: 24,
     periodDuration: 30,
     data: [],
     periodOptions: true,
     periodColors: [],
-    periodTitle: "",
-    periodBackgroundColor: "rgba(82, 155, 255, 0.5)",
-    periodBorderColor: "#2a3cff",
-    periodTextColor: "#000",
-    periodRemoveButton: "Remove",
-    periodTitlePlaceholder: "Title",
+    periodTitle: '',
+    periodBackgroundColor: 'rgba(82, 155, 255, 0.5)',
+    periodBorderColor: '#2a3cff',
+    periodTextColor: '#000',
+    periodRemoveButton: 'Remove',
+    periodTitlePlaceholder: 'Title',
     days: [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday"
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday'
     ],
     onInit: function () {},
     onAddPeriod: function () {},
@@ -227,6 +227,12 @@ Period default text color.
 
 Label to the period remove button.
 
+### `periodDuplicateButton`
+- Type: `string`
+- Default : `Duplicate` 
+
+Label to the period duplicate button.
+
 ### `periodTitlePlaceholder`
 - Type: `string`
 - Default : `Title` 
@@ -281,7 +287,7 @@ A callback fire on a period click.
 Export all periods to a JSON.
 
 ```javascript
-var data = $("#schedule").jqs('export');
+var data = $('#schedule').jqs('export');
 ```
 Example :
 
@@ -303,24 +309,24 @@ Example :
 Import periods from a JSON.
 
 ```javascript
-$("#schedule").jqs('import', [
+$('#schedule').jqs('import', [
     {
-        "day": 0,
-        "periods": [
-            ["00:00", "04:00"],
-            ["02:00", "04:00"] // Invalid period
+        'day': 0,
+        'periods': [
+            ['00:00', '04:00'],
+            ['02:00', '04:00'] // Invalid period
         ]
     },
     {
-        "day": 2,
-        "periods": [
+        'day': 2,
+        'periods': [
             {
-                "start": "10:00",
-                "end": "12:00",
-                "title": "A black period",
-                "backgroundColor": "rgba(0, 0, 0, 0.5)",
-                "borderColor":"#000",
-                "textColor": "#fff"
+                'start': '10:00',
+                'end': '12:00',
+                'title': 'A black period',
+                'backgroundColor': 'rgba(0, 0, 0, 0.5)',
+                'borderColor':'#000',
+                'textColor': '#fff'
             }
         ]
     }
@@ -341,7 +347,7 @@ Return a JSON with each period status.
 Reset the schedule. (remove all periods)
 
 ```javascript
-$("#schedule").jqs('reset');
+$('#schedule').jqs('reset');
 ```
 
 
@@ -397,5 +403,9 @@ $("#schedule").jqs('reset');
 
 
 ## Todo
+- Add custom data for periods (import/export/options)
+- Add option to reduce schedule hours range
+- Add option to disable period selection by day or not
+- Add an option to define compact or full data export
 - Responsive.
 - Better options validation and tests.
