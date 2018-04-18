@@ -186,13 +186,13 @@
           $this.duplicate(period);
         });
 
-        $(this.element).on('click', '.jqs-period-remove-all', function () {
+        $(this.element).on('click', '.jqs-day-remove', function () {
           var index = $(this).parents('.jqs-grid-day').index();
           var parent = $('.jqs-day', $this.element).eq(index);
           $this.removeAll(parent);
         });
 
-        $(this.element).on('click', '.jqs-period-duplicate-all', function () {
+        $(this.element).on('click', '.jqs-day-duplicate', function () {
           var index = $(this).parents('.jqs-grid-day').index();
           var parent = $('.jqs-day', $this.element).eq(index);
           $this.duplicateAll(parent);
@@ -209,10 +209,20 @@
      * Generate schedule structure
      */
     create: function () {
+
+      var dayRemove = '';
+      var dayDuplicate = '';
+      if (this.settings.mode === 'edit') {
+        dayRemove = '<div class="jqs-day-remove" title="' + this.settings.periodRemoveButton + '"></div>';
+        dayDuplicate = '<div class="jqs-day-duplicate" title="' + this.settings.periodDuplicateButton +
+          '"></div>';
+      }
+
       $('<table class="jqs-table"><tr></tr></table>').appendTo($(this.element));
 
       for (var i = 0; i < 7; i++) {
-        $('<td><div class="jqs-day"></div></td>').appendTo($('.jqs-table tr', this.element));
+        $('<td><div class="jqs-day"></div>' + dayRemove + dayDuplicate + '</td>').
+          appendTo($('.jqs-table tr', this.element));
       }
 
       $('<div class="jqs-grid"><div class="jqs-grid-head"></div></div>').appendTo($(this.element));
@@ -222,16 +232,8 @@
           appendTo($('.jqs-grid', this.element));
       }
 
-      var periodRemoveAll = '';
-      var periodDuplicateAll = '';
-      if (this.settings.mode === 'edit') {
-        periodRemoveAll = '<div class="jqs-period-remove-all" title="' + this.settings.periodRemoveButton + '"></div>';
-        periodDuplicateAll = '<div class="jqs-period-duplicate-all" title="' + this.settings.periodDuplicateButton +
-          '"></div>';
-      }
-
       for (var k = 0; k < 7; k++) {
-        $('<div class="jqs-grid-day">' + this.settings.days[k] + periodRemoveAll + periodDuplicateAll + '</div>').
+        $('<div class="jqs-grid-day">' + this.settings.days[k] + '</div>').
           appendTo($('.jqs-grid-head', this.element));
       }
     },
@@ -383,7 +385,7 @@
      * Remove a period
      * @param period
      */
-    remove: function(period) {
+    remove: function (period) {
       if (!this.settings.onRemovePeriod.call(this, period, this.element)) {
         period.remove();
         this.closeOptions();
@@ -394,7 +396,7 @@
      * Remove all periods in the parent container
      * @param parent
      */
-    removeAll: function(parent) {
+    removeAll: function (parent) {
       var $this = this;
       $('.jqs-period', parent).each(function (index, period) {
         $this.remove(period);
@@ -405,7 +407,7 @@
      * Duplicate a period
      * @param period
      */
-    duplicate: function(period) {
+    duplicate: function (period) {
       if (!this.settings.onDuplicatePeriod.call(this, period, this.element)) {
         var options = this.periodData(period);
         var position = Math.round(period.position().top / this.periodPosition);
@@ -424,7 +426,7 @@
      * Duplicate all periods in the parent container
      * @param parent
      */
-    duplicateAll: function(parent) {
+    duplicateAll: function (parent) {
       var $this = this;
       $('.jqs-period', parent).each(function (index, period) {
         $this.duplicate($(period));

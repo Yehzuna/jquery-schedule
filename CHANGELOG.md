@@ -5,13 +5,13 @@
 - Add a duplicate button for periods
     - Add a new callback `onDuplicatePeriod`
     - Add a new option `periodDuplicateButton`
-- Add a duplicate and remove button for days
+- Add a duplicate and remove button for days on hover
 
 **Other changes**
 - Source code cleaning
-- Hover effect lighten for popup buttons
+- Hover effect lighten for buttons in the popup
 - New icon for remove button
-- Add `onRemovePeriod` event to the `reset` method 
+- Add `onRemovePeriod` event to the `reset` method
 
 # 2.0.1
 - Fixed : IE11 time error in the option popup

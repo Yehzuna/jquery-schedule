@@ -1,6 +1,6 @@
 # jQuery Schedule
 
-A simple scheduler with jQuery.
+> A schedule management with jQuery.
 
 [![GitHub release](https://img.shields.io/github/release/Yehzuna/jquery-schedule.svg)](https://github.com/Yehzuna/jquery-schedule)
 [![Version](https://img.shields.io/npm/v/jquery-schedule.svg)](https://www.npmjs.org/package/jquery-schedule)
@@ -366,6 +366,8 @@ $('#schedule').jqs('reset');
 | `.jqs-grid-day` | Grid day label |
 | `.jqs-grid-hour` | Grid hour label |
 | `.jqs-day` | Day container |
+| `.jqs-day-remove` | Period remove button for the day |
+| `.jqs-day-duplicate` | Period duplicate button for the day |
 | `.jqs-mode-read` | Added on init |
 | `.jqs-mode-edit` | Added on init |
 
@@ -378,9 +380,7 @@ $('#schedule').jqs('reset');
 | `.jqs-period-time` | Period time container |
 | `.jqs-period-title` | Period title container |
 | `.jqs-period-remove` | Period remove button |
-| `.jqs-period-remove-all` | Period remove button for the day |
 | `.jqs-period-duplicate` | Period duplicate button |
-| `.jqs-period-duplicate-all` | Period duplicate button for the day |
 | `.jqs-period-15` | Added to `.jqs-period-container` when the period duration is 15mn |
 | `.jqs-period-30` | Added to `.jqs-period-container` when the period duration is 30mn |
 | `.jqs-period-helper` | Period helper |
