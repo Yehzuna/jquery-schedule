@@ -61,7 +61,7 @@
 }
 .jqs-grid-head {
   position: absolute;
-  top: -20px;
+  top: -30px;
   left: 0;
   right: 0;
   display: flex;
@@ -69,8 +69,14 @@
 .jqs-grid-day {
   position: relative;
   width: 14.28571%;
+  padding: 8px 0 4px 0;
   text-align: center;
   font-size: 12px;
+}
+.jqs-grid-day:hover .jqs-day-remove,
+.jqs-grid-day:hover .jqs-day-duplicate, .jqs-grid-day-buttons .jqs-day-remove,
+.jqs-grid-day-buttons .jqs-day-duplicate {
+  display: block;
 }
 .jqs-grid-line {
   border-top: 1px solid #ccc;
@@ -110,15 +116,12 @@
   user-select: none;
 }
 .jqs-day-remove {
-  top: -28px;
+  bottom: 20px;
   right: 2px;
 }
 .jqs-day-duplicate {
-  top: -14px;
+  bottom: 4px;
   right: 2px;
-}
-.jqs-day:hover ~ .jqs-day-remove, .jqs-day:hover ~ .jqs-day-duplicate {
-  display: block;
 }
 .jqs-period {
   position: absolute;

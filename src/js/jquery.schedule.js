@@ -171,6 +171,16 @@
           }
         });
 
+        $(this.element).on('mouseenter', '.jqs-day', function () {
+          var index = $(this).parents('td').index();
+          $('.jqs-grid-day', $this.element).eq(index).addClass('jqs-grid-day-buttons');
+        });
+
+        $(this.element).on('mouseleave', '.jqs-day', function () {
+          var index = $(this).parents('td').index();
+          $('.jqs-grid-day', $this.element).eq(index).removeClass('jqs-grid-day-buttons');
+        });
+
         $(this.element).on('click', '.jqs-period-remove', function () {
           var period = $(this).parents('.jqs-period');
           $this.remove(period);
@@ -205,18 +215,10 @@
      */
     create: function () {
 
-      var dayRemove = '';
-      var dayDuplicate = '';
-      if (this.settings.mode === 'edit') {
-        dayRemove = '<div class="jqs-day-remove" title="' + this.settings.periodRemoveButton + '"></div>';
-        dayDuplicate = '<div class="jqs-day-duplicate" title="' + this.settings.periodDuplicateButton +
-          '"></div>';
-      }
-
       $('<table class="jqs-table"><tr></tr></table>').appendTo($(this.element));
 
       for (var i = 0; i < 7; i++) {
-        $('<td><div class="jqs-day"></div>' + dayRemove + dayDuplicate + '</td>').
+        $('<td><div class="jqs-day"></div></td>').
           appendTo($('.jqs-table tr', this.element));
       }
 
@@ -227,8 +229,16 @@
           appendTo($('.jqs-grid', this.element));
       }
 
+      var dayRemove = '';
+      var dayDuplicate = '';
+      if (this.settings.mode === 'edit') {
+        dayRemove = '<div class="jqs-day-remove" title="' + this.settings.periodRemoveButton + '"></div>';
+        dayDuplicate = '<div class="jqs-day-duplicate" title="' + this.settings.periodDuplicateButton +
+          '"></div>';
+      }
+
       for (var k = 0; k < 7; k++) {
-        $('<div class="jqs-grid-day">' + this.settings.days[k] + '</div>').
+        $('<div class="jqs-grid-day">' + this.settings.days[k] + dayRemove + dayDuplicate + '</div>').
           appendTo($('.jqs-grid-head', this.element));
       }
     },

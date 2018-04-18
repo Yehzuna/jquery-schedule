@@ -63,7 +63,7 @@ $padding: 16px;
 
     &-head {
       position: absolute;
-      top: -$gutter;
+      top: (-$gutter - 10px);
       left: 0;
       right: 0;
       display: flex;
@@ -72,8 +72,17 @@ $padding: 16px;
     &-day {
       position: relative;
       width: (100%/7);
+      padding: 8px 0 4px 0;
       text-align: center;
       font-size: 12px;
+
+      &:hover,
+      &-buttons {
+        .jqs-day-remove,
+        .jqs-day-duplicate {
+          display: block;
+        }
+      }
     }
 
     &-line {
@@ -119,20 +128,15 @@ $padding: 16px;
     &-remove {
       @extend %icon-button;
       @extend %icon-button-remove;
-      top: -28px;
+      bottom: 20px;
       right: 2px;
     }
 
     &-duplicate {
       @extend %icon-button;
       @extend %icon-button-duplicate;
-      top: -14px;
+      bottom: 4px;
       right: 2px;
-    }
-
-    &:hover ~ &-remove,
-    &:hover ~ &-duplicate {
-      display: block;
     }
   }
 
