@@ -12,6 +12,7 @@
 - Hover effect lighten for buttons in the popup
 - New icon for remove button
 - Add `onRemovePeriod` event to the `reset` method
+- Hide the remove button for very small period (15mn)
 
 # 2.0.1
 - Fixed : IE11 time error in the option popup

@@ -150,13 +150,8 @@ $padding: 16px;
       display: block;
     }
 
-    &-15 &-remove,
-    &-15 &-duplicate {
-      height: 8px;
-      width: 8px;
-      bottom: -1px;
-    }
-
+    &-15:hover &-remove,
+    &-15:hover &-duplicate,
     &-15 &-time,
     &-15 &-title {
       display: none;

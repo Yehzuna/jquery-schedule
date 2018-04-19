@@ -131,12 +131,7 @@
 .jqs-period:hover .jqs-period-remove, .jqs-period:hover .jqs-period-duplicate {
   display: block;
 }
-.jqs-period-15 .jqs-period-remove, .jqs-period-15 .jqs-period-duplicate {
-  height: 8px;
-  width: 8px;
-  bottom: -1px;
-}
-.jqs-period-15 .jqs-period-time, .jqs-period-15 .jqs-period-title {
+.jqs-period-15:hover .jqs-period-remove, .jqs-period-15:hover .jqs-period-duplicate, .jqs-period-15 .jqs-period-time, .jqs-period-15 .jqs-period-title {
   display: none;
 }
 .jqs-period-30 .jqs-period-title {
