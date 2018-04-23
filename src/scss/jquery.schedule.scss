@@ -34,6 +34,11 @@ $padding: 16px;
     cursor: move;
   }
 
+  &-mode-5 &-table td,
+  &-mode-5 &-grid-day {
+    width: (100%/5);
+  }
+
   &-table {
     position: relative;
     z-index: 10;

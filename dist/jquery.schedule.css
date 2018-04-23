@@ -33,6 +33,9 @@
 .jqs-mode-edit .ui-draggable-dragging {
   cursor: move;
 }
+.jqs-mode-5 .jqs-table td, .jqs-mode-5 .jqs-grid-day {
+  width: 20%;
+}
 .jqs-table {
   position: relative;
   z-index: 10;
