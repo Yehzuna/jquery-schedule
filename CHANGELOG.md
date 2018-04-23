@@ -3,9 +3,15 @@
 # 2.1.0
 **New features**
 - Add a duplicate button for periods
-    - Add a new callback `onDuplicatePeriod`
-    - Add a new option `periodDuplicateButton`
-- Add a duplicate and remove button for days on hover
+    - This feature allows to copy the selected period to all days if space is available
+    - Periods already placed are not overwritten
+- Add a duplicate button for days
+    - This feature allows to copy all periods in a day to all other days if space is available
+    - Periods already placed are not overwritten
+- Add a remove button for days
+    - Remove all periods in the selected day
+- Add a new callback `onDuplicatePeriod`
+- Add a new option `periodDuplicateButton`
 
 **Other changes**
 - Source code cleaning
