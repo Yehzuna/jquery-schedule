@@ -98,6 +98,7 @@ $('#schedule3').jqs({
   onRemovePeriod: function () {
     $('#logs').val('onRemovePeriod fire !\n' + $('#logs').val());
   },
+
   onClickPeriod: function () {
     $('#logs').val('onClickPeriod fire !\n' + $('#logs').val());
   }
@@ -150,7 +151,7 @@ $('#schedule3').jqs('reset');
 
         <div class="row">
             <div class="col">
-                <h2>Custom periods</h2>
+                <h2>Custom periods and days</h2>
             </div>
         </div>
         <div class="row">
@@ -160,6 +161,7 @@ $('#schedule3').jqs('reset');
             <div class="col-lg-4">
                 <pre class="p-2 mb-3 large">
 $('#schedule4').jqs({
+  days: 5,
   periodColors: [
     ['rgba(0, 0, 0, 0.5)', '#000', '#fff'],
     ['rgba(200, 0, 0, 0.5)', '#f00', '#000'],
@@ -191,7 +193,7 @@ $('#schedule4').jqs({
             <pre class="p-2 mb-3 large">
 $('#schedule5').jqs({
   mode: 'edit',
-  days: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
+  daysList: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
   hour: 12,
   periodDuration: 15,
   periodOptions: false,
@@ -262,12 +264,16 @@ $('#schedule5').jqs({
       onRemovePeriod: function () {
         $('#logs').val('onRemovePeriod fire !\n' + $('#logs').val());
       },
+      onDuplicatePeriod: function () {
+        $('#logs').val('onDuplicatePeriod fire !\n' + $('#logs').val());
+      },
       onClickPeriod: function () {
         $('#logs').val('onClickPeriod fire !\n' + $('#logs').val());
       }
     });
 
     $('#schedule4').jqs({
+      days: 5,
       periodColors: [
         ['rgba(0, 0, 0, 0.5)', '#000', '#fff'],
         ['rgba(200, 0, 0, 0.5)', '#f00', '#000'],
@@ -284,7 +290,7 @@ $('#schedule5').jqs({
 
     $('#schedule5').jqs({
       mode: 'edit',
-      days: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
+      daysList: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
       hour: 12,
       periodDuration: 15,
       periodOptions: false,
