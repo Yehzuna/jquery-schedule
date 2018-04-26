@@ -120,7 +120,6 @@
           position = Math.floor(offset / $this.periodPosition);
 
           if (!$(event.target).hasClass('jqs-period') && $(event.target).parents('.jqs-period').length === 0) {
-
             var time = '';
             if ($this.settings.periodDuration !== 15) {
               time = $this.periodInit(position, position + 1);
@@ -147,7 +146,7 @@
               'height': height * $this.periodPosition
             });
 
-            if (height > 1) {
+            if (height >= 1) {
               $('.jqs-period-helper-time', helper).text($this.periodInit(position, position + height));
             } else {
               $('.jqs-period-helper-time', helper).text('');

@@ -19,6 +19,7 @@
 - New icon for remove button
 - Add `onRemovePeriod` event to the `reset` method
 - Hide the remove button for very small period (15mn)
+- Fixed: Time not displayed properly in the helper when a period is created
 
 # 2.0.1
 - Fixed : IE11 time error in the option popup
