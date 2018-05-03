@@ -2,10 +2,10 @@
 
 # Staging
 **Breaking changes**
-- Rename `days` options to `daysList`
+- Rename the `days` option to `daysList`
 
 **New features**
-- Add an option `days` to change the week to 5 or 7 days 
+- Add a new option `days` to change number of days per week to 5 or 7  
 
 # 2.1.0
 **New features**
