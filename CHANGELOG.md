@@ -1,6 +1,6 @@
 # jQuery Schedule
 
-# Staging
+# 2.2.0
 **Breaking changes**
 - Rename the `days` option to `daysList`
 

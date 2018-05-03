@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>jQuery Schedule v2.1.0 Demo</title>
+    <title>jQuery Schedule v2.2.0 Demo</title>
     <meta name="description" content="A schedule management with jQuery.">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
@@ -14,7 +14,7 @@
 
 <header>
     <nav class="navbar navbar-dark bg-dark mb-3">
-        <h1 class="navbar-brand mb-0">jQuery Schedule Demo v2.1.0</h1>
+        <h1 class="navbar-brand mb-0">jQuery Schedule Demo v2.2.0</h1>
     </nav>
 </header>
 
@@ -98,7 +98,9 @@ $('#schedule3').jqs({
   onRemovePeriod: function () {
     $('#logs').val('onRemovePeriod fire !\n' + $('#logs').val());
   },
-
+  onDuplicatePeriod: function () {
+    $('#logs').val('onDuplicatePeriod fire !\n' + $('#logs').val());
+  },
   onClickPeriod: function () {
     $('#logs').val('onClickPeriod fire !\n' + $('#logs').val());
   }
