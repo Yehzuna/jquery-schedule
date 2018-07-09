@@ -1,6 +1,6 @@
 # jQuery Schedule
 
-A simple scheduler with jQuery.
+> A schedule management with jQuery.
 
 [![GitHub release](https://img.shields.io/github/release/Yehzuna/jquery-schedule.svg)](https://github.com/Yehzuna/jquery-schedule)
 [![Version](https://img.shields.io/npm/v/jquery-schedule.svg)](https://www.npmjs.org/package/jquery-schedule)
@@ -44,35 +44,38 @@ jQuery ui >= 1.12.*
 
 ```javascript
 // Base
-$("#schedule").jqs();
+$('#schedule').jqs();
 
 // Full options
-$("#schedule").jqs({
-    mode: "edit",
-    hour: 24,
-    periodDuration: 30,
-    data: [],
-    periodOptions: true,
-    periodColors: [],
-    periodTitle: "",
-    periodBackgroundColor: "rgba(82, 155, 255, 0.5)",
-    periodBorderColor: "#2a3cff",
-    periodTextColor: "#000",
-    periodRemoveButton: "Remove",
-    periodTitlePlaceholder: "Title",
-    days: [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday"
-    ],
-    onInit: function () {},
-    onAddPeriod: function () {},
-    onRemovePeriod: function () {},
-    onClickPeriod: function () {}
+$('#schedule').jqs({
+  mode: 'edit',
+  hour: 24,
+  days: 7,
+  periodDuration: 30,
+  data: [],
+  periodOptions: true,
+  periodColors: [],
+  periodTitle: '',
+  periodBackgroundColor: 'rgba(82, 155, 255, 0.5)',
+  periodBorderColor: '#2a3cff',
+  periodTextColor: '#000',
+  periodRemoveButton: 'Remove',
+  periodDuplicateButton: 'Duplicate',
+  periodTitlePlaceholder: 'Title',
+  daysList: [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday'
+  ],
+  onInit: function () {},
+  onAddPeriod: function () {},
+  onRemovePeriod: function () {},
+  onDuplicatePeriod: function () {},
+  onClickPeriod: function () {}
 });
 ```
 
@@ -82,30 +85,30 @@ The plugin use two data formats to render periods.
 **Full**
 ```json
 [
-    {
-        "day": "Day number",
-        "periods": [
-            {
-                "start": "Period start time",
-                "end": "Period end time",
-                "title": "Period title",
-                "backgroundColor": "Period background color",
-                "borderColor":"Period border color",
-                "textColor": "Period text color"
-            }
-        ]
-    }
+  {
+    "day": "Day number",
+    "periods": [
+      {
+        "start": "Period start time",
+        "end": "Period end time",
+        "title": "Period title",
+        "backgroundColor": "Period background color",
+        "borderColor":"Period border color",
+        "textColor": "Period text color"
+      }
+    ]
+  }
 ]
 ```
 **Compact**
 ```json
 [
-    {
-        "day": "Day number",
-        "periods": [
-            ["Period start time", "Period end time"]
-        ]
-    }
+  {
+    "day": "Day number",
+    "periods": [
+      ["Period start time", "Period end time"]
+    ]
+  }
 ]
 ```
 #### Day format
@@ -124,25 +127,25 @@ Two formats are supported :
 #### Examples
 ```json
 [
-    {
-        "day": 0,
-        "periods": [
-            ["00:00", "02:00"]
-        ]
-    },
-    {
-        "day": 2,
-        "periods": [
-            {
-                "start": "10:00",
-                "end": "12:00",
-                "title": "A black period",
-                "backgroundColor": "rgba(0, 0, 0, 0.5)",
-                "borderColor":"#000",
-                "textColor": "#fff"
-            }
-        ]
-    }
+  {
+    "day": 0,
+    "periods": [
+      ["00:00", "02:00"]
+    ]
+  },
+  {
+    "day": 2,
+    "periods": [
+      {
+        "start": "10:00",
+        "end": "12:00",
+        "title": "A black period",
+        "backgroundColor": "rgba(0, 0, 0, 0.5)",
+        "borderColor":"#000",
+        "textColor": "#fff"
+      }
+    ]
+  }
 ]
 ```
 
@@ -161,6 +164,13 @@ Define the schedule mode.
 - Options: `12` `24`
 
 Define the time format.
+
+### `days`
+- Type: `integer`
+- Default: `7` 
+- Options: `5` `7`
+
+Define the number of days.
 
 ### `periodDuration`
 - Type: `integer`
@@ -189,11 +199,11 @@ Define list of available colors in the option popup. Must be an array of 3 color
 
 ```json
 {
-    "periodColors": [
-        ["backgroundColor", "borderColor", "textColor"],
-        ["rgba(82, 155, 255, 0.5)", "#2a3cff", "#000000"],
-        ["#000", "#fff", "#fff"]
-    ]
+  "periodColors": [
+    ["backgroundColor", "borderColor", "textColor"],
+    ["rgba(82, 155, 255, 0.5)", "#2a3cff", "#000000"],
+    ["#000", "#fff", "#fff"]
+  ]
 }
 ```
 ### `periodTitle`
@@ -226,17 +236,23 @@ Period default text color.
 
 Label to the period remove button.
 
+### `periodDuplicateButton`
+- Type: `string`
+- Default : `Duplicate` 
+
+Label to the period duplicate button.
+
 ### `periodTitlePlaceholder`
 - Type: `string`
 - Default : `Title` 
 
 Label to the title input placeholder in the option popup.
 
-### `days`
+### `daysList`
 - Type: `array`
 - Default : `["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]`
 
-Define list of days.
+Define list of days labels.
 
 
 
@@ -259,6 +275,12 @@ A callback fire after a new period is added.
 
 A callback fire before a period is removed.
 
+### `onDuplicatePeriod(period, jqs)`
+- `period` The period to duplicate
+- `jqs` Schedule container
+
+A callback fire before a period is duplicated.
+
 ### `onPeriodClicked(event, period, jqs)`
 - `event` click event
 - `period` The period target
@@ -274,24 +296,24 @@ A callback fire on a period click.
 Export all periods to a JSON. Add `compact` param to the method to force the compact mode.
 
 ```javascript
-var data = $("#schedule").jqs('export');
+var data = $('#schedule').jqs('export');
 
-var data = $("#schedule").jqs('export', 'compact');
+var data = $('#schedule').jqs('export', 'compact');
 ```
 Examples :
 
 **Full**
 ```json
 [
-    {"day":0,"periods":[]},
-    {"day":1,"periods":[]},
-    {"day":2,"periods":[
-      {"start":"02:00","end":"04:00","title":"","backgroundColor":"rgba(82, 155, 255, 0.5)","borderColor":"rgb(42, 60, 255)","textColor":"rgb(0, 0, 0)"}
-    ]},
-    {"day":3,"periods":[]},
-    {"day":4,"periods":[]},
-    {"day":5,"periods":[]},
-    {"day":6,"periods":[]}
+  {"day":0,"periods":[]},
+  {"day":1,"periods":[]},
+  {"day":2,"periods":[
+    {"start":"02:00","end":"04:00","title":"","backgroundColor":"rgba(82, 155, 255, 0.5)","borderColor":"rgb(42, 60, 255)","textColor":"rgb(0, 0, 0)"}
+  ]},
+  {"day":3,"periods":[]},
+  {"day":4,"periods":[]},
+  {"day":5,"periods":[]},
+  {"day":6,"periods":[]}
 ]
 ```
 **Compact**
@@ -313,27 +335,27 @@ Examples :
 Import periods from a JSON.
 
 ```javascript
-$("#schedule").jqs('import', [
-    {
-        "day": 0,
-        "periods": [
-            ["00:00", "04:00"],
-            ["02:00", "04:00"] // Invalid period
-        ]
-    },
-    {
-        "day": 2,
-        "periods": [
-            {
-                "start": "10:00",
-                "end": "12:00",
-                "title": "A black period",
-                "backgroundColor": "rgba(0, 0, 0, 0.5)",
-                "borderColor":"#000",
-                "textColor": "#fff"
-            }
-        ]
-    }
+$('#schedule').jqs('import', [
+  {
+    'day': 0,
+    'periods': [
+      ['00:00', '04:00'],
+      ['02:00', '04:00'] // Invalid period
+    ]
+  },
+  {
+    'day': 2,
+    'periods': [
+      {
+        'start': '10:00',
+        'end': '12:00',
+        'title': 'A black period',
+        'backgroundColor': 'rgba(0, 0, 0, 0.5)',
+        'borderColor':'#000',
+        'textColor': '#fff'
+      }
+    ]
+  }
 ]);
 ```
 
@@ -351,7 +373,7 @@ Return a JSON with each period status.
 Reset the schedule. (remove all periods)
 
 ```javascript
-$("#schedule").jqs('reset');
+$('#schedule').jqs('reset');
 ```
 
 
@@ -370,6 +392,8 @@ $("#schedule").jqs('reset');
 | `.jqs-grid-day` | Grid day label |
 | `.jqs-grid-hour` | Grid hour label |
 | `.jqs-day` | Day container |
+| `.jqs-day-remove` | Period remove button for the day |
+| `.jqs-day-duplicate` | Period duplicate button for the day |
 | `.jqs-mode-read` | Added on init |
 | `.jqs-mode-edit` | Added on init |
 
@@ -381,7 +405,8 @@ $("#schedule").jqs('reset');
 | `.jqs-period-container` | Period placeholder (contains colors style) |
 | `.jqs-period-time` | Period time container |
 | `.jqs-period-title` | Period title container |
-| `.jqs-period-remove` | Period remove button (when popup is disabled) |
+| `.jqs-period-remove` | Period remove button |
+| `.jqs-period-duplicate` | Period duplicate button |
 | `.jqs-period-15` | Added to `.jqs-period-container` when the period duration is 15mn |
 | `.jqs-period-30` | Added to `.jqs-period-container` when the period duration is 30mn |
 | `.jqs-period-helper` | Period helper |
@@ -398,10 +423,14 @@ $("#schedule").jqs('reset');
 | `.jqs-options-color` | Color items |
 | `.jqs-options-color-container` | Color items container |
 | `.jqs-options-remove` | Period remove button |
+| `.jqs-options-duplicate` | Period duplicate button |
 | `.jqs-options-close` | Popup close button |
 
 
 
 ## Todo
+- Add custom data for periods (import/export/options)
+- Add option to reduce schedule hours range
+- Add option to disable period selection by day or not
 - Responsive.
 - Better options validation and tests.

@@ -1,12 +1,32 @@
 # jQuery Schedule
 
-# Next
-- Add custom data for periods (import/export/options)
-- Add option to reduce schedule hours range
-- Add option to disable period selection by day or not
+# 2.2.0
+**Breaking changes**
+- Rename the `days` option to `daysList`
+
+**New features**
+- Add a new option `days` to change number of days per week to 5 or 7  
+
+# 2.1.0
+**New features**
 - Add a duplicate button for periods
-- Add a duplicate and remove button for days
-- Add an option to define compact or full data export
+    - This feature allows to copy the selected period to all days if space is available
+    - Periods already placed are not overwritten
+- Add a duplicate button for days
+    - This feature allows to copy all periods in a day to all other days if space is available
+    - Periods already placed are not overwritten
+- Add a remove button for days
+    - Remove all periods in the selected day
+- Add a new callback `onDuplicatePeriod`
+- Add a new option `periodDuplicateButton`
+
+**Other changes**
+- Source code cleaning
+- Hover effect lighten for buttons in the popup
+- New icon for remove button
+- Add `onRemovePeriod` event to the `reset` method
+- Hide the remove button for very small period (15mn)
+- Fixed: Time not displayed properly in the helper when a period is created
 
 # 2.0.1
 - Fixed : IE11 time error in the option popup
