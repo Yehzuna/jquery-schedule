@@ -1,38 +1,41 @@
 ;(function ($, window, document, undefined) {
   'use strict';
 
+  var pluginName = 'jqs';
+
   // Defaults options
   var defaults = {
-      mode: 'edit', // read
-      hour: 24, // 12
-      days: 7, // 7/5
-      periodDuration: 30, // 15/30/60
-      data: [],
-      periodOptions: true,
-      periodColors: [],
-      periodTitle: '',
-      periodBackgroundColor: 'rgba(82, 155, 255, 0.5)',
-      periodBorderColor: '#2a3cff',
-      periodTextColor: '#000',
-      periodRemoveButton: 'Remove',
-      periodDuplicateButton: 'Duplicate',
-      periodTitlePlaceholder: 'Title',
-      daysList: [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday'
-      ],
-      onInit: function () {},
-      onAddPeriod: function () {},
-      onRemovePeriod: function () {},
-      onDuplicatePeriod: function () {},
-      onClickPeriod: function () {}
-    },
-    pluginName = 'jqs';
+    mode: 'edit', // read
+    hour: 24, // 12
+    days: 7, // 7/5
+    start: 8,
+    end: 20,
+    periodDuration: 30, // 15/30/60
+    data: [],
+    periodOptions: true,
+    periodColors: [],
+    periodTitle: '',
+    periodBackgroundColor: 'rgba(82, 155, 255, 0.5)',
+    periodBorderColor: '#2a3cff',
+    periodTextColor: '#000',
+    periodRemoveButton: 'Remove',
+    periodDuplicateButton: 'Duplicate',
+    periodTitlePlaceholder: 'Title',
+    daysList: [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday'
+    ],
+    onInit: function () {},
+    onAddPeriod: function () {},
+    onRemovePeriod: function () {},
+    onDuplicatePeriod: function () {},
+    onClickPeriod: function () {}
+  };
 
   // Plugin constructor
   function Plugin(element, options) {
@@ -57,6 +60,11 @@
      * Period addition counter
      */
     counter: 0,
+
+    /**
+     *
+     */
+    range: 0,
 
     /**
      * Period interval multiplier
@@ -103,12 +111,21 @@
         throw new Error('Invalid periodDuration');
       }
 
+      this.range = this.settings.end - this.settings.start;
+      //console.log(this.range);
+
+
       this.periodInterval = 60 / this.settings.periodDuration;
-      this.periodHeight = 24 * this.periodInterval;
+      this.periodHeight = this.range * this.periodInterval;
       this.periodPosition = 40 / this.periodInterval;
 
-      $(this.element).addClass('jqs').addClass('jqs-mode-' + this.settings.mode)
-        .addClass('jqs').addClass('jqs-mode-' + this.settings.days);
+      //console.log(this.periodInterval, this.periodHeight, this.periodPosition);
+
+      $(this.element).
+        addClass('jqs').
+        addClass('jqs-mode-' + this.settings.mode).
+        addClass('jqs').
+        addClass('jqs-mode-' + this.settings.days);
 
       // Init events
       if (this.settings.mode === 'edit') {
@@ -223,9 +240,12 @@
           appendTo($('.jqs-table tr', this.element));
       }
 
+      console.log(20, this.periodInterval, this.range, ( 20 * this.periodInterval * this.range));
+      $('.jqs-day').css('height', 20 * this.periodInterval * this.range);
+
       $('<div class="jqs-grid"><div class="jqs-grid-head"></div></div>').appendTo($(this.element));
 
-      for (var j = 0; j < 25; j++) {
+      for (var j = 0; j < (this.range + 1); j++) {
         $('<div class="jqs-grid-line"><div class="jqs-grid-hour">' + this.formatHour(j) + '</div></div>').
           appendTo($('.jqs-grid', this.element));
       }

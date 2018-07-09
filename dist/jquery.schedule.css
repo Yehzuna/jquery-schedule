@@ -1,8 +1,3 @@
-/**
- * jQuery Schedule v2.2.0
- * https://github.com/Yehzuna/jquery-schedule
- * Thomas BORUSZEWSKI <yehzuna@outlook.com>
- */
 .jqs-day-remove, .jqs-day-duplicate, .jqs-period-remove, .jqs-period-duplicate {
   display: none;
   position: absolute;
@@ -111,7 +106,6 @@
 }
 .jqs-day {
   width: 100%;
-  height: 960px;
   position: relative;
   -webkit-user-select: none;
   -moz-user-select: none;
