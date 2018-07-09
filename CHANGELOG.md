@@ -1,5 +1,12 @@
 # jQuery Schedule
 
+# 2.2.0
+**Breaking changes**
+- Rename the `days` option to `daysList`
+
+**New features**
+- Add a new option `days` to change number of days per week to 5 or 7  
+
 # 2.1.0
 **New features**
 - Add a duplicate button for periods

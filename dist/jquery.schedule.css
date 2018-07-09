@@ -1,5 +1,5 @@
 /**
- * jQuery Schedule v2.1.0
+ * jQuery Schedule v2.2.0
  * https://github.com/Yehzuna/jquery-schedule
  * Thomas BORUSZEWSKI <yehzuna@outlook.com>
  */
@@ -32,6 +32,9 @@
 }
 .jqs-mode-edit .ui-draggable-dragging {
   cursor: move;
+}
+.jqs-mode-5 .jqs-table td, .jqs-mode-5 .jqs-grid-day {
+  width: 20%;
 }
 .jqs-table {
   position: relative;

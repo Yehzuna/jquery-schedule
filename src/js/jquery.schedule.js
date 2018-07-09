@@ -5,6 +5,7 @@
   var defaults = {
       mode: 'edit', // read
       hour: 24, // 12
+      days: 7, // 7/5
       periodDuration: 30, // 15/30/60
       data: [],
       periodOptions: true,
@@ -16,7 +17,7 @@
       periodRemoveButton: 'Remove',
       periodDuplicateButton: 'Duplicate',
       periodTitlePlaceholder: 'Title',
-      days: [
+      daysList: [
         'Monday',
         'Tuesday',
         'Wednesday',
@@ -106,7 +107,8 @@
       this.periodHeight = 24 * this.periodInterval;
       this.periodPosition = 40 / this.periodInterval;
 
-      $(this.element).addClass('jqs').addClass('jqs-mode-' + this.settings.mode);
+      $(this.element).addClass('jqs').addClass('jqs-mode-' + this.settings.mode)
+        .addClass('jqs').addClass('jqs-mode-' + this.settings.days);
 
       // Init events
       if (this.settings.mode === 'edit') {
@@ -216,7 +218,7 @@
 
       $('<table class="jqs-table"><tr></tr></table>').appendTo($(this.element));
 
-      for (var i = 0; i < 7; i++) {
+      for (var i = 0; i < this.settings.days; i++) {
         $('<td><div class="jqs-day"></div></td>').
           appendTo($('.jqs-table tr', this.element));
       }
@@ -236,8 +238,8 @@
           '"></div>';
       }
 
-      for (var k = 0; k < 7; k++) {
-        $('<div class="jqs-grid-day">' + this.settings.days[k] + dayRemove + dayDuplicate + '</div>').
+      for (var k = 0; k < this.settings.days; k++) {
+        $('<div class="jqs-grid-day">' + this.settings.daysList[k] + dayRemove + dayDuplicate + '</div>').
           appendTo($('.jqs-grid-head', this.element));
       }
     },
