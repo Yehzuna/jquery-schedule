@@ -1,8 +1,3 @@
-/**
- * jQuery Schedule v2.1.0
- * https://github.com/Yehzuna/jquery-schedule
- * Thomas BORUSZEWSKI <yehzuna@outlook.com>
- */
 ;(function ($, window, document, undefined) {
   'use strict';
 
@@ -119,6 +114,10 @@
         var helper = false;
 
         $(this.element).on('mousedown', '.jqs-day', function (event) {
+          if (helper) {
+            return false;
+          }
+
           var offset = event.pageY - $(this).offset().top;
           position = Math.floor(offset / $this.periodPosition);
 

@@ -114,6 +114,10 @@
         var helper = false;
 
         $(this.element).on('mousedown', '.jqs-day', function (event) {
+          if (helper) {
+            return false;
+          }
+
           var offset = event.pageY - $(this).offset().top;
           position = Math.floor(offset / $this.periodPosition);
 

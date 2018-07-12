@@ -1,5 +1,8 @@
 # jQuery Schedule
 
+# Staging
+- Fix a bug with mouseover period creation when clicking outside the day
+
 # 2.1.0
 **New features**
 - Add a duplicate button for periods
