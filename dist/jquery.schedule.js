@@ -241,7 +241,8 @@
       }
 
       console.log(20, this.periodInterval, this.range, ( 20 * this.periodInterval * this.range));
-      $('.jqs-day').css('height', 20 * this.periodInterval * this.range);
+
+      $('.jqs-day', this.element).css('height', 20 * this.periodInterval * this.range);
 
       $('<div class="jqs-grid"><div class="jqs-grid-head"></div></div>').appendTo($(this.element));
 
