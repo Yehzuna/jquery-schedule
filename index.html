@@ -28,10 +28,9 @@
         </div>
         <div class="row">
             <div class="col">
-                <div id="schedule" class="jqs-demo mb-3"></div>
+                <div id="schedule" class="jqs-demo mb-3" style="display: none"></div>
             </div>
         </div>
-
 
         <div class="row">
             <div class="col">
@@ -235,9 +234,9 @@ $('#schedule5').jqs({
 <script src="dist/jquery.schedule.js"></script>
 <script>
   $(function () {
-    $('#schedule').jqs();
+    //$('#schedule').jqs();
 
-    $('#schedule2').jqs({
+    $('#schedule').jqs({
       mode: 'read',
       data: [
         {
@@ -256,6 +255,7 @@ $('#schedule5').jqs({
         }]
     });
 
+    /*
     $('#schedule3').jqs({
       onInit: function () {
         $('#logs').val('onInit fire !\n' + $('#logs').val());
@@ -317,6 +317,7 @@ $('#schedule5').jqs({
         }
       ]
     });
+    */
 
     $('#export').click(function () {
       $('#result').val($('#schedule3').jqs('export'));

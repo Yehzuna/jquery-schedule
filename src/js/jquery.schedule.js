@@ -62,11 +62,6 @@
     counter: 0,
 
     /**
-     *
-     */
-    range: 0,
-
-    /**
      * Period interval multiplier
      */
     periodInterval: 0,
@@ -111,12 +106,8 @@
         throw new Error('Invalid periodDuration');
       }
 
-      this.range = this.settings.end - this.settings.start;
-      //console.log(this.range);
-
-
       this.periodInterval = 60 / this.settings.periodDuration;
-      this.periodHeight = this.range * this.periodInterval;
+      this.periodHeight = 24 * this.periodInterval;
       this.periodPosition = 40 / this.periodInterval;
 
       //console.log(this.periodInterval, this.periodHeight, this.periodPosition);
@@ -240,13 +231,11 @@
           appendTo($('.jqs-table tr', this.element));
       }
 
-      console.log(20, this.periodInterval, this.range, ( 20 * this.periodInterval * this.range));
-
-      $('.jqs-day', this.element).css('height', 20 * this.periodInterval * this.range);
+      $('.jqs-day', this.element).css('height', 20 * this.periodInterval * (this.settings.end - this.settings.start));
 
       $('<div class="jqs-grid"><div class="jqs-grid-head"></div></div>').appendTo($(this.element));
 
-      for (var j = 0; j < (this.range + 1); j++) {
+      for (var j = this.settings.start; j < (this.settings.end + 1); j++) {
         $('<div class="jqs-grid-line"><div class="jqs-grid-hour">' + this.formatHour(j) + '</div></div>').
           appendTo($('.jqs-grid', this.element));
       }
@@ -255,8 +244,7 @@
       var dayDuplicate = '';
       if (this.settings.mode === 'edit') {
         dayRemove = '<div class="jqs-day-remove" title="' + this.settings.periodRemoveButton + '"></div>';
-        dayDuplicate = '<div class="jqs-day-duplicate" title="' + this.settings.periodDuplicateButton +
-          '"></div>';
+        dayDuplicate = '<div class="jqs-day-duplicate" title="' + this.settings.periodDuplicateButton + '"></div>';
       }
 
       for (var k = 0; k < this.settings.days; k++) {
@@ -638,6 +626,8 @@
      * @returns {number}
      */
     periodFormat: function (position) {
+      position += this.settings.start * this.periodInterval;
+
       if (position >= this.periodHeight) {
         position = 0;
       }
@@ -769,7 +759,12 @@
      */
     isValid: function (current) {
       var currentStart = Math.round(current.position().top);
-      var currentEnd = Math.round(current.position().top + current.height());
+      if (!$(current).is(':visible')) {
+        currentStart = Math.round(parseInt(current.css('top')));
+      }
+      var currentEnd = Math.round(currentStart + current.height());
+
+      console.log(currentStart);
 
       var start = 0;
       var end = 0;
@@ -778,6 +773,8 @@
         if (current.attr('id') !== $(period).attr('id')) {
           start = Math.round($(period).position().top);
           end = Math.round($(period).position().top + $(period).height());
+          console.log('isValid', current, currentStart, currentEnd, start, end);
+
 
           if (start > currentStart && start < currentEnd) {
             check = false;
@@ -806,7 +803,7 @@
      */
     export: function (args) {
       var $this = this;
-      var compact = (args[1] && args[1] === 'compact') ? true : false;
+      var compact = !!(args[1] && args[1] === 'compact');
       var data = [];
 
       $('.jqs-day', $this.element).each(function (index, day) {
