@@ -1,3 +1,8 @@
+/**
+ * jQuery Schedule v2.2.0
+ * https://github.com/Yehzuna/jquery-schedule
+ * Thomas BORUSZEWSKI <yehzuna@outlook.com>
+ */
 ;(function ($, window, document, undefined) {
   'use strict';
 
@@ -110,7 +115,7 @@
       this.periodHeight = 24 * this.periodInterval;
       this.periodPosition = 40 / this.periodInterval;
 
-      //console.log(this.periodInterval, this.periodHeight, this.periodPosition);
+      console.log('constants', this.periodInterval, this.periodHeight, this.periodPosition);
 
       $(this.element).
         addClass('jqs').
@@ -214,7 +219,7 @@
       }
 
       this.create();
-      this.generate();
+      this.generate(this.settings.data);
 
       this.settings.onInit.call(this, this.element);
     },
@@ -254,15 +259,18 @@
     },
 
     /**
-     * Generate periods from data option
+     * Generate periods from data array
+     *
+     * @param data
+     * @returns {Array}
      */
-    generate: function () {
-      if (this.settings.data.length > 0) {
-        var $this = this;
+    generate: function (data) {
+      var $this = this;
+      var ret = [];
 
-        $.each(this.settings.data, function (index, data) {
+      if (data.length > 0) {
+        $.each(data, function (index, data) {
           $.each(data.periods, function (index, period) {
-
             var parent = $('.jqs-day', $this.element).eq(data.day);
             var options = {};
             var height, position;
@@ -279,10 +287,24 @@
               height = $this.periodHeight;
             }
 
-            $this.add(parent, position, height - position, options);
+            var status = true;
+            if (!$this.add(parent, position, height - position, options)) {
+              status = false;
+            }
+
+            ret.push({
+              day: data.day,
+              period: [
+                $this.periodFormat(position),
+                $this.periodFormat(height)
+              ],
+              status: status
+            });
           });
         });
       }
+
+      return ret;
     },
 
     /**
@@ -293,6 +315,8 @@
      * @param options
      */
     add: function (parent, position, height, options) {
+
+      console.log('add', parent, position, height, options);
 
       if (height <= 0 || position >= this.periodHeight) {
         console.error('Invalid period');
@@ -706,6 +730,7 @@
       }
 
       var position = 0;
+      position -= this.settings.start * this.periodInterval;
       position += hour * this.periodInterval;
       position += mn / 60 * this.periodInterval;
 
@@ -758,14 +783,22 @@
      * @returns {boolean}
      */
     isValid: function (current) {
-      var currentStart = Math.round(current.position().top);
+      // max range
+      var maxStart = this.settings.start * this.periodInterval * this.periodPosition;
+      var maxEnd = this.settings.end * this.periodInterval * this.periodPosition;
+
+      var currentStart = Math.round(current.position().top) + maxStart;
       if (!$(current).is(':visible')) {
         currentStart = Math.round(parseInt(current.css('top')));
       }
       var currentEnd = Math.round(currentStart + current.height());
 
-      console.log(currentStart);
+      // range check
+      if (currentStart < maxStart || currentEnd > maxEnd) {
+        return false;
+      }
 
+      // period overlap check
       var start = 0;
       var end = 0;
       var check = true;
@@ -774,7 +807,6 @@
           start = Math.round($(period).position().top);
           end = Math.round($(period).position().top + $(period).height());
           console.log('isValid', current, currentStart, currentEnd, start, end);
-
 
           if (start > currentStart && start < currentEnd) {
             check = false;
@@ -827,44 +859,7 @@
      * @returns {Array}
      */
     import: function (args) {
-      var $this = this;
-      var dataImport = args[1];
-      var ret = [];
-      $.each(dataImport, function (index, data) {
-        $.each(data.periods, function (index, period) {
-          var parent = $('.jqs-day', $this.element).eq(data.day);
-          var options = {};
-          var height, position;
-          if ($.isArray(period)) {
-            position = $this.positionFormat(period[0]);
-            height = $this.positionFormat(period[1]);
-          } else {
-            position = $this.positionFormat(period.start);
-            height = $this.positionFormat(period.end);
-            options = period;
-          }
-
-          if (height === 0) {
-            height = $this.periodHeight;
-          }
-
-          var status = true;
-          if (!$this.add(parent, position, height - position, options)) {
-            status = false;
-          }
-
-          ret.push({
-            day: data.day,
-            period: [
-              $this.periodFormat(position),
-              $this.periodFormat(height)
-            ],
-            status: status
-          });
-        });
-      });
-
-      return JSON.stringify(ret);
+      return JSON.stringify(this.generate(args[1]));
     },
 
     /**

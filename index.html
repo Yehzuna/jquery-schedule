@@ -28,7 +28,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <div id="schedule" class="jqs-demo mb-3" style="display: none"></div>
+                <div id="schedule" class="jqs-demo mb-3"></div>
             </div>
         </div>
 
@@ -237,14 +237,13 @@ $('#schedule5').jqs({
     //$('#schedule').jqs();
 
     $('#schedule').jqs({
-      mode: 'read',
       data: [
         {
           day: 0,
           periods: [
-            ['20:00', '00:00'],
-            ['20:00', '22:00'], // Invalid period, not displayed
-            ['00:00', '02:00']
+            ['08:00', '10:00'],
+            ['20:00', '22:00'],
+            ['12:00', '18:00']
           ]
         }, {
           day: 3,
