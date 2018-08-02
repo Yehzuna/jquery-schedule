@@ -742,6 +742,68 @@
     },
 
     /**
+     *
+     * @param time
+     * @returns {*}
+     */
+    convertTime: function (time) {
+      console.log('time', time);
+
+      time = time.toString();
+
+      var hour = -1;
+      var mn = -1;
+      var matches = false;
+
+      if (this.settings.hour === 12) {
+        matches = time.match(/^([0-1]?[0-9]):?([0-5][0-9])?\s?(am|pm|p)?$/);
+        if (!matches) {
+          return false;
+        }
+
+        hour = parseInt(matches[1]);
+        mn = parseInt(matches[2]);
+
+        if (!mn) {
+          mn = 0;
+        }
+
+        var ind = matches[3];
+        if (!ind) {
+          ind = 'am';
+        }
+
+        if (hour === 12 && ind === 'am') {
+          hour = 0;
+        }
+        if (hour === 12 && (ind === 'pm' || ind === 'p')) {
+          ind = 'am'; // ignore next condition
+          hour = 0;
+        }
+        if (ind === 'pm' || ind === 'p') {
+          hour += 12;
+        }
+      } else {
+        matches = time.match(/^([0-1]?[0-9]|2[0-3]):?([0-5][0-9])?$/);
+        if (!matches) {
+          return false;
+        }
+
+        hour = parseInt(matches[0]);
+        mn = parseInt(matches[1]);
+
+        if (!mn) {
+          mn = 0;
+        }
+      }
+
+      return {
+        hour: hour,
+        mn: mn
+      };
+    },
+
+    /**
      * Return a hour to readable format (Grid structure)
      * @param hour
      * @returns {string}
